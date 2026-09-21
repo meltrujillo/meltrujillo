@@ -93,6 +93,7 @@
     text-transform:uppercase;
     color:var(--ink);
   }
+  .logo-mark{ display:none; } /* solo se activa en el bloque móvil */
   nav.site-nav{
     display:flex;
     gap:18px;
@@ -103,6 +104,7 @@
   }
   nav.site-nav a{ text-decoration:none; opacity:0.75; }
   nav.site-nav a:hover{ opacity:1; }
+  a.header-cta-mobile{ display:none; } /* solo se activa en el bloque móvil */
 
   /* ---------- Buttons ---------- */
   .btn{
@@ -199,6 +201,7 @@
   }
   .hero-actions{ margin-top:26px; }
   .hero .microcopy{ color:rgba(255,255,255,0.75); }
+  .hero-cta-mobile{ display:none; } /* solo se activa en el bloque móvil */
 
   /* ---------- Sections (mobile-first) ---------- */
   section{ padding-block:52px; }
@@ -565,6 +568,79 @@
     .footer-bottom{ flex-direction:row; justify-content:space-between; text-align:left; }
     .card{ grid-template-columns:0.85fr 1.15fr; gap:40px; align-items:baseline; }
   }
+
+  /* ==========================================================
+     SOLO CELULAR — no tocar nada arriba de este bloque.
+     Todo ajuste pedido "para el celular" va aquí adentro,
+     así el PC (reglas base + el bloque min-width:768px de arriba)
+     queda intacto siempre.
+     ========================================================== */
+  @media (max-width:767.98px){
+
+    /* --- Encabezado: logo a la izquierda, botón bien a la derecha --- */
+    header.site{ flex-wrap:nowrap; }
+    header.site .logo-mark{
+      display:block;
+      width:26px;
+      height:26px;
+      max-width:26px;
+      object-fit:contain;
+      overflow:hidden;
+      flex-shrink:0;
+    }
+    header.site .logo-lockup{ margin-right:auto; flex-shrink:0; }
+    header.site .logo-lockup .word{ display:none; }
+    header.site nav.site-nav{ gap:0; margin-left:auto; flex-shrink:0; }
+    header.site nav.site-nav a:not(.header-cta-mobile){ display:none; }
+    header.site a.header-cta-mobile{
+      display:inline-block;
+      margin-left:auto;
+      padding:9px 14px;
+      font-size:10px;
+      letter-spacing:0.08em;
+      white-space:nowrap;
+      flex-shrink:0;
+    }
+
+    /* --- Hero: reordenar contenido, achicar el título, sacar el botón --- */
+    .hero-content{ display:flex; flex-direction:column; }
+    .hero-content .eyebrow{ order:1; }
+    .hero-content h1{ order:2; }
+    .hero-content p.lede{ order:3; }
+    .hero-content .tagline{ order:4; margin-top:10px; margin-bottom:0; }
+    .hero-content .hero-actions{ display:none; }
+    .hero .eyebrow{
+      font-size:10px;
+      letter-spacing:0.1em;
+      white-space:nowrap;
+    }
+    .hero h1{ font-size:clamp(22px, 6vw, 38px); }
+
+    .hero-cta-mobile{
+      display:block;
+      text-align:center;
+      padding-block:34px 30px;
+    }
+    .hero-cta-mobile .microcopy{ margin-top:12px; }
+
+    /* --- Cómo funciona: pasos centrados --- */
+    .steps{ text-align:center; }
+
+    /* --- Portafolio: efecto ladrillo (masonry) en vez de cuadrícula pareja --- */
+    .gallery{
+      display:block;
+      column-count:2;
+      column-gap:10px;
+    }
+    .gallery img{
+      width:100%;
+      height:auto;
+      aspect-ratio:auto;
+      margin-bottom:10px;
+      break-inside:avoid;
+    }
+    .portfolio-foto-431{ object-position:left center; }
+  }
 </style>
 </head>
 <body>
@@ -572,12 +648,14 @@
 <div class="wrap">
   <header class="site">
     <a class="logo-lockup" href="#top">
+      <img class="logo-mark" src="https://res.cloudinary.com/yqfqih5o/image/upload/v1789771807/Logomt.png" alt="Mel Trujillo Weddings">
       <span class="word">Mel Trujillo Weddings</span>
     </a>
     <nav class="site-nav">
       <a href="#colecciones">Colecciones</a>
       <a href="#sobre-mi">Sobre mí</a>
       <a href="#reservar">Agenda tu llamada</a>
+      <a class="btn btn-primary header-cta-mobile" href="https://calendly.com/meltrujillo/reunion-de-60-minutos" target="_blank" rel="noopener">Cuéntame tu historia</a>
     </nav>
   </header>
 </div>
@@ -602,6 +680,12 @@
       </div>
     </div>
   </section>
+
+  <!-- Bloque exclusivo para el botón, solo visible en celular (ver @media max-width:767.98px) -->
+  <div class="wrap hero-cta-mobile">
+    <a class="btn btn-primary" href="https://calendly.com/meltrujillo/reunion-de-60-minutos" target="_blank" rel="noopener">Cuéntame tu historia</a>
+    <p class="microcopy">Agenda tu llamada — mientras más los conozco, mejor.</p>
+  </div>
 
   <hr class="rule" />
 
@@ -656,7 +740,7 @@
       <p class="eyebrow">Portafolio</p>
       <h2 style="margin-top:10px; max-width:26ch;">Algunas historias que hemos contado</h2>
       <div class="gallery">
-        <img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_600,q_auto,f_auto/v1789770404/Mel_Trujillo_-_Photography-431.jpg" alt="Fotografía de boda — portafolio" loading="lazy">
+        <img class="portfolio-foto-431" src="https://res.cloudinary.com/yqfqih5o/image/upload/w_600,q_auto,f_auto/v1789770404/Mel_Trujillo_-_Photography-431.jpg" alt="Fotografía de boda — portafolio" loading="lazy">
         <img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_600,q_auto,f_auto/v1789770575/Mel_Trujillo_-_Photography-7.jpg" alt="Fotografía de boda — portafolio" loading="lazy">
         <img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_600,q_auto,f_auto/v1789770597/Mel_Trujillo_-_Photography-18.jpg" alt="Fotografía de boda — portafolio" loading="lazy">
         <img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_600,q_auto,f_auto/v1789770621/Mel_Trujillo_-_Photography-101.jpg" alt="Fotografía de boda — portafolio" loading="lazy">

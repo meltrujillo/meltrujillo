@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mel Trujillo Weddings — Fotografía de bodas en Bogotá</title>
+<meta name="description" content="Menos poses, más autenticidad. Fotografía de bodas premium en Bogotá. Acompaño bodas grandes, elegantes y cuidadosamente producidas, con la dedicación de alguien de total confianza.">
+
+<!-- ============================================================
+     OPEN GRAPH — imagen real desde Cloudinary (brief de marca)
+     ============================================================ -->
+<meta property="og:title" content="Mel Trujillo Weddings — Menos poses, más autenticidad.">
+<meta property="og:description" content="Fotografía de bodas premium en Bogotá. Acompaño bodas grandes, elegantes y cuidadosamente producidas.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://res.cloudinary.com/yqfqih5o/image/upload/w_1200,h_630,c_fill,q_auto,f_auto/v1789771786/Mel_Trujillo_-_Photography-4371.jpg">
+
+<!-- FAVICON — monograma real "mt" desde Cloudinary. Si prefieres quitarlo, dímelo y lo elimino. -->
+<link rel="icon" href="https://res.cloudinary.com/yqfqih5o/image/upload/w_64,h_64,c_fit,q_auto,f_auto/v1789771807/Logomt.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400;1,700&display=swap" rel="stylesheet">
+
+<style>
+  @font-face{
+    font-family:'Forum';
+    src: url('https://res.cloudinary.com/yqfqih5o/raw/upload/v1789770536/Forum-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  :root{
+    --bg:#FFFFFF;
+    --bg-soft:#F7F7F5;
+    --surface:#F7F7F4;
+    --ink:#221F1B;
+    --ink-soft:#5B564E;
+    --wine:#9D0009;
+    --line: rgba(34,31,27,0.18);
+    --line-soft: rgba(34,31,27,0.1);
+  }
+
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Forum', Georgia, serif;
+    font-size:17px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  img{ max-width:100%; display:block; }
+  a{ color:inherit; }
+
+  .wrap{ max-width:1100px; margin-inline:auto; padding-inline:20px; }
+
+  .eyebrow{
+    font-size:17px;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin:0 0 10px;
+  }
+
+  h1,h2,h3{
+    font-family:'Forum', Georgia, serif;
+    font-weight:400;
+    margin:0;
+    text-transform:uppercase;
+    letter-spacing:0.03em;
+    text-wrap:balance;
+  }
+
+  hr.rule{ border:0; border-top:1px solid var(--line); margin:0; }
+
+  /* ---------- Header ---------- */
+  header.site{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:space-between;
+    gap:14px;
+    padding-block:18px;
+  }
+  .logo-lockup{ display:flex; align-items:center; gap:10px; text-decoration:none; }
+  .logo-lockup .word{
+    font-size:13px;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--ink);
+  }
+  nav.site-nav{
+    display:flex;
+    gap:18px;
+    flex-wrap:wrap;
+    font-size:12px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+  }
+  nav.site-nav a{ text-decoration:none; opacity:0.75; }
+  nav.site-nav a:hover{ opacity:1; }
+
+  /* ---------- Buttons ---------- */
+  .btn{
+    display:inline-block;
+    font-size:12.5px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    text-decoration:none;
+    padding:15px 28px;
+    border:1px solid var(--ink);
+    border-radius:1px;
+    transition:opacity .2s ease;
+  }
+  .btn-primary{ background:var(--ink); color:var(--bg); }
+  .btn-ghost{ background:transparent; color:var(--ink); }
+  .btn:hover{ opacity:0.78; }
+  .btn:focus-visible{ outline:2px solid var(--wine); outline-offset:3px; }
+  .microcopy{ font-size:13px; color:var(--ink-soft); margin-top:12px; font-style:normal; }
+
+  /* ---------- Fotografía editorial (imágenes reales vía Cloudinary) ----------
+     Los <img> usan las URLs de Cloudinary del brief de marca directamente como
+     src, con transformaciones w_/q_auto/f_auto para servir versiones livianas.
+     Si Meliza reemplaza el archivo en Cloudinary manteniendo el mismo public ID,
+     la página se actualiza sola, sin tocar este HTML.
+  ------------------------------------------------------ */
+  .frame{
+    position:relative;
+    overflow:hidden;
+    border-radius:1px;
+    display:block;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    background:
+      linear-gradient(180deg, rgba(34,31,27,0.06), transparent 40%),
+      linear-gradient(115deg, #4a4640 0%, #857c6d 42%, #cfc7b3 70%, #e9e4d4 100%);
+  }
+  .frame.hero-frame{ aspect-ratio:4/5; }
+  .frame.square{ aspect-ratio:1/1; }
+  .frame.wide{ aspect-ratio:16/10; }
+
+  /* ---------- Hero (foto de fondo a pantalla completa) ---------- */
+  .hero{
+    position:relative;
+    overflow:hidden;
+    min-height:560px;
+    display:flex;
+    align-items:flex-end;
+    padding-block:0 !important;
+  }
+  .hero-bg{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    max-width:none;
+    object-fit:cover;
+    object-position:center bottom;
+    z-index:0;
+  }
+  .hero-scrim{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(180deg, rgba(20,17,14,0.1) 0%, rgba(20,17,14,0.15) 30%, rgba(20,17,14,0.55) 60%, rgba(20,17,14,0.78) 100%);
+    z-index:1;
+  }
+  .hero-content{
+    position:relative;
+    z-index:2;
+    padding-block:40px 48px;
+    text-shadow:0 1px 18px rgba(0,0,0,0.28);
+  }
+  .hero h1{
+    font-size:clamp(32px, 8vw, 56px);
+    line-height:1.14;
+    margin-block:16px 18px;
+    color:#fff;
+  }
+  .hero .eyebrow{ color:#f1e4d8; font-size:12px; }
+  .hero .tagline{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-weight:700;
+    text-transform:none;
+    font-size:clamp(26px, 6vw, 34px);
+    color:#f1e4d8;
+    display:block;
+    margin-bottom:14px;
+  }
+  .hero p.lede{
+    font-size:17.5px;
+    color:rgba(255,255,255,0.88);
+    max-width:46ch;
+  }
+  .hero-actions{ margin-top:26px; }
+  .hero .microcopy{ color:rgba(255,255,255,0.75); }
+
+  /* ---------- Sections (mobile-first) ---------- */
+  section{ padding-block:52px; }
+  .split{ display:grid; gap:32px; align-items:start; }
+  .split.split-center{ align-items:center; }
+  .split h2{ font-size:clamp(26px,6vw,34px); margin-top:12px; max-width:18ch; }
+  .h2-script{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-weight:700;
+    text-transform:none;
+    color:var(--wine);
+    display:block;
+  }
+  .split p:not(.eyebrow){ color:var(--ink-soft); font-size:17px; max-width:56ch; }
+
+  blockquote.pull{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-weight:700;
+    text-transform:none;
+    color:var(--wine);
+    font-size:clamp(24px, 5vw, 30px);
+    line-height:1.3;
+    margin:22px 0 0;
+    padding-left:18px;
+    border-left:2px solid var(--wine);
+    max-width:44ch;
+  }
+  blockquote.pull.soft{
+    font-size:17px;
+    font-weight:400;
+    line-height:1.65;
+    max-width:56ch;
+  }
+
+  /* ---------- Proceso ---------- */
+  .steps{
+    display:grid;
+    gap:26px;
+    counter-reset:step;
+  }
+  .step{ border-top:1px solid var(--line); padding-top:16px; }
+  .step .num{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-weight:700;
+    color:var(--wine);
+    font-size:32px;
+    display:block;
+    margin-bottom:8px;
+  }
+  .step h3{ font-size:15px; letter-spacing:0.06em; margin-bottom:8px; }
+  .step p{ margin:0; color:var(--ink-soft); font-size:16px; }
+
+  /* ---------- Portafolio ---------- */
+  .gallery{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+    margin-top:32px;
+  }
+  .gallery img{
+    width:100%;
+    height:100%;
+    aspect-ratio:4/5;
+    object-fit:cover;
+    display:block;
+    border-radius:1px;
+  }
+
+  /* ---------- Prueba social / Testimonios (cinta deslizante) ---------- */
+  .testimonial-band{
+    background:var(--wine);
+    color:#fff;
+    padding-block:56px 60px;
+    overflow:hidden;
+  }
+  .testimonial-band .band-title{
+    text-align:center;
+    color:#fff;
+    letter-spacing:0.3em;
+    font-size:13px;
+    text-transform:uppercase;
+    margin:0 0 40px;
+    opacity:0.92;
+  }
+  .marquee-viewport{
+    overflow:hidden;
+    -webkit-mask-image:linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    mask-image:linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+  .marquee{
+    display:flex;
+    width:max-content;
+    animation:marquee-scroll 42s linear infinite;
+  }
+  .marquee:hover{ animation-play-state:paused; }
+  .marquee-item{
+    flex:0 0 auto;
+    display:flex;
+    align-items:center;
+    gap:44px;
+    padding-inline:44px;
+  }
+  .marquee-item p{
+    max-width:42ch;
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:19px;
+    line-height:1.55;
+    color:rgba(255,255,255,0.95);
+    margin:0;
+  }
+  .marquee-item .signature{
+    display:block;
+    margin-top:10px;
+    font-family:'Forum', Georgia, serif;
+    font-style:normal;
+    font-size:11.5px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:rgba(255,255,255,0.65);
+  }
+  .marquee-divider{ width:1px; align-self:stretch; background:rgba(255,255,255,0.28); }
+  @keyframes marquee-scroll{
+    from{ transform:translateX(0); }
+    to{ transform:translateX(-50%); }
+  }
+  @media (prefers-reduced-motion:reduce){
+    .marquee{ animation:none; }
+  }
+
+  /* ---------- Perfil / Sobre mí ---------- */
+  .about p:not(.eyebrow){ color:var(--ink-soft); font-size:17px; margin:0 0 14px; }
+  .about p:last-of-type{ margin-bottom:0; }
+  .signature-line{
+    margin-top:20px;
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-weight:700;
+    text-transform:none;
+    color:var(--wine);
+    font-size:22px;
+  }
+
+  /* ---------- Colecciones (cinta deslizable) ---------- */
+  .colecciones-head{ max-width:60ch; margin-inline:auto; margin-bottom:34px; text-align:center; }
+  .colecciones-head p:not(.eyebrow){ color:var(--ink-soft); font-size:16.5px; margin-top:10px; }
+
+  .coll-tabs-wrap{
+    max-width:460px;
+    margin:0 auto;
+    border:1px solid var(--line);
+    border-radius:2px;
+    background:#fff;
+    padding:26px 34px 20px;
+  }
+  .coll-tab-panel{ min-height:132px; text-align:left; }
+  .coll-tab-content{ display:none; }
+  .coll-tab-content.is-active{ display:block; }
+  .coll-name{
+    display:block;
+    font-size:24px;
+    letter-spacing:0.03em;
+    color:var(--ink);
+    margin-bottom:12px;
+  }
+  .coll-desc{
+    font-size:16px;
+    line-height:1.6;
+    color:var(--ink-soft);
+    margin:0 0 16px;
+  }
+  .coll-cta{
+    display:inline-block;
+    font-size:13.5px;
+    letter-spacing:0.02em;
+    color:var(--wine);
+    text-decoration:none;
+    border-bottom:1px solid var(--wine);
+  }
+  .coll-cta:hover{ opacity:0.75; }
+
+  .coll-tabs-divider{ border:0; border-top:1px solid var(--line); margin:6px 0 16px; }
+
+  .coll-tabs-nav{
+    display:flex;
+    justify-content:center;
+    gap:26px;
+    list-style:none;
+    margin:0; padding:0;
+  }
+  .coll-tab-btn{
+    background:none;
+    border:0;
+    padding:0 0 6px;
+    font-family:'Forum', Georgia, serif;
+    font-size:14px;
+    letter-spacing:0.03em;
+    color:var(--ink-soft);
+    cursor:pointer;
+    border-bottom:1px solid transparent;
+    transition:color .2s ease, border-color .2s ease;
+  }
+  .coll-tab-btn:hover{ color:var(--ink); }
+  .coll-tab-btn.is-active{ color:var(--ink); border-bottom-color:var(--ink); }
+
+  .colecciones-foot{ margin:26px auto 0; max-width:48ch; color:var(--ink-soft); font-size:15.5px; text-align:center; white-space:normal; }
+  .colecciones-cta{ margin-top:20px; margin-bottom:12px; text-align:center; }
+
+  /* ---------- Mini portafolio deslizable ---------- */
+  .coll-gallery-viewport{
+    overflow:hidden;
+    margin:22px 0 26px;
+    -webkit-mask-image:linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+    mask-image:linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  }
+  .coll-gallery{
+    display:flex;
+    width:max-content;
+    gap:12px;
+    animation:marquee-scroll 64s linear infinite;
+  }
+  .coll-gallery:hover{ animation-play-state:paused; }
+  .coll-gallery-item{ flex:0 0 auto; }
+  .coll-gallery-item img{
+    width:160px;
+    height:210px;
+    object-fit:cover;
+    border-radius:2px;
+    display:block;
+  }
+  @media (min-width:600px){
+    .coll-gallery-item img{ width:180px; height:236px; }
+  }
+  @media (prefers-reduced-motion:reduce){
+    .coll-gallery{ animation:none; }
+  }
+
+  /* ---------- Prospecto ---------- */
+  .fit-list{
+    list-style:none;
+    margin:0; padding:0;
+    display:grid;
+    gap:16px;
+  }
+  .fit-list li{
+    border-top:1px solid var(--line);
+    padding-top:14px;
+    color:var(--ink-soft);
+    font-size:16.5px;
+  }
+
+  /* ---------- Proyecto ---------- */
+  .proyecto p:not(.eyebrow){ color:var(--ink-soft); font-size:17px; max-width:60ch; }
+
+  /* ---------- Próximos pasos / contacto ---------- */
+  .contact{
+    position:relative;
+    overflow:hidden;
+    text-align:center;
+    min-height:680px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding-block:110px !important;
+    color:#fff;
+  }
+  .contact-bg{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    max-width:none;
+    object-fit:cover;
+    object-position:center 30%;
+    z-index:0;
+  }
+  .contact-scrim{
+    position:absolute;
+    inset:0;
+    background:
+      radial-gradient(ellipse at 50% 40%, rgba(10,8,6,0.35) 0%, rgba(10,8,6,0.72) 65%, rgba(10,8,6,0.88) 100%),
+      linear-gradient(180deg, rgba(10,8,6,0.55) 0%, rgba(10,8,6,0.4) 40%, rgba(10,8,6,0.75) 100%);
+    z-index:1;
+  }
+  .contact-grain{
+    position:absolute;
+    inset:-20px;
+    z-index:2;
+    opacity:0.24;
+    mix-blend-mode:overlay;
+    pointer-events:none;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+  .contact-inner{ position:relative; z-index:3; }
+  .contact .eyebrow{ color:#f1e4d8; }
+  .contact h2{ font-size:clamp(28px,7vw,42px); max-width:20ch; margin-inline:auto; margin-top:12px; color:#fff; text-shadow:0 1px 18px rgba(0,0,0,0.35); }
+  .contact p.lede{ color:rgba(255,255,255,0.85); max-width:48ch; margin:16px auto 0; font-size:17px; }
+  .contact .btn-primary{ background:#fff; color:var(--ink); border-color:#fff; }
+  .contact-info{
+    margin-top:72px;
+    font-size:13px;
+    letter-spacing:0.06em;
+    color:rgba(255,255,255,0.75);
+    display:flex; align-items:center; gap:22px; justify-content:center; flex-wrap:wrap;
+  }
+  .contact-info a{ text-decoration:none; color:rgba(255,255,255,0.85); }
+  .contact-info a:hover{ color:#fff; }
+
+  /* ---------- Footer ---------- */
+  footer{
+    padding-block:40px 40px;
+    display:flex;
+    flex-direction:column;
+    gap:24px;
+    font-size:12px;
+    letter-spacing:0.06em;
+    color:var(--ink-soft);
+  }
+  .footer-top{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+    align-items:center;
+    text-align:center;
+    width:100%;
+    padding-bottom:24px;
+    border-bottom:1px solid var(--line);
+  }
+  .footer-top .logo-lockup .word{ color:var(--ink); }
+  .footer-bottom{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    align-items:center;
+    text-align:center;
+  }
+  .footer-contact{
+    display:flex;
+    gap:18px;
+    justify-content:center;
+    flex-wrap:wrap;
+  }
+  .footer-contact a{ text-decoration:none; color:var(--ink-soft); }
+  .footer-contact a:hover{ color:var(--ink); }
+
+  /* ==========================================================
+     BREAKPOINTS — mobile-first, min-width
+     ========================================================== */
+  @media (min-width:768px){
+    body{ font-size:18px; }
+    .hero{ min-height:92vh; }
+    .hero-content{ padding-block:0 72px; max-width:640px; }
+    .split{ grid-template-columns:0.85fr 1.15fr; gap:56px; }
+    .split.reverse{ grid-template-columns:1.15fr 0.85fr; }
+    .split.reverse > .visual{ order:2; }
+    .steps{ grid-template-columns:repeat(3,1fr); }
+    .gallery{ grid-template-columns:repeat(4,1fr); gap:14px; }
+    .testimonios{ grid-template-columns:repeat(2,1fr); }
+    .footer-top{ flex-direction:row; justify-content:space-between; text-align:left; }
+    .footer-bottom{ flex-direction:row; justify-content:space-between; text-align:left; }
+    .card{ grid-template-columns:0.85fr 1.15fr; gap:40px; align-items:baseline; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="site">
+    <a class="logo-lockup" href="#top">
+      <span class="word">Mel Trujillo Weddings</span>
+    </a>
+    <nav class="site-nav">
+      <a href="#colecciones">Colecciones</a>
+      <a href="#sobre-mi">Sobre mí</a>
+      <a href="#reservar">Agenda tu llamada</a>
+    </nav>
+  </header>
+</div>
+
+<!-- =====================================================
+     PIXEL TRACKING — HERO / above the fold
+     (Meta Pixel / GA4 / TikTok Pixel van aquí si aplica)
+     ===================================================== -->
+<main id="top">
+
+  <section class="hero" aria-label="Presentación">
+    <img class="hero-bg" src="https://res.cloudinary.com/yqfqih5o/image/upload/w_1800,q_auto,f_auto/v1789771786/Mel_Trujillo_-_Photography-5505.jpg" alt="Mel Trujillo Weddings — fotografía de bodas en Bogotá">
+    <div class="hero-scrim"></div>
+    <div class="hero-content wrap">
+      <p class="eyebrow">Fotografía de bodas · Bogotá · Colombia</p>
+      <span class="tagline">Lo invisible, visible.</span>
+      <h1>Menos poses,<br>más autenticidad.</h1>
+      <p class="lede">Todo lo que han vivido como pareja hace que su historia sea auténtica. Por eso merecen fotos que capturen todo lo que son. La realidad de su amor.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="https://calendly.com/meltrujillo/reunion-de-60-minutos" target="_blank" rel="noopener">Cuéntame tu historia</a>
+        <p class="microcopy">Agenda tu llamada — mientras más los conozco, mejor.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule" />
+
+  <!-- ===================== PROBLEMA ===================== -->
+  <div class="wrap">
+    <section class="split split-center" aria-label="El problema">
+      <img class="visual frame hero-frame" src="https://res.cloudinary.com/yqfqih5o/image/upload/v1789770879/Mel_Trujillo_-_Photography-202.jpg" alt="Pareja de novios en un momento íntimo" loading="lazy">
+      <div>
+        <p class="eyebrow">Lo que de verdad importa</p>
+        <h2>No son solo fotos.</h2>
+        <p>No quieren sentirse "atendidos" por un proveedor más en su lista: quieren estar acompañados por alguien de su total confianza, que se anticipe a lo que necesitan antes de que lo pidan.</p>
+        <blockquote class="pull soft">Mi lugar en su boda es ser esa persona de confianza. Van a pasar más horas conmigo que con casi cualquiera de sus invitados.</blockquote>
+      </div>
+    </section>
+  </div>
+
+  <hr class="rule" />
+
+  <!-- ===================== PROCESO ===================== -->
+  <div class="wrap">
+    <section aria-label="Cómo funciona">
+      <p class="eyebrow" style="text-align:center;">Cómo funciona</p>
+      <h2 style="margin-top:10px; max-width:none; text-align:center;">Tres pasos, sin complicaciones</h2>
+      <ol class="steps" style="margin-top:36px; padding:0; list-style:none;">
+        <li class="step"><span class="num">01</span><h3>Elijan su colección</h3><p>Revisen las colecciones y encuentren la que mejor se ajusta a la boda que imaginan.</p></li>
+        <li class="step"><span class="num">02</span><h3>Personalícenla</h3><p>Ajústenla con los adicionales que necesiten: horas extra, otro evento, álbum, dron.</p></li>
+        <li class="step"><span class="num">03</span><h3>Hablemos</h3><p>Agenden su llamada y cuéntenme su historia. Mientras más los conozco, mejor.</p></li>
+      </ol>
+    </section>
+  </div>
+
+  <hr class="rule" />
+
+  <!-- ===================== PROMESA ===================== -->
+  <div class="wrap">
+    <section class="split reverse split-center" aria-label="La promesa">
+      <div>
+        <p class="eyebrow">Lo que van a recibir</p>
+        <h2>Convertir<br><span class="h2-script">Lo invisible, visible.</span></h2>
+        <p>Una galería que no se siente como un catálogo de poses, sino como volver a vivir cada abrazo, cada mirada, cada silencio que lo dijo todo.</p>
+        <p>Recuerdos con tonos cálidos y auténticos que van a atesorar toda la vida — y que vuelven a sentir cada vez que los abren.</p>
+      </div>
+      <img class="visual frame hero-frame warm" style="object-position:center top;" src="https://res.cloudinary.com/yqfqih5o/image/upload/w_800,q_auto,f_auto/v1789770573/Mel_Trujillo_-_Photography-5.jpg" alt="Detalle cálido de boda" loading="lazy">
+    </section>
+  </div>
+
+  <hr class="rule" />
+
+  <!-- ===================== PORTAFOLIO ===================== -->
+  <div class="wrap">
+    <section aria-label="Portafolio">
+      <p class="eyebrow">Portafolio</p>
+      <h2 style="margin-top:10px; max-width:26ch;">Algunas historias que hemos contado</h2>
+      <div class="gallery">
+        <img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_600,q_auto,f_auto/v1789770404/Mel_Trujillo_-_Photography-431.jpg" alt="Fotografía de boda — portafolio" loading="lazy">
+        <img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_600,q_auto,f_auto/v1789770575/Mel_Trujillo_-_Photography-7.jpg" alt="Fotografía de boda — portafolio" loading="lazy">
+        <img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_600,q_auto,f_auto/v1789770597/Mel_Trujillo_-_Photography-18.jpg" alt="Fotografía de boda — portafolio" loading="lazy">
+        <img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_600,q_auto,f_auto/v1789770621/Mel_Trujillo_-_Photography-101.jpg" alt="Fotografía de boda — portafolio" loading="lazy">
+        <img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_600,q_auto,f_auto/v1789770651/Mel_Trujillo_-_Photography-126.jpg" alt="Fotografía de boda — portafolio" loading="lazy">
+        <img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_600,q_auto,f_auto/v1789770686/Mel_Trujillo_-_Photography-134.jpg" alt="Fotografía de boda — portafolio" loading="lazy">
+        <img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_600,q_auto,f_auto/v1789770718/Mel_Trujillo_-_Photography-143.jpg" alt="Fotografía de boda — portafolio" loading="lazy">
+        <img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_600,q_auto,f_auto/v1789770773/Mel_Trujillo_-_Photography-169.jpg" alt="Fotografía de boda — portafolio" loading="lazy">
+        <img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_600,q_auto,f_auto/v1789770921/Mel_Trujillo_-_Photography-231.jpg" alt="Fotografía de boda — portafolio" loading="lazy">
+        <img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_600,q_auto,f_auto/v1789770989/Mel_Trujillo_-_Photography-262.jpg" alt="Fotografía de boda — portafolio" loading="lazy">
+        <img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_600,q_auto,f_auto/v1789771048/Mel_Trujillo_-_Photography-365.jpg" alt="Fotografía de boda — portafolio" loading="lazy">
+        <img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_600,q_auto,f_auto/v1789771126/Mel_Trujillo_-_Photography-475.jpg" alt="Fotografía de boda — portafolio" loading="lazy">
+      </div>
+    </section>
+  </div>
+
+  <hr class="rule" />
+
+  <!-- ===================== PRUEBA SOCIAL ===================== -->
+  <div class="wrap">
+    <section aria-label="Prueba social">
+      <p class="eyebrow">Por qué confíar en mí</p>
+      <h2 style="margin-top:10px; max-width:30ch;">Elijo con cuidado las bodas que acompaño</h2>
+      <p style="color:var(--ink-soft); font-size:17px; max-width:70ch; margin-top:18px;">Quiero ser su cómplice en uno de los días más importantes de sus vidas. Por eso elijo con cuidado las bodas que acompaño. Quiero que la de ustedes tenga mi atención completa, desde el primer mensaje hasta la entrega final. Ninguna boda se parece a otra, y la suya merece toda mi dedicación.</p>
+    </section>
+  </div>
+
+  <hr class="rule" />
+
+  <!-- ===================== COLECCIONES (pronóstico + precios) ===================== -->
+  <div class="wrap">
+    <section id="colecciones" aria-label="Colecciones">
+      <div class="colecciones-head">
+        <p class="eyebrow">Colecciones</p>
+        <h2>Paso 1. Armemos su historia juntos</h2>
+        <p><em>Cada historia de amor tiene su propio lenguaje, y sus fotos deberían hablarlo.</em> <strong style="white-space:nowrap;">Estas colecciones son el punto de partida.</strong><br>Las ajustamos juntos, según el ritmo de su día y lo que más quieren conservar.</p>
+      </div>
+
+      <div class="coll-tabs-wrap">
+        <div class="coll-tab-panel">
+          <div class="coll-tab-content is-active" data-tab="1">
+            <span class="coll-name">Full Experience</span>
+            <p class="coll-desc">Para quienes quieren vivirlo y recordarlo todo, sin dejar nada por fuera.</p>
+            <a class="coll-cta" href="https://wa.me/573106985532?text=Hola%20Mel%2C%20queremos%20la%20experiencia%20completa%20para%20nuestra%20boda.%20%C2%BFNos%20cuentas%20m%C3%A1s%20sobre%20Full%20Experience%3F" target="_blank" rel="noopener">Queremos la experiencia completa →</a>
+          </div>
+          <div class="coll-tab-content" data-tab="2">
+            <span class="coll-name">Colección I</span>
+            <p class="coll-desc">Foto y video para un día que merece ser visto y sentido.</p>
+            <a class="coll-cta" href="https://wa.me/573106985532?text=Hola%20Mel%2C%20%C2%BFNos%20cuentas%20m%C3%A1s%20sobre%20Colecci%C3%B3n%20I%3F" target="_blank" rel="noopener">Queremos verlo y sentirlo →</a>
+          </div>
+          <div class="coll-tab-content" data-tab="3">
+            <span class="coll-name">Colección II</span>
+            <p class="coll-desc">El día de su boda y un capítulo más de su historia.</p>
+            <a class="coll-cta" href="https://wa.me/573106985532?text=Hola%20Mel%2C%20queremos%20ir%20m%C3%A1s%20all%C3%A1%20del%20d%C3%ADa.%20%C2%BFNos%20cuentas%20m%C3%A1s%20sobre%20Colecci%C3%B3n%20II%3F" target="_blank" rel="noopener">Queremos ir más allá del día →</a>
+          </div>
+          <div class="coll-tab-content" data-tab="4">
+            <span class="coll-name">Colección III</span>
+            <p class="coll-desc">Lo esencial de su día, fotografiado con la misma entrega.</p>
+            <a class="coll-cta" href="https://wa.me/573106985532?text=Hola%20Mel%2C%20queremos%20lo%20esencial.%20%C2%BFNos%20cuentas%20m%C3%A1s%20sobre%20Colecci%C3%B3n%20III%3F" target="_blank" rel="noopener">Queremos lo esencial →</a>
+          </div>
+        </div>
+
+        <hr class="coll-tabs-divider" />
+
+        <nav class="coll-tabs-nav" aria-label="Seleccionar colección">
+          <button type="button" class="coll-tab-btn is-active" data-tab-target="1" aria-label="Ver Full Experience">1</button>
+          <button type="button" class="coll-tab-btn" data-tab-target="2" aria-label="Ver Colección I">2</button>
+          <button type="button" class="coll-tab-btn" data-tab-target="3" aria-label="Ver Colección II">3</button>
+          <button type="button" class="coll-tab-btn" data-tab-target="4" aria-label="Ver Colección III">4</button>
+        </nav>
+      </div>
+
+      <p class="colecciones-foot">Cada propuesta se construye a partir de una conversación, escríbeme para personalizarla.</p>
+
+      <div class="colecciones-cta">
+        <a class="btn btn-primary" href="https://wa.me/573106985532?text=Hola%20Mel%2C%20queremos%20contarte%20sobre%20nuestra%20boda%20y%20que%20nos%20ayudes%20a%20elegir%20la%20colecci%C3%B3n%20ideal." target="_blank" rel="noopener">Conéctate conmigo</a>
+      </div>
+
+      <div class="coll-gallery-viewport" aria-label="Mini portafolio">
+        <div class="coll-gallery">
+          <div class="coll-gallery-item"><img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_500,q_auto,f_auto/v1789771228/Mel_Trujillo_-_Photography-121.jpg" alt="Fotografía de boda" loading="lazy"></div>
+          <div class="coll-gallery-item"><img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_500,q_auto,f_auto/v1789771105/Mel_Trujillo_-_Photography-439.jpg" alt="Fotografía de boda" loading="lazy"></div>
+          <div class="coll-gallery-item"><img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_500,q_auto,f_auto/v1789771025/Mel_Trujillo_-_Photography-340.jpg" alt="Fotografía de boda" style="object-position:center bottom;" loading="lazy"></div>
+          <div class="coll-gallery-item"><img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_500,q_auto,f_auto/v1789771048/Mel_Trujillo_-_Photography-365.jpg" alt="Fotografía de boda" loading="lazy"></div>
+          <div class="coll-gallery-item"><img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_500,q_auto,f_auto/v1789770580/Mel_Trujillo_-_Photography-12_2.jpg" alt="Fotografía de boda" loading="lazy"></div>
+          <div class="coll-gallery-item"><img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_500,q_auto,f_auto/v1789770910/Mel_Trujillo_-_Photography-228.jpg" alt="Fotografía de boda" loading="lazy"></div>
+          <div class="coll-gallery-item"><img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_500,q_auto,f_auto/v1789770945/Mel_Trujillo_-_Photography-246.jpg" alt="Fotografía de boda" style="object-position:center bottom;" loading="lazy"></div>
+          <div class="coll-gallery-item"><img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_500,q_auto,f_auto/v1789771071/Mel_Trujillo_-_Photography-389.jpg" alt="Fotografía de boda" loading="lazy"></div>
+          <div class="coll-gallery-item"><img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_500,q_auto,f_auto/v1789771248/Mel_Trujillo_-_Photography-208.jpg" alt="Fotografía de boda" loading="lazy"></div>
+          <div class="coll-gallery-item"><img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_500,q_auto,f_auto/v1790014279/Mel_Trujillo_-_Photography-328.jpg" alt="Fotografía de boda" loading="lazy"></div>
+          <div class="coll-gallery-item"><img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_500,q_auto,f_auto/v1790014264/Mel_Trujillo_-_Photography-282.jpg" alt="Fotografía de boda" loading="lazy"></div>
+          <div class="coll-gallery-item"><img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_500,q_auto,f_auto/v1790014255/Mel_Trujillo_-_Photography-279.jpg" alt="Fotografía de boda" loading="lazy"></div>
+          <div class="coll-gallery-item"><img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_500,q_auto,f_auto/v1790014247/Mel_Trujillo_-_Photography-239.jpg" alt="Fotografía de boda" loading="lazy"></div>
+          <div class="coll-gallery-item"><img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_500,q_auto,f_auto/v1790014235/Mel_Trujillo_-_Photography-217.jpg" alt="Fotografía de boda" loading="lazy"></div>
+          <div class="coll-gallery-item"><img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_500,q_auto,f_auto/v1790014234/Mel_Trujillo_-_Photography-205.jpg" alt="Fotografía de boda" loading="lazy"></div>
+          <div class="coll-gallery-item"><img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_500,q_auto,f_auto/v1790014225/Mel_Trujillo_-_Photography-204.jpg" alt="Fotografía de boda" loading="lazy"></div>
+          <div class="coll-gallery-item"><img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_500,q_auto,f_auto/v1790014224/Mel_Trujillo_-_Photography-203.jpg" alt="Fotografía de boda" loading="lazy"></div>
+          <!-- Segunda copia idéntica, necesaria para que el loop de la cinta sea continuo -->
+          <div class="coll-gallery-item" aria-hidden="true"><img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_500,q_auto,f_auto/v1789771228/Mel_Trujillo_-_Photography-121.jpg" alt="" loading="lazy"></div>
+          <div class="coll-gallery-item" aria-hidden="true"><img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_500,q_auto,f_auto/v1789771105/Mel_Trujillo_-_Photography-439.jpg" alt="" loading="lazy"></div>
+          <div class="coll-gallery-item" aria-hidden="true"><img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_500,q_auto,f_auto/v1789771025/Mel_Trujillo_-_Photography-340.jpg" alt="" style="object-position:center bottom;" loading="lazy"></div>
+          <div class="coll-gallery-item" aria-hidden="true"><img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_500,q_auto,f_auto/v1789771048/Mel_Trujillo_-_Photography-365.jpg" alt="" loading="lazy"></div>
+          <div class="coll-gallery-item" aria-hidden="true"><img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_500,q_auto,f_auto/v1789770580/Mel_Trujillo_-_Photography-12_2.jpg" alt="" loading="lazy"></div>
+          <div class="coll-gallery-item" aria-hidden="true"><img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_500,q_auto,f_auto/v1789770910/Mel_Trujillo_-_Photography-228.jpg" alt="" loading="lazy"></div>
+          <div class="coll-gallery-item" aria-hidden="true"><img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_500,q_auto,f_auto/v1789770945/Mel_Trujillo_-_Photography-246.jpg" alt="" style="object-position:center bottom;" loading="lazy"></div>
+          <div class="coll-gallery-item" aria-hidden="true"><img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_500,q_auto,f_auto/v1789771071/Mel_Trujillo_-_Photography-389.jpg" alt="" loading="lazy"></div>
+          <div class="coll-gallery-item" aria-hidden="true"><img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_500,q_auto,f_auto/v1789771248/Mel_Trujillo_-_Photography-208.jpg" alt="" loading="lazy"></div>
+          <div class="coll-gallery-item" aria-hidden="true"><img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_500,q_auto,f_auto/v1790014279/Mel_Trujillo_-_Photography-328.jpg" alt="" loading="lazy"></div>
+          <div class="coll-gallery-item" aria-hidden="true"><img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_500,q_auto,f_auto/v1790014264/Mel_Trujillo_-_Photography-282.jpg" alt="" loading="lazy"></div>
+          <div class="coll-gallery-item" aria-hidden="true"><img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_500,q_auto,f_auto/v1790014255/Mel_Trujillo_-_Photography-279.jpg" alt="" loading="lazy"></div>
+          <div class="coll-gallery-item" aria-hidden="true"><img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_500,q_auto,f_auto/v1790014247/Mel_Trujillo_-_Photography-239.jpg" alt="" loading="lazy"></div>
+          <div class="coll-gallery-item" aria-hidden="true"><img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_500,q_auto,f_auto/v1790014235/Mel_Trujillo_-_Photography-217.jpg" alt="" loading="lazy"></div>
+          <div class="coll-gallery-item" aria-hidden="true"><img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_500,q_auto,f_auto/v1790014234/Mel_Trujillo_-_Photography-205.jpg" alt="" loading="lazy"></div>
+          <div class="coll-gallery-item" aria-hidden="true"><img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_500,q_auto,f_auto/v1790014225/Mel_Trujillo_-_Photography-204.jpg" alt="" loading="lazy"></div>
+          <div class="coll-gallery-item" aria-hidden="true"><img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_500,q_auto,f_auto/v1790014224/Mel_Trujillo_-_Photography-203.jpg" alt="" loading="lazy"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <hr class="rule" />
+
+  <!-- PENDIENTE: reemplazar estos 4 testimonios de respaldo por los de Manuel & Natalia, Jhon & Viviana, Gustavo & María José (y el cuarto sin nombre) en cuanto Meliza pase el texto — ver notas de la conversación -->
+  <div class="testimonial-band" aria-label="Testimonios">
+    <p class="band-title">— Testimonios —</p>
+    <div class="marquee-viewport">
+      <div class="marquee">
+        <div class="marquee-item"><p>"Cuando las vimos con mi esposo fue demasiado bonito volver a vivir cada detalle: cada abrazo, cada sonrisa, cada mirada... Se nota el amor que pones en lo que haces, y eso queda reflejado en cada fotografía."</p></div>
+        <div class="marquee-divider"></div>
+        <div class="marquee-item"><p>"Meli, en verdad capturaste unos momentos muy especiales. No hubiese sido lo mismo sin ti."</p></div>
+        <div class="marquee-divider"></div>
+        <div class="marquee-item"><p>"Divinaaaaassss, las amé."</p></div>
+        <div class="marquee-divider"></div>
+        <div class="marquee-item"><p>"Gracias Meli por ese trabajo tan hermoso y especial que hiciste ese día."</p></div>
+        <div class="marquee-divider"></div>
+        <!-- Segunda copia idéntica, necesaria para que el loop de la cinta sea continuo -->
+        <div class="marquee-item" aria-hidden="true"><p>"Cuando las vimos con mi esposo fue demasiado bonito volver a vivir cada detalle: cada abrazo, cada sonrisa, cada mirada... Se nota el amor que pones en lo que haces, y eso queda reflejado en cada fotografía."</p></div>
+        <div class="marquee-divider" aria-hidden="true"></div>
+        <div class="marquee-item" aria-hidden="true"><p>"Meli, en verdad capturaste unos momentos muy especiales. No hubiese sido lo mismo sin ti."</p></div>
+        <div class="marquee-divider" aria-hidden="true"></div>
+        <div class="marquee-item" aria-hidden="true"><p>"Divinaaaaassss, las amé."</p></div>
+        <div class="marquee-divider" aria-hidden="true"></div>
+        <div class="marquee-item" aria-hidden="true"><p>"Gracias Meli por ese trabajo tan hermoso y especial que hiciste ese día."</p></div>
+        <div class="marquee-divider" aria-hidden="true"></div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="rule" />
+
+  <!-- ===================== PROSPECTO ===================== -->
+  <div class="wrap">
+    <section aria-label="Creo que vamos a conectar si">
+      <p class="eyebrow">Para ustedes</p>
+      <h2 style="margin-top:10px; max-width:30ch;">Creo que vamos a conectar si...</h2>
+      <ul class="fit-list" style="margin-top:32px;">
+        <li>Sueñan con una boda elegante, minimalista y pensada hasta el último detalle.</li>
+        <li>Prefieren fotos reales a poses armadas: quieren verse tal como son, y ver a las personas que quieren tal como fueron ese día.</li>
+        <li>Para ustedes importa tanto quién los acompaña con la cámara como las fotos que reciben.</li>
+        <li>Les gusta que todo esté bien organizado, y saben que el talento se luce más cuando hay orden.</li>
+      </ul>
+      <p class="signature-line" style="margin-top:28px;">Si se vieron en varias de estas líneas, cuéntenme su historia.</p>
+    </section>
+  </div>
+
+  <hr class="rule" />
+
+  <!-- ===================== PERFIL PROFESIONAL / SOBRE MÍ ===================== -->
+  <div class="wrap">
+    <section id="sobre-mi" class="split" aria-label="Sobre mí">
+      <img class="frame square" src="https://res.cloudinary.com/yqfqih5o/image/upload/w_800,q_auto,f_auto/v1789771325/Mel_Trujillo_-_Photography-2.jpg" alt="Retrato de Mel Trujillo" loading="lazy">
+      <div class="about">
+        <p class="eyebrow">Sobre mí</p>
+        <h2>Soy Mel.</h2>
+        <p>Me salto las presentaciones formales.</p>
+        <p>Siempre he sido un alma sensible. Me pierdo en la luz de una tarde, en la belleza que existe justo donde menos se busca, en el detalle que muy pocas veces se nota... y disfruto observar lo simple en la vida cotidiana.</p>
+        <p>Pero lo que más me mueve... es el amor. La forma en que cada persona lo vive de manera única, los gestos pequeños, las risas tontas, los silencios que dicen todo.</p>
+        <p>Esos momentos de conexión humana son los que me inspiran profundamente.</p>
+        <p>Cada vez que me dejan entrar en un momento tan importante de sus vidas, algo cambia: esas personas dejan de ser solo un cliente y se vuelven parte de mi vida. Ahí nace una amistad de verdad.</p>
+        <p>Por eso me importa conocerlos de verdad antes de fotografiarlos. Saber quiénes son, cómo se aman, qué los hace ser ustedes.</p>
+        <p class="signature-line">Porque solo así puedo hacer lo que más me gusta: convertir lo invisible en visible.</p>
+      </div>
+    </section>
+  </div>
+
+  <hr class="rule" />
+
+  <!-- ===================== PROYECTO ===================== -->
+  <div class="wrap">
+    <section class="proyecto split reverse split-center" aria-label="El proyecto">
+      <div>
+        <p class="eyebrow">Cómo trabajamos</p>
+        <h2 style="margin-top:10px; max-width:24ch;">Un proyecto, no solo un día</h2>
+        <p style="margin-top:18px;">Con su fecha reservada, su boda empieza a construirse mucho antes del día. Nos conocemos mejor, armamos el cronograma minuto a minuto con sus referentes, sus gustos y todo lo que los hace ustedes, y les cuento cómo será cada entrega y con quiénes trabajamos.</p>
+        <p>Todo pensado para que el día de su boda no tengan que pensar en nada más que en disfrutar.</p>
+      </div>
+      <img class="visual frame hero-frame" src="https://res.cloudinary.com/yqfqih5o/image/upload/w_800,q_auto,f_auto/v1789771084/Mel_Trujillo_-_Photography-418.jpg" alt="Detalle de boda" loading="lazy">
+    </section>
+  </div>
+
+  <hr class="rule" />
+
+  <!-- ===================== PRÓXIMOS PASOS / CONTACTO ===================== -->
+  <section id="reservar" class="contact" aria-label="Próximos pasos">
+    <img class="contact-bg" src="https://res.cloudinary.com/yqfqih5o/image/upload/w_1800,q_auto,f_auto/v1789771103/Mel_Trujillo_-_Photography-432.jpg" alt="">
+    <div class="contact-scrim"></div>
+    <div class="contact-grain" aria-hidden="true"></div>
+    <div class="contact-inner wrap">
+      <p class="eyebrow">Ahora dime</p>
+      <h2>¿Cuándo te casas?</h2>
+      <div class="contact-info">
+        <a class="btn btn-primary" href="https://calendly.com/meltrujillo/reunion-de-60-minutos" target="_blank" rel="noopener">Cuéntame tu historia</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div class="wrap">
+  <footer>
+    <div class="footer-top">
+      <a class="logo-lockup" href="#top">
+        <span class="word">Mel Trujillo Weddings</span>
+      </a>
+      <nav class="site-nav">
+        <a href="#colecciones">Colecciones</a>
+        <a href="#sobre-mi">Sobre mí</a>
+        <a href="#reservar">Agenda tu llamada</a>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <span>Bogotá, Colombia</span>
+      <div class="footer-contact">
+        <a href="https://instagram.com/meltrujilloweddings" target="_blank" rel="noopener">@meltrujilloweddings</a>
+        <a href="https://wa.me/573106985532" target="_blank" rel="noopener">+57 310 698 5532</a>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script>
+  (function(){
+    var wrap = document.querySelector('.coll-tabs-wrap');
+    if(!wrap) return;
+    var buttons = wrap.querySelectorAll('.coll-tab-btn');
+    var panels = wrap.querySelectorAll('.coll-tab-content');
+    buttons.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var target = btn.getAttribute('data-tab-target');
+        buttons.forEach(function(b){ b.classList.toggle('is-active', b === btn); });
+        panels.forEach(function(p){ p.classList.toggle('is-active', p.getAttribute('data-tab') === target); });
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>

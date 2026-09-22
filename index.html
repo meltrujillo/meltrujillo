@@ -143,7 +143,7 @@
       linear-gradient(115deg, #4a4640 0%, #857c6d 42%, #cfc7b3 70%, #e9e4d4 100%);
   }
   .frame.hero-frame{ aspect-ratio:4/5; }
-  .frame.square{ aspect-ratio:1/1; }
+  .frame.square{ aspect-ratio:4/5; }
   .frame.wide{ aspect-ratio:16/10; }
 
   /* ---------- Hero (foto de fondo a pantalla completa) ---------- */
@@ -518,6 +518,7 @@
 
   /* ---------- Proyecto ---------- */
   .proyecto p:not(.eyebrow){ color:var(--ink-soft); font-size:17px; max-width:60ch; }
+  .proyecto-frag{ margin:0 0 16px; } /* espacio entre fragmentos solo en celular, ver override PC abajo */
 
   /* ---------- Próximos pasos / contacto ---------- */
   .contact{
@@ -626,6 +627,8 @@
     .footer-top{ flex-direction:row; justify-content:space-between; text-align:left; }
     .footer-bottom{ flex-direction:row; justify-content:space-between; text-align:left; }
     .card{ grid-template-columns:0.85fr 1.15fr; gap:40px; align-items:baseline; }
+    .proyecto-frag{ display:inline; margin:0; } /* en PC queda igual que antes: el texto fluye como un solo párrafo */
+    .proyecto h2{ margin-bottom:18px; } /* reemplaza el margin-top:18px del primer fragmento, que en PC ya no aplica al ser inline */
     .lightbox-close{ top:28px; right:32px; }
     .lightbox-prev{ left:28px; }
     .lightbox-next{ right:28px; }
@@ -657,9 +660,9 @@
     header.site a.header-cta-mobile{
       display:inline-block;
       margin-left:auto;
-      padding:9px 14px;
-      font-size:10px;
-      letter-spacing:0.08em;
+      padding:7px 9px;
+      font-size:8.5px;
+      letter-spacing:0.02em;
       white-space:nowrap;
       flex-shrink:0;
     }
@@ -694,6 +697,7 @@
 
     /* --- Cómo funciona: pasos centrados --- */
     .steps{ text-align:center; }
+    .steps-title{ white-space:nowrap; font-size:clamp(13px, 4.4vw, 20px); }
 
     /* --- Portafolio: efecto ladrillo (masonry) en vez de cuadrícula pareja --- */
     .gallery{
@@ -709,6 +713,27 @@
       break-inside:avoid;
     }
     .portfolio-foto-431{ object-position:left center; }
+
+    /* --- Mini portafolio y testimonios: deslizar con el dedo, el usuario decide dónde parar --- */
+    .coll-gallery-viewport{
+      overflow-x:auto;
+      -webkit-overflow-scrolling:touch;
+      scroll-snap-type:x proximity;
+      scrollbar-width:none;
+    }
+    .coll-gallery-viewport::-webkit-scrollbar{ display:none; }
+    .coll-gallery{ animation:none; }
+    .coll-gallery-item{ scroll-snap-align:start; }
+
+    .marquee-viewport{
+      overflow-x:auto;
+      -webkit-overflow-scrolling:touch;
+      scroll-snap-type:x proximity;
+      scrollbar-width:none;
+    }
+    .marquee-viewport::-webkit-scrollbar{ display:none; }
+    .marquee{ animation:none; }
+    .marquee-item{ scroll-snap-align:start; }
   }
 </style>
 </head>
@@ -761,7 +786,7 @@
   <!-- ===================== PERFIL PROFESIONAL / SOBRE MÍ ===================== -->
   <div class="wrap">
     <section id="sobre-mi" class="split" aria-label="Sobre mí">
-      <img class="frame square" src="https://res.cloudinary.com/yqfqih5o/image/upload/w_800,q_auto,f_auto/v1790036999/Foto_2025.jpg" alt="Retrato de Mel Trujillo" loading="lazy">
+      <img class="frame square" src="https://res.cloudinary.com/yqfqih5o/image/upload/c_fill,g_face,w_800,h_1000,q_auto,f_auto/v1790036999/Foto_2025.jpg" alt="Retrato de Mel Trujillo" loading="lazy">
       <div class="about">
         <p class="eyebrow">Sobre mí</p>
         <h2>Soy Mel.</h2>
@@ -794,7 +819,7 @@
   <div class="wrap">
     <section aria-label="Cómo funciona">
       <p class="eyebrow" style="text-align:center;">Cómo funciona</p>
-      <h2 style="margin-top:10px; max-width:none; text-align:center;">Tres pasos, sin complicaciones</h2>
+      <h2 class="steps-title" style="margin-top:10px; max-width:none; text-align:center;">Tres pasos, sin complicaciones</h2>
       <ol class="steps" style="margin-top:36px; padding:0; list-style:none;">
         <li class="step"><span class="num">01</span><h3>Elijan su colección</h3><p>Revisen las colecciones y encuentren la que mejor se ajusta a la boda que imaginan.</p></li>
         <li class="step"><span class="num">02</span><h3>Personalícenla</h3><p>Ajústenla con los adicionales que necesiten: horas extra, otro evento, álbum, dron.</p></li>
@@ -923,6 +948,7 @@
           <div class="coll-gallery-item"><img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_500,q_auto,f_auto/v1790014247/Mel_Trujillo_-_Photography-239.jpg" alt="Fotografía de boda" loading="lazy"></div>
           <div class="coll-gallery-item"><img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_500,q_auto,f_auto/v1790014235/Mel_Trujillo_-_Photography-217.jpg" alt="Fotografía de boda" loading="lazy"></div>
           <div class="coll-gallery-item"><img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_500,q_auto,f_auto/v1790014234/Mel_Trujillo_-_Photography-205.jpg" alt="Fotografía de boda" loading="lazy"></div>
+          <div class="coll-gallery-item"><img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_500,q_auto,f_auto/v1790014225/Mel_Trujillo_-_Photography-204.jpg" alt="Fotografía de boda" loading="lazy"></div>
           <div class="coll-gallery-item"><img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_500,q_auto,f_auto/v1790014224/Mel_Trujillo_-_Photography-203.jpg" alt="Fotografía de boda" loading="lazy"></div>
           <!-- Segunda copia idéntica, necesaria para que el loop de la cinta sea continuo -->
           <div class="coll-gallery-item" aria-hidden="true"><img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_500,q_auto,f_auto/v1789771228/Mel_Trujillo_-_Photography-121.jpg" alt="" loading="lazy"></div>
@@ -999,7 +1025,9 @@
       <div>
         <p class="eyebrow">Cómo trabajamos</p>
         <h2 style="margin-top:10px; max-width:24ch;">Un proyecto, no solo un día</h2>
-        <p style="margin-top:18px;">Con su fecha reservada, su boda empieza a construirse mucho antes del día. Nos conocemos mejor, armamos el cronograma minuto a minuto con sus referentes, sus gustos y todo lo que los hace ustedes, y les cuento cómo será cada entrega y con quiénes trabajamos.</p>
+        <p class="proyecto-frag" style="margin-top:18px;">Con su fecha reservada, su boda empieza a construirse mucho antes del día.</p>
+        <p class="proyecto-frag">Nos conocemos mejor, armamos el cronograma minuto a minuto con sus referentes, sus gustos y todo lo que los hace ustedes,</p>
+        <p class="proyecto-frag">y les cuento cómo será cada entrega y con quiénes trabajamos.</p>
         <p>Todo pensado para que el día de su boda no tengan que pensar en nada más que en disfrutar.</p>
       </div>
       <img class="visual frame hero-frame" src="https://res.cloudinary.com/yqfqih5o/image/upload/w_800,q_auto,f_auto/v1789771084/Mel_Trujillo_-_Photography-418.jpg" alt="Detalle de boda" loading="lazy">

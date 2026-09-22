@@ -643,9 +643,9 @@
     header.site{ flex-wrap:nowrap; }
     header.site .logo-mark{
       display:block;
-      width:40px;
-      height:40px;
-      max-width:40px;
+      width:56px;
+      height:56px;
+      max-width:56px;
       object-fit:contain;
       overflow:hidden;
       flex-shrink:0;
@@ -665,18 +665,18 @@
     }
 
     /* --- Hero: reordenar contenido, achicar el título, sacar el botón --- */
-    .hero{ align-items:stretch; }
     .hero-content{
+      position:absolute;
+      inset:0;
       display:flex;
       flex-direction:column;
       justify-content:flex-start;
-      height:100%;
-      padding-block:28px 24px;
+      padding-block:96px 30px;
     }
     .hero-content .eyebrow{ order:1; }
     .hero-content h1{ order:2; }
     .hero-content p.lede{ order:3; }
-    .hero-content .tagline{ order:4; margin-top:auto; margin-bottom:0; padding-top:16px; }
+    .hero-content .tagline{ order:4; margin-top:auto; margin-bottom:0; padding-top:32px; }
     .hero-content .hero-actions{ display:none; }
     .hero .eyebrow{
       font-size:11.5px;
@@ -821,6 +821,8 @@
         <img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_600,q_auto,f_auto/v1789770989/Mel_Trujillo_-_Photography-262.jpg" alt="Fotografía de boda — portafolio" loading="lazy">
         <img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_600,q_auto,f_auto/v1789771048/Mel_Trujillo_-_Photography-365.jpg" alt="Fotografía de boda — portafolio" loading="lazy">
         <img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_600,q_auto,f_auto/v1789771126/Mel_Trujillo_-_Photography-475.jpg" alt="Fotografía de boda — portafolio" loading="lazy">
+        <img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_600,q_auto,f_auto/v1789771037/Mel_Trujillo_-_Photography-342.jpg" alt="Fotografía de boda — portafolio" loading="lazy">
+        <img src="https://res.cloudinary.com/yqfqih5o/image/upload/w_600,q_auto,f_auto/v1789770946/Mel_Trujillo_-_Photography-249.jpg" alt="Fotografía de boda — portafolio" loading="lazy">
       </div>
     </section>
   </div>
@@ -1083,10 +1085,17 @@
     var currentList = [];
     var currentIndex = 0;
 
+    /* Las miniaturas piden versiones chiquitas a Cloudinary (w_500 / w_600) para
+       cargar rápido en la cuadrícula. Para el lightbox pedimos una versión mucho
+       más grande del mismo archivo, así no se ve pixelada al ampliarla. */
+    function toLightboxSrc(src){
+      return src.replace(/\/upload\/w_\d+,/, '/upload/w_1800,');
+    }
+
     function updateImage(){
       var img = currentList[currentIndex];
       if(!img) return;
-      imgEl.src = img.getAttribute('src');
+      imgEl.src = toLightboxSrc(img.getAttribute('src'));
       imgEl.alt = img.getAttribute('alt') || '';
     }
     function openLightbox(list, index){

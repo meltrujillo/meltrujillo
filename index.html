@@ -714,26 +714,21 @@
     }
     .portfolio-foto-431{ object-position:left center; }
 
-    /* --- Mini portafolio y testimonios: deslizar con el dedo, el usuario decide dónde parar --- */
-    .coll-gallery-viewport{
-      overflow-x:auto;
-      -webkit-overflow-scrolling:touch;
-      scroll-snap-type:x proximity;
-      scrollbar-width:none;
-    }
-    .coll-gallery-viewport::-webkit-scrollbar{ display:none; }
-    .coll-gallery{ animation:none; }
+    /* --- Mini portafolio y testimonios: se siguen deslizando solos; al tocarlos se detienen y se pueden mover con el dedo --- */
     .coll-gallery-item{ scroll-snap-align:start; }
+    .marquee-item{ scroll-snap-align:start; }
 
-    .marquee-viewport{
+    .coll-gallery-viewport.is-touched,
+    .marquee-viewport.is-touched{
       overflow-x:auto;
       -webkit-overflow-scrolling:touch;
       scroll-snap-type:x proximity;
       scrollbar-width:none;
     }
-    .marquee-viewport::-webkit-scrollbar{ display:none; }
-    .marquee{ animation:none; }
-    .marquee-item{ scroll-snap-align:start; }
+    .coll-gallery-viewport.is-touched::-webkit-scrollbar,
+    .marquee-viewport.is-touched::-webkit-scrollbar{ display:none; }
+    .coll-gallery-viewport.is-touched .coll-gallery,
+    .marquee-viewport.is-touched .marquee{ animation-play-state:paused; }
   }
 </style>
 </head>
@@ -1165,6 +1160,17 @@
       if(e.key === 'Escape') closeLightbox();
       if(e.key === 'ArrowLeft') showPrev();
       if(e.key === 'ArrowRight') showNext();
+    });
+  })();
+
+  /* ---------- Mini portafolio y testimonios (celular): se deslizan solos y,
+     al primer toque, se detienen y quedan libres para mover con el dedo ---------- */
+  (function(){
+    var viewports = document.querySelectorAll('.marquee-viewport, .coll-gallery-viewport');
+    viewports.forEach(function(vp){
+      vp.addEventListener('touchstart', function(){
+        vp.classList.add('is-touched');
+      }, { passive:true, once:true });
     });
   })();
 </script>

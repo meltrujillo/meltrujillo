@@ -272,6 +272,65 @@
     display:block;
     border-radius:1px;
   }
+  .gallery img, .coll-gallery-item img{ cursor:zoom-in; }
+
+  /* ---------- Lightbox (ver fotos ampliadas, PC y celular) ---------- */
+  .lightbox{
+    position:fixed;
+    inset:0;
+    background:rgba(10,8,6,0.94);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:1000;
+    padding:20px;
+  }
+  .lightbox.is-open{ display:flex; }
+  .lightbox-img{
+    max-width:90vw;
+    max-height:85vh;
+    width:auto;
+    height:auto;
+    object-fit:contain;
+    box-shadow:0 10px 40px rgba(0,0,0,0.5);
+    border-radius:1px;
+  }
+  .lightbox-close,
+  .lightbox-prev,
+  .lightbox-next{
+    position:absolute;
+    background:rgba(255,255,255,0.08);
+    border:1px solid rgba(255,255,255,0.3);
+    color:#fff;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:opacity .2s ease;
+  }
+  .lightbox-close:hover,
+  .lightbox-prev:hover,
+  .lightbox-next:hover{ opacity:0.7; }
+  .lightbox-close{
+    top:20px;
+    right:20px;
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    font-size:22px;
+    line-height:1;
+  }
+  .lightbox-prev,
+  .lightbox-next{
+    top:50%;
+    transform:translateY(-50%);
+    width:44px;
+    height:44px;
+    border-radius:50%;
+    font-size:24px;
+  }
+  .lightbox-prev{ left:16px; }
+  .lightbox-next{ right:16px; }
 
   /* ---------- Prueba social / Testimonios (cinta deslizante) ---------- */
   .testimonial-band{
@@ -567,6 +626,9 @@
     .footer-top{ flex-direction:row; justify-content:space-between; text-align:left; }
     .footer-bottom{ flex-direction:row; justify-content:space-between; text-align:left; }
     .card{ grid-template-columns:0.85fr 1.15fr; gap:40px; align-items:baseline; }
+    .lightbox-close{ top:28px; right:32px; }
+    .lightbox-prev{ left:28px; }
+    .lightbox-next{ right:28px; }
   }
 
   /* ==========================================================
@@ -581,9 +643,9 @@
     header.site{ flex-wrap:nowrap; }
     header.site .logo-mark{
       display:block;
-      width:26px;
-      height:26px;
-      max-width:26px;
+      width:40px;
+      height:40px;
+      max-width:40px;
       object-fit:contain;
       overflow:hidden;
       flex-shrink:0;
@@ -603,15 +665,22 @@
     }
 
     /* --- Hero: reordenar contenido, achicar el título, sacar el botón --- */
-    .hero-content{ display:flex; flex-direction:column; }
+    .hero{ align-items:stretch; }
+    .hero-content{
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-start;
+      height:100%;
+      padding-block:28px 24px;
+    }
     .hero-content .eyebrow{ order:1; }
     .hero-content h1{ order:2; }
     .hero-content p.lede{ order:3; }
-    .hero-content .tagline{ order:4; margin-top:10px; margin-bottom:0; }
+    .hero-content .tagline{ order:4; margin-top:auto; margin-bottom:0; padding-top:16px; }
     .hero-content .hero-actions{ display:none; }
     .hero .eyebrow{
-      font-size:10px;
-      letter-spacing:0.1em;
+      font-size:11.5px;
+      letter-spacing:0.08em;
       white-space:nowrap;
     }
     .hero h1{ font-size:clamp(22px, 6vw, 38px); }
@@ -910,7 +979,7 @@
   <!-- ===================== PERFIL PROFESIONAL / SOBRE MÍ ===================== -->
   <div class="wrap">
     <section id="sobre-mi" class="split" aria-label="Sobre mí">
-      <img class="frame square" src="https://res.cloudinary.com/yqfqih5o/image/upload/w_800,q_auto,f_auto/v1789771325/Mel_Trujillo_-_Photography-2.jpg" alt="Retrato de Mel Trujillo" loading="lazy">
+      <img class="frame square" src="https://res.cloudinary.com/yqfqih5o/image/upload/w_800,q_auto,f_auto/v1790035096/Foto_2025.jpg" alt="Retrato de Mel Trujillo" loading="lazy">
       <div class="about">
         <p class="eyebrow">Sobre mí</p>
         <h2>Soy Mel.</h2>
@@ -980,6 +1049,14 @@
   </footer>
 </div>
 
+<!-- ===================== LIGHTBOX (ver fotos ampliadas) ===================== -->
+<div id="lightbox" class="lightbox" aria-hidden="true">
+  <button type="button" class="lightbox-close" aria-label="Cerrar">×</button>
+  <button type="button" class="lightbox-prev" aria-label="Foto anterior">‹</button>
+  <img class="lightbox-img" src="" alt="">
+  <button type="button" class="lightbox-next" aria-label="Foto siguiente">›</button>
+</div>
+
 <script>
   (function(){
     var wrap = document.querySelector('.coll-tabs-wrap');
@@ -992,6 +1069,70 @@
         buttons.forEach(function(b){ b.classList.toggle('is-active', b === btn); });
         panels.forEach(function(p){ p.classList.toggle('is-active', p.getAttribute('data-tab') === target); });
       });
+    });
+  })();
+
+  /* ---------- Lightbox: portafolio en ladrillo + mini portafolio deslizable --------- */
+  (function(){
+    var lightbox = document.getElementById('lightbox');
+    if(!lightbox) return;
+    var imgEl = lightbox.querySelector('.lightbox-img');
+    var closeBtn = lightbox.querySelector('.lightbox-close');
+    var prevBtn = lightbox.querySelector('.lightbox-prev');
+    var nextBtn = lightbox.querySelector('.lightbox-next');
+    var currentList = [];
+    var currentIndex = 0;
+
+    function updateImage(){
+      var img = currentList[currentIndex];
+      if(!img) return;
+      imgEl.src = img.getAttribute('src');
+      imgEl.alt = img.getAttribute('alt') || '';
+    }
+    function openLightbox(list, index){
+      currentList = list;
+      currentIndex = index;
+      updateImage();
+      lightbox.classList.add('is-open');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox(){
+      lightbox.classList.remove('is-open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+    function showPrev(){
+      if(!currentList.length) return;
+      currentIndex = (currentIndex - 1 + currentList.length) % currentList.length;
+      updateImage();
+    }
+    function showNext(){
+      if(!currentList.length) return;
+      currentIndex = (currentIndex + 1) % currentList.length;
+      updateImage();
+    }
+    function setupGallery(selector){
+      var all = Array.prototype.slice.call(document.querySelectorAll(selector));
+      var imgs = all.filter(function(img){ return !img.closest('[aria-hidden="true"]'); });
+      imgs.forEach(function(img, i){
+        img.addEventListener('click', function(){ openLightbox(imgs, i); });
+      });
+    }
+    setupGallery('.gallery img');
+    setupGallery('.coll-gallery-item img');
+
+    closeBtn.addEventListener('click', closeLightbox);
+    prevBtn.addEventListener('click', showPrev);
+    nextBtn.addEventListener('click', showNext);
+    lightbox.addEventListener('click', function(e){
+      if(e.target === lightbox) closeLightbox();
+    });
+    document.addEventListener('keydown', function(e){
+      if(!lightbox.classList.contains('is-open')) return;
+      if(e.key === 'Escape') closeLightbox();
+      if(e.key === 'ArrowLeft') showPrev();
+      if(e.key === 'ArrowRight') showNext();
     });
   })();
 </script>

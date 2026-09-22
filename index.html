@@ -356,7 +356,7 @@
   .marquee{
     display:flex;
     width:max-content;
-    animation:marquee-scroll 42s linear infinite;
+    animation:marquee-scroll 126s linear infinite;
   }
   .marquee:hover{ animation-play-state:paused; }
   .marquee-item{
@@ -974,6 +974,7 @@
     <p class="band-title">— Testimonios —</p>
     <div class="marquee-viewport">
       <div class="marquee">
+        <!-- Set visible: los 4 testimonios repetidos 3 veces, para que la cinta nunca se quede sin contenido en pantallas anchas -->
         <div class="marquee-item"><p>"Cuando las vimos con mi esposo fue demasiado bonito volver a vivir cada detalle: cada abrazo, cada sonrisa, cada mirada... Se nota el amor que pones en lo que haces, y eso queda reflejado en cada fotografía."</p></div>
         <div class="marquee-divider"></div>
         <div class="marquee-item"><p>"Meli, en verdad capturaste unos momentos muy especiales. No hubiese sido lo mismo sin ti."</p></div>
@@ -982,7 +983,39 @@
         <div class="marquee-divider"></div>
         <div class="marquee-item"><p>"Gracias Meli por ese trabajo tan hermoso y especial que hiciste ese día."</p></div>
         <div class="marquee-divider"></div>
-        <!-- Segunda copia idéntica, necesaria para que el loop de la cinta sea continuo -->
+        <div class="marquee-item"><p>"Cuando las vimos con mi esposo fue demasiado bonito volver a vivir cada detalle: cada abrazo, cada sonrisa, cada mirada... Se nota el amor que pones en lo que haces, y eso queda reflejado en cada fotografía."</p></div>
+        <div class="marquee-divider"></div>
+        <div class="marquee-item"><p>"Meli, en verdad capturaste unos momentos muy especiales. No hubiese sido lo mismo sin ti."</p></div>
+        <div class="marquee-divider"></div>
+        <div class="marquee-item"><p>"Divinaaaaassss, las amé."</p></div>
+        <div class="marquee-divider"></div>
+        <div class="marquee-item"><p>"Gracias Meli por ese trabajo tan hermoso y especial que hiciste ese día."</p></div>
+        <div class="marquee-divider"></div>
+        <div class="marquee-item"><p>"Cuando las vimos con mi esposo fue demasiado bonito volver a vivir cada detalle: cada abrazo, cada sonrisa, cada mirada... Se nota el amor que pones en lo que haces, y eso queda reflejado en cada fotografía."</p></div>
+        <div class="marquee-divider"></div>
+        <div class="marquee-item"><p>"Meli, en verdad capturaste unos momentos muy especiales. No hubiese sido lo mismo sin ti."</p></div>
+        <div class="marquee-divider"></div>
+        <div class="marquee-item"><p>"Divinaaaaassss, las amé."</p></div>
+        <div class="marquee-divider"></div>
+        <div class="marquee-item"><p>"Gracias Meli por ese trabajo tan hermoso y especial que hiciste ese día."</p></div>
+        <div class="marquee-divider"></div>
+        <!-- Segunda copia idéntica (aria-hidden), necesaria para que el loop de la cinta sea continuo -->
+        <div class="marquee-item" aria-hidden="true"><p>"Cuando las vimos con mi esposo fue demasiado bonito volver a vivir cada detalle: cada abrazo, cada sonrisa, cada mirada... Se nota el amor que pones en lo que haces, y eso queda reflejado en cada fotografía."</p></div>
+        <div class="marquee-divider" aria-hidden="true"></div>
+        <div class="marquee-item" aria-hidden="true"><p>"Meli, en verdad capturaste unos momentos muy especiales. No hubiese sido lo mismo sin ti."</p></div>
+        <div class="marquee-divider" aria-hidden="true"></div>
+        <div class="marquee-item" aria-hidden="true"><p>"Divinaaaaassss, las amé."</p></div>
+        <div class="marquee-divider" aria-hidden="true"></div>
+        <div class="marquee-item" aria-hidden="true"><p>"Gracias Meli por ese trabajo tan hermoso y especial que hiciste ese día."</p></div>
+        <div class="marquee-divider" aria-hidden="true"></div>
+        <div class="marquee-item" aria-hidden="true"><p>"Cuando las vimos con mi esposo fue demasiado bonito volver a vivir cada detalle: cada abrazo, cada sonrisa, cada mirada... Se nota el amor que pones en lo que haces, y eso queda reflejado en cada fotografía."</p></div>
+        <div class="marquee-divider" aria-hidden="true"></div>
+        <div class="marquee-item" aria-hidden="true"><p>"Meli, en verdad capturaste unos momentos muy especiales. No hubiese sido lo mismo sin ti."</p></div>
+        <div class="marquee-divider" aria-hidden="true"></div>
+        <div class="marquee-item" aria-hidden="true"><p>"Divinaaaaassss, las amé."</p></div>
+        <div class="marquee-divider" aria-hidden="true"></div>
+        <div class="marquee-item" aria-hidden="true"><p>"Gracias Meli por ese trabajo tan hermoso y especial que hiciste ese día."</p></div>
+        <div class="marquee-divider" aria-hidden="true"></div>
         <div class="marquee-item" aria-hidden="true"><p>"Cuando las vimos con mi esposo fue demasiado bonito volver a vivir cada detalle: cada abrazo, cada sonrisa, cada mirada... Se nota el amor que pones en lo que haces, y eso queda reflejado en cada fotografía."</p></div>
         <div class="marquee-divider" aria-hidden="true"></div>
         <div class="marquee-item" aria-hidden="true"><p>"Meli, en verdad capturaste unos momentos muy especiales. No hubiese sido lo mismo sin ti."</p></div>

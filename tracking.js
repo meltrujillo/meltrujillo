@@ -137,7 +137,7 @@
     box.setAttribute('role', 'dialog');
     box.setAttribute('aria-label', 'Aviso de cookies');
     box.innerHTML =
-      '<p>cuido sus datos como cuido sus historias. uso cookies y el píxel de Meta para entender qué parte de esta página los emociona y mostrarles mi trabajo cuando más les sirva. ustedes deciden. más detalle en la <a href="/privacidad.html">política de privacidad</a>.</p>' +
+      '<p>Cuido sus datos como cuido sus historias. Uso cookies para entender qué parte de esta página los emociona. ustedes deciden. más en la <a href="/privacidad.html">política de privacidad</a>.</p>' +
       '<div class="mt-consent-actions">' +
       '<button type="button" class="btn btn-primary" data-mt="yes">aceptar</button>' +
       '<button type="button" class="btn btn-ghost" data-mt="no">ahora no</button>' +

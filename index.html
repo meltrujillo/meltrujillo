@@ -752,7 +752,7 @@
 
 <!-- =====================================================
      PIXEL TRACKING — HERO / above the fold
-     (Meta Pixel / GA4 / TikTok Pixel van aquí si aplica)
+     El píxel de Meta se carga desde /tracking.js, solo si la persona acepta las cookies.
      ===================================================== -->
 <main id="top">
 
@@ -1133,6 +1133,8 @@
       <div class="footer-contact">
         <a href="https://instagram.com/meltrujilloweddings" target="_blank" rel="noopener">@meltrujilloweddings</a>
         <a href="https://wa.me/573106985532" target="_blank" rel="noopener">+57 310 698 5532</a>
+        <a href="/privacidad.html">Privacidad</a>
+        <a href="#" id="mt-cookie-prefs">Cookies</a>
       </div>
     </div>
   </footer>
@@ -1243,3 +1245,5 @@
     });
   })();
 </script>
+
+<script src="/tracking.js" defer></script>

@@ -1,0 +1,8 @@
+# ai.txt — Mel Trujillo Weddings
+# Las páginas públicas de meltrujillo.com pueden ser leídas y citadas por asistentes de IA y buscadores,
+# siempre con atribución a Mel Trujillo Weddings y enlace a https://meltrujillo.com/.
+# Las fotografías son obra protegida por derechos de autor: no se autoriza su entrenamiento ni su reproducción.
+User-Agent: *
+Allow: /
+Disallow-Training: /images
+Contact: https://instagram.com/meltrujilloweddings

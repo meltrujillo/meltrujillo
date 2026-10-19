@@ -82,8 +82,18 @@ async function graphRequest(path, { method = 'GET', query = {}, body } = {}) {
 
   const json = await res.json().catch(() => ({}));
   if (!res.ok) {
-    const msg = (json && json.error && json.error.message) || 'HTTP ' + res.status;
-    throw new Error('Meta respondió: ' + msg);
+    // Detalle completo del error de Meta (sin datos personales) para poder diagnosticar en los registros de Netlify
+    const e = (json && json.error) || {};
+    const detail = [
+      e.message || 'HTTP ' + res.status,
+      e.code ? 'code ' + e.code : '',
+      e.error_subcode ? 'subcode ' + e.error_subcode : '',
+      e.error_user_msg || '',
+      e.fbtrace_id ? 'trace ' + e.fbtrace_id : '',
+    ]
+      .filter(Boolean)
+      .join(' | ');
+    throw new Error('Meta respondió (' + method + ' ' + path + '): ' + detail);
   }
   return json;
 }

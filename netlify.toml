@@ -1,0 +1,12 @@
+# Configuración de Netlify para meltrujillo.com
+# El sitio es una sola página (index.html en la raíz) y las funciones viven en netlify/functions.
+
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+[functions]
+  node_bundler = "esbuild"

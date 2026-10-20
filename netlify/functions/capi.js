@@ -19,7 +19,18 @@ const crypto = require('crypto');
 const GRAPH = 'https://graph.facebook.com/' + (process.env.META_GRAPH_VERSION || 'v23.0');
 
 const ALLOWED_ORIGINS = ['https://meltrujillo.com', 'https://www.meltrujillo.com'];
-const ALLOWED_EVENTS = ['PageView', 'ViewContent', 'Contact', 'Lead'];
+// Desde el navegador solo entran estos tres. "Lead" lo envía únicamente cal-webhook.js,
+// que verifica la firma de Cal.com. Así nadie puede fabricar Leads falsos que contaminen la optimización.
+const ALLOWED_EVENTS = ['PageView', 'ViewContent', 'Contact'];
+const ALLOWED_CONTENT_NAMES = ['colecciones', 'agendar_llamada'];
+
+// Límites de protección (se reinician si Netlify apaga la función por inactividad, y aun así frenan el abuso normal)
+const MAX_BODY_BYTES = 2048;
+const RATE_WINDOW_MS = 10 * 60 * 1000;
+const RATE_MAX_PER_IP = 30;      // eventos por IP cada 10 minutos
+const RATE_MAX_GLOBAL = 1500;    // eventos en total cada 10 minutos
+const SEEN_TTL_MS = 60 * 60 * 1000;
+const BOT_UA = /bot|crawl|spider|slurp|headless|phantom|curl|wget|python|axios|node-fetch|go-http|java\/|okhttp|postman|insomnia|scrapy|httpclient/i;
 
 // ---------- Hash y normalización ----------
 
@@ -185,43 +196,109 @@ const json = (statusCode, obj) => ({
 
 const header = (event, name) => (event.headers && event.headers[name]) || '';
 
+// Memoria temporal de la función (por instancia)
+const rateByIp = new Map();
+let rateGlobal = { start: Date.now(), count: 0 };
+const seenEventIds = new Map();
+
+function overRateLimit(ip) {
+  const now = Date.now();
+  if (now - rateGlobal.start > RATE_WINDOW_MS) rateGlobal = { start: now, count: 0 };
+  rateGlobal.count += 1;
+  if (rateGlobal.count > RATE_MAX_GLOBAL) return true;
+
+  const key = ip || 'sin-ip';
+  let entry = rateByIp.get(key);
+  if (!entry || now - entry.start > RATE_WINDOW_MS) entry = { start: now, count: 0 };
+  entry.count += 1;
+  rateByIp.set(key, entry);
+
+  if (rateByIp.size > 5000) {
+    for (const [k, v] of rateByIp) if (now - v.start > RATE_WINDOW_MS) rateByIp.delete(k);
+  }
+  return entry.count > RATE_MAX_PER_IP;
+}
+
+function alreadySeen(eventId) {
+  const now = Date.now();
+  if (seenEventIds.size > 5000) {
+    for (const [k, t] of seenEventIds) if (now - t > SEEN_TTL_MS) seenEventIds.delete(k);
+  }
+  if (seenEventIds.has(eventId) && now - seenEventIds.get(eventId) < SEEN_TTL_MS) return true;
+  seenEventIds.set(eventId, now);
+  return false;
+}
+
+// La URL de origen del evento solo se acepta si es de este sitio; si no, se usa la portada.
+function safeSourceUrl(value) {
+  try {
+    const u = new URL(String(value || ''));
+    if (u.protocol === 'https:' && ALLOWED_ORIGINS.includes(u.origin)) return u.origin + u.pathname;
+  } catch (e) { /* cae a la portada */ }
+  return ALLOWED_ORIGINS[0] + '/';
+}
+
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') return json(405, { error: 'Método no permitido' });
 
   const origin = header(event, 'origin');
   if (!ALLOWED_ORIGINS.includes(origin)) return json(403, { error: 'Origen no permitido' });
 
+  // Un navegador real que viene de este sitio nunca envía "cross-site"
+  const fetchSite = header(event, 'sec-fetch-site');
+  if (fetchSite && fetchSite !== 'same-origin') return json(403, { error: 'Solicitud no permitida' });
+
+  // Si trae Referer, debe ser de este sitio
+  const referer = header(event, 'referer');
+  if (referer && !ALLOWED_ORIGINS.some((o) => referer === o || referer.startsWith(o + '/'))) {
+    return json(403, { error: 'Referer no permitido' });
+  }
+
+  if (!/^application\/json/i.test(header(event, 'content-type'))) return json(415, { error: 'Tipo de contenido no permitido' });
+
+  const ua = header(event, 'user-agent');
+  if (!ua || BOT_UA.test(ua)) return json(403, { error: 'Cliente no permitido' });
+
+  const rawBody = event.body || '';
+  if (Buffer.byteLength(rawBody, 'utf8') > MAX_BODY_BYTES) return json(413, { error: 'Mensaje demasiado grande' });
+
   let data;
   try {
-    data = JSON.parse(event.body || '{}');
+    data = JSON.parse(rawBody || '{}');
   } catch (e) {
     return json(400, { error: 'JSON inválido' });
   }
+  if (!data || typeof data !== 'object' || Array.isArray(data)) return json(400, { error: 'JSON inválido' });
 
   if (!ALLOWED_EVENTS.includes(data.event_name)) return json(400, { error: 'Evento no permitido' });
-  if (!data.event_id || typeof data.event_id !== 'string') return json(400, { error: 'Falta event_id' });
+  if (typeof data.event_id !== 'string' || !/^[A-Za-z0-9-]{8,64}$/.test(data.event_id)) {
+    return json(400, { error: 'event_id inválido' });
+  }
 
   const ip =
     header(event, 'x-nf-client-connection-ip') ||
     header(event, 'x-forwarded-for').split(',')[0].trim();
 
+  if (overRateLimit(ip)) return json(429, { error: 'Demasiados eventos, intenta más tarde' });
+
+  // Mismo evento repetido: se responde bien pero no se reenvía a Meta
+  if (alreadySeen(data.event_id)) return json(200, { ok: true, duplicado: true });
+
   const userData = {
     client_ip_address: ip || undefined,
-    client_user_agent: header(event, 'user-agent') || undefined,
+    client_user_agent: ua || undefined,
   };
   if (/^fb\.\d\.\d+\.\d+$/.test(data.fbp || '')) userData.fbp = data.fbp;
   if (/^fb\.\d\.\d+\.[\w-]+$/.test(data.fbc || '')) userData.fbc = data.fbc;
 
   const customData = {};
-  ['content_name', 'content_category'].forEach((k) => {
-    if (typeof data[k] === 'string') customData[k] = data[k].slice(0, 100);
-  });
+  if (ALLOWED_CONTENT_NAMES.includes(data.content_name)) customData.content_name = data.content_name;
 
   try {
     await sendEvent({
       eventName: data.event_name,
       eventId: data.event_id,
-      sourceUrl: typeof data.event_source_url === 'string' ? data.event_source_url : ALLOWED_ORIGINS[0] + '/',
+      sourceUrl: safeSourceUrl(data.event_source_url),
       userData,
       customData: Object.keys(customData).length ? customData : undefined,
     });
@@ -233,6 +310,7 @@ exports.handler = async (event) => {
 };
 
 // Ayudantes para cal-webhook.js
+exports.__test = { rateByIp, seenEventIds, resetRate: () => { rateByIp.clear(); seenEventIds.clear(); rateGlobal = { start: Date.now(), count: 0 }; } };
 exports.helpers = {
   hashEmail,
   hashPhone,

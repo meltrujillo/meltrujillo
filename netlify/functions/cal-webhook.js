@@ -53,6 +53,18 @@ function findPhone(payload, attendee) {
   );
 }
 
+// Cookies de Meta que la landing agrega al enlace de Cal.com (metadata[fbp] y metadata[fbc]).
+// Se validan con el formato oficial antes de usarlas.
+function findMetaCookies(payload) {
+  const m = (payload && payload.metadata) || {};
+  const out = {};
+  if (typeof m.fbp === 'string' && /^fb\.\d\.\d+\.\d+$/.test(m.fbp)) out.fbp = m.fbp;
+  if (typeof m.fbc === 'string' && /^fb\.\d\.\d+\.[\w-]+$/.test(m.fbc)) out.fbc = m.fbc;
+  return out;
+}
+
+exports.__test = { findMetaCookies };
+
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') return json(405, { error: 'Método no permitido' });
 
@@ -101,6 +113,7 @@ exports.handler = async (event) => {
     country: phone.startsWith('57') ? helpers.hashText('co') : undefined,
   };
 
+  const metaCookies = findMetaCookies(payload);
   const eventName = kind === 'lead' ? 'Lead' : 'Schedule';
   const audienceName = kind === 'lead' ? AUDIENCE_LEAD : AUDIENCE_CLIENTE;
 
@@ -115,6 +128,8 @@ exports.handler = async (event) => {
         fn: hashed.fn ? [hashed.fn] : undefined,
         ln: hashed.ln ? [hashed.ln] : undefined,
         country: hashed.country ? [hashed.country] : undefined,
+        fbp: metaCookies.fbp,
+        fbc: metaCookies.fbc,
       },
       customData: { content_name: slug },
     }),
@@ -144,5 +159,6 @@ exports.handler = async (event) => {
     evento: eventName,
     capi: capi.status,
     audiencia: audience.status,
+    cookiesMeta: Object.keys(metaCookies),
   });
 };

@@ -80,6 +80,24 @@
     }, 1200);
   }
 
+  // ---------- Cookies de Meta dentro de la reserva de Cal.com ----------
+  // Al ir a Cal.com se agregan _fbp y _fbc al enlace como metadata de la reserva. Cal.com los guarda con la
+  // reserva y los entrega al webhook, que los reenvía a Meta para reconocer mejor a quien agendó.
+  // Solo ocurre si la persona aceptó las cookies.
+  function addMetaCookiesToLink(link) {
+    if (readConsent() !== 'yes') return;
+    var fbp = getCookie('_fbp');
+    var fbc = getCookie('_fbc') || fbcFromUrl();
+    if (!fbp && !fbc) return;
+    try {
+      var url = new URL(link.href, window.location.href);
+      if (url.hostname !== 'cal.com' && url.hostname !== 'www.cal.com') return;
+      if (fbp) url.searchParams.set('metadata[fbp]', fbp);
+      if (fbc) url.searchParams.set('metadata[fbc]', fbc);
+      link.href = url.toString();
+    } catch (e) { /* si falla, el enlace queda como estaba */ }
+  }
+
   // ---------- Los tres momentos que se miden ----------
   var listenersReady = false;
   function startMeasuring() {
@@ -102,7 +120,10 @@
 
     document.addEventListener('click', function (event) {
       var link = event.target.closest && event.target.closest('a[href*="cal.com/meltrujillo"]');
-      if (link) track('Contact', { content_name: 'agendar_llamada' });
+      if (link) {
+        addMetaCookiesToLink(link);
+        track('Contact', { content_name: 'agendar_llamada' });
+      }
     });
   }
 

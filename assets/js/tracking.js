@@ -10,15 +10,16 @@
  *
  * EVENTOS (nombre en Meta · qué ocurre · quién lo envía)
  *   PageView             entran a cualquier página                              navegador + servidor
- *   ViewContent          llegan a las colecciones (portada) o abren un recurso  navegador + servidor
- *   InteresadoEnReunion  clic en cualquier botón que lleva a agendar en Cal.com navegador + servidor  (personalizado)
+ *   ViewContent          "Contenido visualizado": vieron la landing (o abrieron un recurso)  navegador + servidor
+ *   InitiateCheckout     "Inicio de compra": clic en cualquier botón "Agendar reunión" (Cal.com)  navegador + servidor
+ *                        (cuando exista el botón de pago, ese botón pasa a ser el inicio de compra: ver CAL_CLICK_EVENT)
+ *   Lead                 "Cliente potencial": reservaron la reunión en Cal.com   SOLO cal-webhook.js (servidor)
+ *   Contact              "Contacto": confirmación por WhatsApp (data-mt-event="Contact")  navegador + servidor
+ *   Schedule             "Programar": agendaron su sesión (no sale de esta página; ver cal-webhook.js)
+ *   Purchase             "Compra": pagaron su sesión. Nunca sale del navegador: se sube desde una fuente verificada
  *   VioPortafolio        abren una foto del portafolio                          navegador + servidor  (personalizado)
  *   VerBlog              abren el blog o un artículo                            navegador + servidor  (personalizado)
- *   IniciaEnBlog         hacen clic hacia la portada o hacia agendar desde el blog  navegador + servidor (personalizado)
- *   Contact              clic en WhatsApp (data-mt-event="Contact") o llegada a la página de gracias
- *   InitiateCheckout     llegada a una página de pago (data-page-event="InitiateCheckout")
- *   Lead y Schedule      los envía SOLO cal-webhook.js cuando Cal.com confirma la reserva (servidor)
- *   Purchase             nunca sale del navegador: se sube desde una fuente verificada (CSV offline o pasarela)
+ *   IniciaEnBlog         desde el blog hacen clic hacia la portada o hacia agendar  navegador + servidor (personalizado)
  *
  * CÓMO SE USA EN CUALQUIER PÁGINA NUEVA
  *   <body data-page="landing|blog|blog-post|recurso|gracias" data-slug="nombre-corto">
@@ -34,6 +35,10 @@
   var PIXEL_ID = '1094122853434268';
   var CAPI_URL = '/.netlify/functions/capi';
   var STORAGE_KEY = 'mt_consent_v1';
+  // Qué evento de Meta representa el clic en "Agendar reunión".
+  // Hoy es el inicio de compra (InitiateCheckout). Cuando exista el botón de pago, cambiar esta línea a
+  // 'InteresadoEnReunion' y poner data-mt-event="InitiateCheckout" en el botón de pago.
+  var CAL_CLICK_EVENT = 'InitiateCheckout';
 
   // ---------- Decisión de la persona (localStorage puede fallar: siempre con try/catch) ----------
   function readConsent() {
@@ -172,19 +177,8 @@
       track(pageEvent, { content_name: safeLabel(SLUG) || safeLabel(PAGE) });
     }
 
-    // Portada: llegaron a las colecciones.
-    var section = document.getElementById('colecciones');
-    if (section && 'IntersectionObserver' in window) {
-      var seen = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            seen.disconnect();
-            track('ViewContent', { content_name: 'colecciones' });
-          }
-        });
-      }, { threshold: 0.25 });
-      seen.observe(section);
-    }
+    // Landing: "Contenido visualizado".
+    if (PAGE === 'landing') track('ViewContent', { content_name: 'landing' });
 
     // Clics
     document.addEventListener('click', function (event) {
@@ -196,7 +190,7 @@
       if (link && isCalLink(link)) {
         addMetaCookiesToLink(link);
         var label = safeLabel(link.getAttribute('data-mt-label')) || positionOf(link);
-        track('InteresadoEnReunion', { content_name: label });
+        track(CAL_CLICK_EVENT, { content_name: label });
         if (IN_BLOG) track('IniciaEnBlog', { content_name: 'agendar' });
         return;
       }
@@ -211,7 +205,7 @@
       var marked = target.closest('[data-mt-event]');
       if (marked) {
         var name = marked.getAttribute('data-mt-event');
-        var allowed = ['Contact', 'VioPortafolio'];
+        var allowed = ['Contact', 'VioPortafolio', 'InitiateCheckout'];
         if (allowed.indexOf(name) === -1) return;
         var key = name + ':' + (marked.getAttribute('data-mt-label') || '');
         if (marked.hasAttribute('data-mt-once') && firedOnce[key]) return;

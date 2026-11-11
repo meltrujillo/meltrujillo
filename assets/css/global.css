@@ -85,6 +85,7 @@ nav.site-nav{
 nav.site-nav a{ text-decoration:none; opacity:0.75; }
 nav.site-nav a:hover{ opacity:1; }
 a.header-cta-mobile{ display:none; } /* solo se activa en el bloque móvil */
+.menu-toggle, .logo-mark-link, .menu-extra{ display:none; } /* menú hamburguesa, logo MT y enlaces extra: solo celular */
 
 /* ---------- Buttons ---------- */
 .btn{

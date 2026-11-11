@@ -77,7 +77,10 @@
 }
 .hero-actions{ margin-top:26px; }
 .hero .microcopy{ color:rgba(255,255,255,0.75); }
-.hero-cta-mobile{ display:none; } /* solo se activa en el bloque móvil */
+/* Carrusel de fotos del hero: en PC se ve solo la primera, igual que antes */
+.hero-slides{ position:absolute; inset:0; z-index:0; }
+.hero-extra{ display:none; }
+.hero-arrow{ display:none; }
 
 /* ---------- Sections (mobile-first) ---------- */
 section{ padding-block:52px; }
@@ -532,65 +535,208 @@ blockquote.pull.soft{
    ========================================================== */
 @media (max-width:767.98px){
 
-  /* --- Encabezado: logo a la izquierda, botón bien a la derecha --- */
-  header.site{ flex-wrap:nowrap; padding-block:8px; }
-  header.site .logo-mark{
-    display:block;
-    width:72px;
-    height:72px;
-    max-width:72px;
-    object-fit:contain;
-    overflow:hidden;
-    flex-shrink:0;
+  /* --- Barra superior oscura: menú hamburguesa, nombre al centro, logo MT a la derecha --- */
+  .top-bar{
+    position:relative;
+    z-index:20;
+    max-width:none;
+    background:#16130f;
+    border-bottom:1px solid rgba(255,255,255,0.12);
   }
-  header.site .logo-lockup{ margin-right:auto; flex-shrink:0; }
-  header.site .logo-lockup .word{ display:none; }
-  header.site nav.site-nav{ gap:0; margin-left:auto; flex-shrink:0; }
-  header.site nav.site-nav a:not(.header-cta-mobile){ display:none; }
-  header.site a.header-cta-mobile{
-    display:inline-block;
-    margin-left:auto;
-    padding:15px 22px;
-    font-size:12.5px;
-    letter-spacing:0.06em;
-    white-space:nowrap;
-    flex-shrink:0;
+  header.site{
+    display:grid;
+    grid-template-columns:52px 1fr 52px;
+    align-items:center;
+    gap:0;
+    padding-block:10px;
   }
-
-  /* --- Hero: reordenar contenido, achicar el título, sacar el botón --- */
-  .hero{ min-height:86vh; }
-  .hero-content{
-    position:absolute;
-    inset:0;
+  .menu-toggle{
     display:flex;
     flex-direction:column;
-    justify-content:flex-start;
-    padding-block:84px 30px;
-    text-shadow:0 1px 16px rgba(0,0,0,0.5);
+    justify-content:center;
+    gap:9px;
+    width:52px;
+    height:52px;
+    padding:0;
+    background:none;
+    border:0;
+    cursor:pointer;
   }
-  /* Orden en celular: titular y párrafo arriba, luego la línea de ubicación, y al fondo el lema */
-  .hero-content h1{ order:1; }
-  .hero-content p.lede{ order:2; }
-  .hero-content .eyebrow{ order:3; margin:24px 0 0; }
-  .hero-content .tagline{ order:4; margin-top:auto; margin-bottom:0; padding-top:32px; }
-  /* Con el texto más arriba (sobre el cielo) la foto se oscurece un poco para que se lea bien */
-  .hero-scrim{
-    background:linear-gradient(180deg, rgba(20,17,14,0.52) 0%, rgba(20,17,14,0.44) 38%, rgba(20,17,14,0.5) 62%, rgba(20,17,14,0.8) 100%);
-  }
-  .hero-content .hero-actions{ display:none; }
-  .hero .eyebrow{
-    font-size:13.5px;
-    letter-spacing:0.08em;
+  .menu-toggle span{ display:block; height:2px; background:#f1e4d8; width:34px; }
+  .menu-toggle span:last-child{ width:24px; }
+  .menu-toggle:focus-visible{ outline:2px solid #f1e4d8; outline-offset:2px; }
+  header.site .logo-lockup{ justify-self:center; margin:0; }
+  header.site .logo-lockup .word{
+    display:block;
+    font-size:12.5px;
+    letter-spacing:0.2em;
+    color:#f1e4d8;
     white-space:nowrap;
   }
-  .hero h1{ font-size:clamp(22px, 6vw, 38px); }
-
-  .hero-cta-mobile{
+  header.site .logo-mark-link{ display:flex; justify-self:end; align-items:center; width:52px; height:52px; }
+  header.site .logo-mark{
     display:block;
-    text-align:center;
-    padding-block:34px 30px;
+    width:48px;
+    height:48px;
+    max-width:48px;
+    object-fit:contain;
+    filter:brightness(0) invert(1); /* el logo se ve en blanco sobre la barra oscura */
   }
-  .hero-cta-mobile .microcopy{ margin-top:12px; }
+  /* Menú desplegable: se abre con la hamburguesa */
+  header.site nav.site-nav{
+    display:none;
+    position:absolute;
+    top:100%;
+    left:0;
+    right:0;
+    flex-direction:column;
+    gap:0;
+    margin:0;
+    background:#16130f;
+    border-bottom:1px solid rgba(255,255,255,0.12);
+    padding:6px 20px 14px;
+  }
+  header.site nav.site-nav.is-open{ display:flex; }
+  header.site nav.site-nav a:not(.header-cta-mobile){
+    display:block;
+    opacity:1;
+    color:#f1e4d8;
+    font-size:13px;
+    letter-spacing:0.14em;
+    padding:15px 0;
+    border-bottom:1px solid rgba(255,255,255,0.08);
+  }
+  header.site nav.site-nav a.menu-extra{ display:block; }
+  header.site a.header-cta-mobile{ display:none; }
+
+  /* --- Hero: foto a pantalla completa con el botón arriba. El texto queda debajo de la foto --- */
+  .hero{
+    --hero-h:calc(100vh - 73px);
+    --hero-h:calc(100svh - 73px);
+    display:block;
+    min-height:0;
+    overflow:visible;
+    background:var(--bg);
+  }
+  .hero-slides{
+    position:relative;
+    inset:auto;
+    height:var(--hero-h);
+    display:flex;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    scrollbar-width:none;
+    overscroll-behavior-x:contain;
+  }
+  .hero-slides::-webkit-scrollbar{ display:none; }
+  .hero-slides .hero-bg,
+  .hero-slides .hero-extra{
+    display:block;
+    position:relative;
+    flex:0 0 100%;
+    height:100%;
+    scroll-snap-align:center;
+    scroll-snap-stop:always;
+  }
+  /* Orden en celular: primero la foto del anuncio, luego la de siempre, luego las demás */
+  .hero-scrim{
+    inset:0 0 auto 0;
+    height:var(--hero-h);
+    pointer-events:none;
+    background:linear-gradient(180deg, rgba(20,17,14,0.34) 0%, rgba(20,17,14,0.04) 26%, rgba(20,17,14,0) 100%);
+  }
+  .hero-content{
+    position:static;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    padding-block:34px 14px;
+    text-shadow:none;
+  }
+  .hero-content .eyebrow{ color:var(--ink-soft); font-size:12.5px; letter-spacing:0.12em; white-space:nowrap; margin:0; }
+  .hero-content .tagline{ color:var(--wine); font-size:clamp(28px, 8vw, 36px); margin:10px 0 0; padding:0; }
+  .hero-content h1{ color:var(--ink); font-size:clamp(26px, 7.4vw, 40px); margin-block:10px 0; }
+  .hero-content p.lede{ color:var(--ink-soft); font-size:17px; line-height:1.6; max-width:34ch; margin:18px auto 0; }
+  /* Botón sobre la foto, arriba al centro, blanco con degradado y sin subtítulo */
+  .hero-content .hero-actions{
+    position:absolute;
+    top:20px;
+    left:0;
+    right:0;
+    margin:0;
+    text-align:center;
+    z-index:3;
+  }
+  .hero-content .hero-actions .microcopy{ display:none; }
+  .hero-content .hero-actions .btn-primary{
+    background:linear-gradient(180deg, #ffffff 0%, #e6e4e1 100%);
+    color:#221F1B;
+    border:1px solid #ffffff;
+    text-shadow:none;
+    box-shadow:0 6px 22px rgba(0,0,0,0.3);
+  }
+
+  /* Flechas para pasar las fotos */
+  .hero-arrow{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:absolute;
+    top:calc(var(--hero-h) / 2);
+    transform:translateY(-50%);
+    z-index:3;
+    width:44px;
+    height:44px;
+    padding:0;
+    font-size:26px;
+    line-height:1;
+    color:#fff;
+    background:rgba(20,17,14,0.28);
+    border:0;
+    border-radius:50%;
+    cursor:pointer;
+    text-shadow:0 1px 8px rgba(0,0,0,0.5);
+  }
+  .hero-arrow.prev{ left:8px; }
+  .hero-arrow.next{ right:8px; }
+  .hero-arrow:focus-visible{ outline:2px solid #fff; outline-offset:2px; }
+
+  /* --- Colecciones: mazo de cartas en la mano. La de adelante se lee completa, las de atrás asoman por arriba --- */
+  .coll-deck{
+    --peek:66px;
+    position:relative;
+    display:block;
+    overflow:visible;
+    scroll-snap-type:none;
+    margin-inline:0;
+    padding:0;
+    height:calc(min(300px, 78vw) + var(--peek) * 3 + 44px);
+    touch-action:pan-y;
+  }
+  .coll-card{
+    --pos:0; --rot:0deg;
+    position:absolute;
+    left:50%;
+    bottom:20px;
+    width:min(300px, 78vw);
+    max-width:none;
+    flex:none;
+    margin-left:calc(min(300px, 78vw) / -2);
+    transform-origin:50% 100%;
+    transform:translateY(calc(var(--pos) * var(--peek) * -1)) rotate(var(--rot)) scale(calc(1 - var(--pos) * 0.045));
+    z-index:calc(10 - var(--pos));
+    transition:transform .45s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease;
+    box-shadow:0 10px 26px rgba(34,31,27,0.16);
+    cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .coll-card[data-pos="0"]{ --rot:0deg; cursor:default; box-shadow:0 18px 40px rgba(34,31,27,0.22); }
+  .coll-card[data-pos="1"]{ --pos:1; --rot:-3.5deg; }
+  .coll-card[data-pos="2"]{ --pos:2; --rot:3deg; }
+  .coll-card[data-pos="3"]{ --pos:3; --rot:-2deg; }
+  .coll-card:not([data-pos="0"]) .coll-card-inner > :not(.coll-name){ visibility:hidden; }
+  .coll-deck-hint{ margin-top:6px; }
 
   /* --- Cómo funciona: pasos centrados --- */
   .steps{ text-align:center; }

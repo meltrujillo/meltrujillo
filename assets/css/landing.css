@@ -77,7 +77,11 @@
 }
 .hero-actions{ margin-top:26px; }
 .hero .microcopy{ color:rgba(255,255,255,0.75); }
-.hero-cta-mobile{ display:none; } /* solo se activa en el bloque móvil */
+.hero-lede-mobile{ display:none; } /* solo se activa en el bloque móvil */
+/* Carrusel de fotos del hero: en PC se ve solo la primera, igual que antes */
+.hero-slides{ position:absolute; inset:0; z-index:0; }
+.hero-extra{ display:none; }
+.hero-arrow{ display:none; }
 
 /* ---------- Sections (mobile-first) ---------- */
 section{ padding-block:52px; }
@@ -532,65 +536,167 @@ blockquote.pull.soft{
    ========================================================== */
 @media (max-width:767.98px){
 
-  /* --- Encabezado: logo a la izquierda, botón bien a la derecha --- */
-  header.site{ flex-wrap:nowrap; padding-block:8px; }
+  /* --- Barra superior oscura: menú hamburguesa, nombre al centro, logo MT a la derecha --- */
+  .top-bar{
+    position:relative;
+    z-index:20;
+    max-width:none;
+    background:#16130f;
+    border-bottom:1px solid rgba(255,255,255,0.12);
+  }
+  header.site{
+    display:grid;
+    grid-template-columns:52px 1fr 52px;
+    align-items:center;
+    gap:0;
+    padding-block:10px;
+  }
+  .menu-toggle{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    gap:9px;
+    width:52px;
+    height:52px;
+    padding:0;
+    background:none;
+    border:0;
+    cursor:pointer;
+  }
+  .menu-toggle span{ display:block; height:2px; background:#f1e4d8; width:34px; }
+  .menu-toggle span:last-child{ width:24px; }
+  .menu-toggle:focus-visible{ outline:2px solid #f1e4d8; outline-offset:2px; }
+  header.site .logo-lockup{ justify-self:center; margin:0; }
+  header.site .logo-lockup .word{
+    display:block;
+    font-size:12.5px;
+    letter-spacing:0.2em;
+    color:#f1e4d8;
+    white-space:nowrap;
+  }
+  header.site .logo-mark-link{ display:flex; justify-self:end; align-items:center; width:52px; height:52px; }
   header.site .logo-mark{
     display:block;
-    width:72px;
-    height:72px;
-    max-width:72px;
+    width:48px;
+    height:48px;
+    max-width:48px;
     object-fit:contain;
-    overflow:hidden;
-    flex-shrink:0;
+    filter:brightness(0) invert(1); /* el logo se ve en blanco sobre la barra oscura */
   }
-  header.site .logo-lockup{ margin-right:auto; flex-shrink:0; }
-  header.site .logo-lockup .word{ display:none; }
-  header.site nav.site-nav{ gap:0; margin-left:auto; flex-shrink:0; }
-  header.site nav.site-nav a:not(.header-cta-mobile){ display:none; }
-  header.site a.header-cta-mobile{
-    display:inline-block;
-    margin-left:auto;
-    padding:15px 22px;
-    font-size:12.5px;
-    letter-spacing:0.06em;
-    white-space:nowrap;
-    flex-shrink:0;
+  /* Menú desplegable: se abre con la hamburguesa */
+  header.site nav.site-nav{
+    display:none;
+    position:absolute;
+    top:100%;
+    left:0;
+    right:0;
+    flex-direction:column;
+    gap:0;
+    margin:0;
+    background:#16130f;
+    border-bottom:1px solid rgba(255,255,255,0.12);
+    padding:6px 20px 14px;
   }
+  header.site nav.site-nav.is-open{ display:flex; }
+  header.site nav.site-nav a:not(.header-cta-mobile){
+    display:block;
+    opacity:1;
+    color:#f1e4d8;
+    font-size:13px;
+    letter-spacing:0.14em;
+    padding:15px 0;
+    border-bottom:1px solid rgba(255,255,255,0.08);
+  }
+  header.site nav.site-nav a.menu-extra{ display:block; }
+  header.site a.header-cta-mobile{ display:none; }
 
-  /* --- Hero: reordenar contenido, achicar el título, sacar el botón --- */
-  .hero{ min-height:86vh; }
+  /* --- Hero: foto a pantalla completa, botón arriba al centro, texto abajo sobre la foto --- */
+  .hero{ min-height:calc(100vh - 76px); min-height:calc(100svh - 76px); }
+  .hero-slides{
+    display:flex;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    scrollbar-width:none;
+    overscroll-behavior-x:contain;
+  }
+  .hero-slides::-webkit-scrollbar{ display:none; }
+  .hero-slides .hero-bg,
+  .hero-slides .hero-extra{
+    display:block;
+    position:relative;
+    flex:0 0 100%;
+    scroll-snap-align:center;
+    scroll-snap-stop:always;
+  }
+  .hero-scrim,
+  .hero-content{ pointer-events:none; }
+  .hero-content a{ pointer-events:auto; }
   .hero-content{
     position:absolute;
     inset:0;
     display:flex;
     flex-direction:column;
     justify-content:flex-start;
-    padding-block:84px 30px;
+    align-items:center;
+    text-align:center;
+    padding-block:20px 34px;
     text-shadow:0 1px 16px rgba(0,0,0,0.5);
   }
-  /* Orden en celular: titular y párrafo arriba, luego la línea de ubicación, y al fondo el lema */
-  .hero-content h1{ order:1; }
-  .hero-content p.lede{ order:2; }
-  .hero-content .eyebrow{ order:3; margin:24px 0 0; }
-  .hero-content .tagline{ order:4; margin-top:auto; margin-bottom:0; padding-top:32px; }
-  /* Con el texto más arriba (sobre el cielo) la foto se oscurece un poco para que se lea bien */
-  .hero-scrim{
-    background:linear-gradient(180deg, rgba(20,17,14,0.52) 0%, rgba(20,17,14,0.44) 38%, rgba(20,17,14,0.5) 62%, rgba(20,17,14,0.8) 100%);
+  .hero-content .hero-actions{ display:block; order:0; margin-top:0; text-align:center; }
+  .hero-content .hero-actions .btn-primary{
+    background:#f1e4d8;
+    color:#221F1B;
+    border-color:#f1e4d8;
+    text-shadow:none;
+    box-shadow:0 6px 22px rgba(0,0,0,0.28);
   }
-  .hero-content .hero-actions{ display:none; }
+  .hero-content .hero-actions .microcopy{ margin-top:10px; font-size:12.5px; color:#fff; }
+  .hero-content .eyebrow{ order:1; margin:auto 0 0; }
+  .hero-content .tagline{ order:2; margin:10px 0 0; padding-top:0; }
+  .hero-content h1{ order:3; margin-block:8px 0; }
+  .hero-content p.lede{ display:none; }
+  .hero-scrim{
+    background:linear-gradient(180deg, rgba(20,17,14,0.38) 0%, rgba(20,17,14,0.04) 24%, rgba(20,17,14,0.04) 52%, rgba(20,17,14,0.82) 100%);
+  }
   .hero .eyebrow{
-    font-size:13.5px;
-    letter-spacing:0.08em;
+    font-size:13px;
+    letter-spacing:0.1em;
     white-space:nowrap;
   }
-  .hero h1{ font-size:clamp(22px, 6vw, 38px); }
+  .hero h1{ font-size:clamp(26px, 7.4vw, 40px); }
 
-  .hero-cta-mobile{
+  /* Flechas para pasar las fotos */
+  .hero-arrow{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    z-index:3;
+    width:44px;
+    height:44px;
+    padding:0;
+    font-size:26px;
+    line-height:1;
+    color:#fff;
+    background:rgba(20,17,14,0.28);
+    border:0;
+    border-radius:50%;
+    cursor:pointer;
+    text-shadow:0 1px 8px rgba(0,0,0,0.5);
+  }
+  .hero-arrow.prev{ left:8px; }
+  .hero-arrow.next{ right:8px; }
+  .hero-arrow:focus-visible{ outline:2px solid #fff; outline-offset:2px; }
+
+  /* Párrafo de apoyo, justo debajo de la foto */
+  .hero-lede-mobile{
     display:block;
     text-align:center;
-    padding-block:34px 30px;
+    padding-block:30px 26px;
   }
-  .hero-cta-mobile .microcopy{ margin-top:12px; }
+  .hero-lede-mobile p{ margin:0 auto; max-width:34ch; font-size:17px; line-height:1.6; color:var(--ink-soft); }
 
   /* --- Cómo funciona: pasos centrados --- */
   .steps{ text-align:center; }

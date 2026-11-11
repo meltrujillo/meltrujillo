@@ -80,3 +80,36 @@
     }, { passive:true, once:true });
   });
 })();
+
+
+/* ---------- Menú hamburguesa y flechas del hero (celular) ---------- */
+(function(){
+  var toggle = document.querySelector('.menu-toggle');
+  var menu = document.getElementById('site-menu');
+  if(toggle && menu){
+    var setOpen = function(open){
+      menu.classList.toggle('is-open', open);
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      toggle.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+    };
+    toggle.addEventListener('click', function(){ setOpen(!menu.classList.contains('is-open')); });
+    menu.addEventListener('click', function(e){ if(e.target.closest('a')) setOpen(false); });
+    document.addEventListener('keydown', function(e){ if(e.key === 'Escape') setOpen(false); });
+  }
+  var slides = document.getElementById('heroSlides');
+  if(slides){
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var go = function(dir){
+      var w = slides.clientWidth;
+      var last = slides.scrollWidth - w - 4;
+      var next = slides.scrollLeft + dir * w;
+      if(next < 0) next = last + 4;
+      else if(next > last + 4) next = 0;
+      slides.scrollTo({ left: next, behavior: reduce ? 'auto' : 'smooth' });
+    };
+    var prev = document.querySelector('.hero-arrow.prev');
+    var nxt = document.querySelector('.hero-arrow.next');
+    if(prev) prev.addEventListener('click', function(){ go(-1); });
+    if(nxt) nxt.addEventListener('click', function(){ go(1); });
+  }
+})();

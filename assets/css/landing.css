@@ -77,7 +77,6 @@
 }
 .hero-actions{ margin-top:26px; }
 .hero .microcopy{ color:rgba(255,255,255,0.75); }
-.hero-lede-mobile{ display:none; } /* solo se activa en el bloque móvil */
 /* Carrusel de fotos del hero: en PC se ve solo la primera, igual que antes */
 .hero-slides{ position:absolute; inset:0; z-index:0; }
 .hero-extra{ display:none; }
@@ -610,9 +609,19 @@ blockquote.pull.soft{
   header.site nav.site-nav a.menu-extra{ display:block; }
   header.site a.header-cta-mobile{ display:none; }
 
-  /* --- Hero: foto a pantalla completa, botón arriba al centro, texto abajo sobre la foto --- */
-  .hero{ min-height:calc(100vh - 76px); min-height:calc(100svh - 76px); }
+  /* --- Hero: foto a pantalla completa con el botón arriba. El texto queda debajo de la foto --- */
+  .hero{
+    --hero-h:calc(100vh - 76px);
+    --hero-h:calc(100svh - 76px);
+    display:block;
+    min-height:0;
+    overflow:visible;
+    background:var(--bg);
+  }
   .hero-slides{
+    position:relative;
+    inset:auto;
+    height:var(--hero-h);
     display:flex;
     overflow-x:auto;
     scroll-snap-type:x mandatory;
@@ -625,45 +634,51 @@ blockquote.pull.soft{
     display:block;
     position:relative;
     flex:0 0 100%;
+    height:100%;
     scroll-snap-align:center;
     scroll-snap-stop:always;
   }
-  .hero-scrim,
-  .hero-content{ pointer-events:none; }
-  .hero-content a{ pointer-events:auto; }
+  /* Orden en celular: primero la foto del anuncio, luego la de siempre, luego las demás */
+  .hero-slides > img:nth-child(2){ order:1; }
+  .hero-slides > img:first-child{ order:2; }
+  .hero-slides > img:nth-child(n+3){ order:3; }
+  .hero-scrim{
+    inset:0 0 auto 0;
+    height:var(--hero-h);
+    pointer-events:none;
+    background:linear-gradient(180deg, rgba(20,17,14,0.34) 0%, rgba(20,17,14,0.04) 26%, rgba(20,17,14,0) 100%);
+  }
   .hero-content{
-    position:absolute;
-    inset:0;
+    position:static;
     display:flex;
     flex-direction:column;
-    justify-content:flex-start;
     align-items:center;
     text-align:center;
-    padding-block:20px 34px;
-    text-shadow:0 1px 16px rgba(0,0,0,0.5);
-  }
-  .hero-content .hero-actions{ display:block; order:0; margin-top:0; text-align:center; }
-  .hero-content .hero-actions .btn-primary{
-    background:#f1e4d8;
-    color:#221F1B;
-    border-color:#f1e4d8;
+    padding-block:34px 14px;
     text-shadow:none;
-    box-shadow:0 6px 22px rgba(0,0,0,0.28);
   }
-  .hero-content .hero-actions .microcopy{ margin-top:10px; font-size:12.5px; color:#fff; }
-  .hero-content .eyebrow{ order:1; margin:auto 0 0; }
-  .hero-content .tagline{ order:2; margin:10px 0 0; padding-top:0; }
-  .hero-content h1{ order:3; margin-block:8px 0; }
-  .hero-content p.lede{ display:none; }
-  .hero-scrim{
-    background:linear-gradient(180deg, rgba(20,17,14,0.38) 0%, rgba(20,17,14,0.04) 24%, rgba(20,17,14,0.04) 52%, rgba(20,17,14,0.82) 100%);
+  .hero-content .eyebrow{ color:var(--ink-soft); font-size:12.5px; letter-spacing:0.12em; white-space:nowrap; margin:0; }
+  .hero-content .tagline{ color:var(--wine); font-size:clamp(28px, 8vw, 36px); margin:10px 0 0; padding:0; }
+  .hero-content h1{ color:var(--ink); font-size:clamp(26px, 7.4vw, 40px); margin-block:10px 0; }
+  .hero-content p.lede{ color:var(--ink-soft); font-size:17px; line-height:1.6; max-width:34ch; margin:18px auto 0; }
+  /* Botón sobre la foto, arriba al centro, blanco con degradado y sin subtítulo */
+  .hero-content .hero-actions{
+    position:absolute;
+    top:20px;
+    left:0;
+    right:0;
+    margin:0;
+    text-align:center;
+    z-index:3;
   }
-  .hero .eyebrow{
-    font-size:13px;
-    letter-spacing:0.1em;
-    white-space:nowrap;
+  .hero-content .hero-actions .microcopy{ display:none; }
+  .hero-content .hero-actions .btn-primary{
+    background:linear-gradient(180deg, #ffffff 0%, #e6e4e1 100%);
+    color:#221F1B;
+    border:1px solid #ffffff;
+    text-shadow:none;
+    box-shadow:0 6px 22px rgba(0,0,0,0.3);
   }
-  .hero h1{ font-size:clamp(26px, 7.4vw, 40px); }
 
   /* Flechas para pasar las fotos */
   .hero-arrow{
@@ -671,7 +686,7 @@ blockquote.pull.soft{
     align-items:center;
     justify-content:center;
     position:absolute;
-    top:50%;
+    top:calc(var(--hero-h) / 2);
     transform:translateY(-50%);
     z-index:3;
     width:44px;
@@ -689,14 +704,6 @@ blockquote.pull.soft{
   .hero-arrow.prev{ left:8px; }
   .hero-arrow.next{ right:8px; }
   .hero-arrow:focus-visible{ outline:2px solid #fff; outline-offset:2px; }
-
-  /* Párrafo de apoyo, justo debajo de la foto */
-  .hero-lede-mobile{
-    display:block;
-    text-align:center;
-    padding-block:30px 26px;
-  }
-  .hero-lede-mobile p{ margin:0 auto; max-width:34ch; font-size:17px; line-height:1.6; color:var(--ink-soft); }
 
   /* --- Cómo funciona: pasos centrados --- */
   .steps{ text-align:center; }

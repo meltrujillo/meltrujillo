@@ -2,8 +2,53 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://meltrujillo.com/</loc>
-    <lastmod>2026-10-19</lastmod>
+    <lastmod>2026-11-11</lastmod>
     <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://meltrujillo.com/blog/</loc>
+    <lastmod>2026-11-11</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://meltrujillo.com/blog/cuanto-cuesta-un-fotografo-de-bodas-en-bogota</loc>
+    <lastmod>2026-11-11</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://meltrujillo.com/blog/fotos-de-boda-con-lluvia-en-bogota</loc>
+    <lastmod>2026-11-11</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://meltrujillo.com/blog/como-elegir-fotografo-de-bodas-en-bogota</loc>
+    <lastmod>2026-11-11</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://meltrujillo.com/blog/cronograma-del-dia-de-la-boda</loc>
+    <lastmod>2026-11-11</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://meltrujillo.com/blog/honrar-a-quienes-faltan-en-su-boda</loc>
+    <lastmod>2026-11-11</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://meltrujillo.com/recursos/</loc>
+    <lastmod>2026-11-11</lastmod>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://meltrujillo.com/recursos/preguntas-para-elegir-fotografo</loc>
+    <lastmod>2026-11-11</lastmod>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://meltrujillo.com/recursos/mapa-de-personas-importantes</loc>
+    <lastmod>2026-11-11</lastmod>
+    <priority>0.5</priority>
   </url>
   <url>
     <loc>https://meltrujillo.com/privacidad</loc>

@@ -295,4 +295,11 @@
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
+
+  // La agenda flotante de Cal.com vive en su propio archivo y se carga desde aquí, para que todas las
+  // páginas que ya usan tracking.js la tengan sin tocar su HTML.
+  var agenda = document.createElement('script');
+  agenda.src = '/assets/js/agenda.js';
+  agenda.defer = true;
+  document.head.appendChild(agenda);
 })();

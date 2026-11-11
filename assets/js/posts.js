@@ -9,6 +9,24 @@
  */
 window.MT_POSTS = [
   {
+    slug: 'cuanto-cuesta-un-fotografo-de-bodas-en-bogota',
+    title: 'Cuánto cuesta un fotógrafo de bodas en Bogotá: qué incluye cada precio',
+    summary: 'Las piezas que hacen cambiar el precio de un fotógrafo de bodas y cómo comparar cotizaciones con calma.',
+    image: 'https://res.cloudinary.com/yqfqih5o/image/upload/w_900,h_600,c_fill,g_auto,q_auto,f_auto/v1789771048/Mel_Trujillo_-_Photography-365.jpg',
+    alt: 'Fotografía de boda en Bogotá por Mel Trujillo Weddings',
+    tag: 'Elegir fotógrafo',
+    date: '2026-11-11'
+  },
+  {
+    slug: 'fotos-de-boda-con-lluvia-en-bogota',
+    title: 'Boda con lluvia en Bogotá: cómo planear las fotos para que el día igual brille',
+    summary: 'Un plan B conversado a tiempo y la luz nublada a favor para que la lluvia sea parte de la historia.',
+    image: 'https://res.cloudinary.com/yqfqih5o/image/upload/w_900,h_600,c_fill,g_auto,q_auto,f_auto/v1790014279/Mel_Trujillo_-_Photography-328.jpg',
+    alt: 'Fotografía de boda en Bogotá por Mel Trujillo Weddings',
+    tag: 'Planear el día',
+    date: '2026-11-11'
+  },
+  {
     slug: 'como-elegir-fotografo-de-bodas-en-bogota',
     title: 'Cómo elegir fotógrafo de bodas en Bogotá: 7 preguntas antes de reservar',
     summary: 'Siete preguntas para conocer a su fotógrafo antes de firmar, y qué escuchar en cada respuesta.',

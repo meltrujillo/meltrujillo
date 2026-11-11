@@ -122,13 +122,30 @@
       list.unshift(list.pop()); paint();               // la foto del anuncio queda en la posición 2
       slides.scrollLeft = slides.clientWidth;
     }
-    var timer;
-    slides.addEventListener('scroll', function(){ clearTimeout(timer); timer = setTimeout(settle, 140); }, { passive:true });
-    if('onscrollend' in window) slides.addEventListener('scrollend', settle);
-    window.addEventListener('resize', function(){ settle(); });
+    var busy = false, pend = 0, timer;
+    var settleIdle = function(){ if(!busy) settle(); };
+    slides.addEventListener('scroll', function(){ clearTimeout(timer); timer = setTimeout(settleIdle, 160); }, { passive:true });
+    window.addEventListener('resize', settleIdle);
+    // Espera a que la foto termine de deslizarse antes de reacomodar el carrusel
+    var waitStop = function(cb){
+      var last = -1, still = 0;
+      (function tick(){
+        var x = slides.scrollLeft;
+        if(Math.abs(x - last) < 0.5) still++; else still = 0;
+        last = x;
+        if(still >= 4) cb(); else requestAnimationFrame(tick);
+      })();
+    };
     var go = function(dir){
-      slides.scrollBy({ left: dir * slides.clientWidth, behavior: reduce ? 'auto' : 'smooth' });
-      if(reduce) setTimeout(settle, 0);
+      if(busy){ pend = dir; return; }          // un clic durante el movimiento queda en fila
+      busy = true;
+      var w = slides.clientWidth;
+      var idx = Math.round(slides.scrollLeft / w);
+      slides.scrollTo({ left: (idx + dir) * w, behavior: reduce ? 'auto' : 'smooth' });
+      waitStop(function(){
+        busy = false; settle();
+        if(pend){ var d = pend; pend = 0; go(d); }
+      });
     };
     var prev = document.querySelector('.hero-arrow.prev');
     var nxt = document.querySelector('.hero-arrow.next');

@@ -10,11 +10,11 @@
  *
  * EVENTOS (nombre en Meta · qué ocurre · quién lo envía)
  *   PageView             entran a cualquier página                              navegador + servidor
- *   ViewContent          "Contenido visualizado": vieron la landing (o abrieron un recurso)  navegador + servidor
+ *   ViewContent          "Contenido visualizado": llevan 10 segundos con la landing abierta (o abrieron un recurso)  navegador + servidor
  *   InitiateCheckout     "Inicio de compra": clic en cualquier botón "Agendar reunión" (Cal.com)  navegador + servidor
  *                        (cuando exista el botón de pago, ese botón pasa a ser el inicio de compra: ver CAL_CLICK_EVENT)
  *   Lead                 "Cliente potencial": reservaron la reunión en Cal.com   SOLO cal-webhook.js (servidor)
- *   Contact              "Contacto": confirmación por WhatsApp (data-mt-event="Contact")  navegador + servidor
+ *   Contact              "Contacto": clic en "confirmar por WhatsApp" de la página de gracias (data-mt-event="Contact")  navegador + servidor
  *   Schedule             "Programar": agendaron su sesión (no sale de esta página; ver cal-webhook.js)
  *   Purchase             "Compra": pagaron su sesión. Nunca sale del navegador: se sube desde una fuente verificada
  *   VioPortafolio        abren una foto del portafolio                          navegador + servidor  (personalizado)
@@ -39,6 +39,8 @@
   // Hoy es el inicio de compra (InitiateCheckout). Cuando exista el botón de pago, cambiar esta línea a
   // 'InteresadoEnReunion' y poner data-mt-event="InitiateCheckout" en el botón de pago.
   var CAL_CLICK_EVENT = 'InitiateCheckout';
+  // Segundos con la landing abierta (y visible) para contar "Contenido visualizado".
+  var VIEW_SECONDS = 10;
 
   // ---------- Decisión de la persona (localStorage puede fallar: siempre con try/catch) ----------
   function readConsent() {
@@ -177,8 +179,19 @@
       track(pageEvent, { content_name: safeLabel(SLUG) || safeLabel(PAGE) });
     }
 
-    // Landing: "Contenido visualizado".
-    if (PAGE === 'landing') track('ViewContent', { content_name: 'landing' });
+    // Landing: "Contenido visualizado" tras VIEW_SECONDS segundos.
+    // Cuenta solo segundos con la pestaña visible, para que un rebote o una pestaña olvidada no sumen.
+    if (PAGE === 'landing') {
+      var seconds = 0;
+      var timer = window.setInterval(function () {
+        if (document.visibilityState !== 'visible') return;
+        seconds += 1;
+        if (seconds >= VIEW_SECONDS) {
+          window.clearInterval(timer);
+          track('ViewContent', { content_name: 'landing' });
+        }
+      }, 1000);
+    }
 
     // Clics
     document.addEventListener('click', function (event) {

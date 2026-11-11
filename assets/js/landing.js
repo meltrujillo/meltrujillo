@@ -99,13 +99,36 @@
   var slides = document.getElementById('heroSlides');
   if(slides){
     var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var mobileMQ = window.matchMedia('(max-width:767.98px)');
+    var imgs = Array.prototype.slice.call(slides.querySelectorAll('img'));
+    // Orden inicial: la foto del anuncio (2.a del HTML) primero, luego la de siempre, luego las demás
+    var list = [imgs[1], imgs[0]].concat(imgs.slice(2)).filter(Boolean);
+    var paint = function(){ list.forEach(function(el, i){ el.style.order = i; }); };
+    var settle = function(){
+      // Deja siempre la foto visible en la posición 2, con una vecina a cada lado: así el carrusel nunca tiene principio ni fin
+      if(!mobileMQ.matches || list.length < 3) return;
+      var w = slides.clientWidth; if(!w) return;
+      var shift = Math.round(slides.scrollLeft / w) - 1;
+      if(shift === 0 && Math.abs(slides.scrollLeft - w) < 2) return;
+      while(shift > 0){ list.push(list.shift()); shift--; }
+      while(shift < 0){ list.unshift(list.pop()); shift++; }
+      paint();
+      slides.style.scrollSnapType = 'none';
+      slides.scrollLeft = w;
+      slides.style.scrollSnapType = '';
+    };
+    paint();
+    if(mobileMQ.matches && list.length >= 3){
+      list.unshift(list.pop()); paint();               // la foto del anuncio queda en la posición 2
+      slides.scrollLeft = slides.clientWidth;
+    }
+    var timer;
+    slides.addEventListener('scroll', function(){ clearTimeout(timer); timer = setTimeout(settle, 140); }, { passive:true });
+    if('onscrollend' in window) slides.addEventListener('scrollend', settle);
+    window.addEventListener('resize', function(){ settle(); });
     var go = function(dir){
-      var w = slides.clientWidth;
-      var last = slides.scrollWidth - w - 4;
-      var next = slides.scrollLeft + dir * w;
-      if(next < 0) next = last + 4;
-      else if(next > last + 4) next = 0;
-      slides.scrollTo({ left: next, behavior: reduce ? 'auto' : 'smooth' });
+      slides.scrollBy({ left: dir * slides.clientWidth, behavior: reduce ? 'auto' : 'smooth' });
+      if(reduce) setTimeout(settle, 0);
     };
     var prev = document.querySelector('.hero-arrow.prev');
     var nxt = document.querySelector('.hero-arrow.next');

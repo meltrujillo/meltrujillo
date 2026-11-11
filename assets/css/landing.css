@@ -611,8 +611,7 @@ blockquote.pull.soft{
 
   /* --- Hero: foto a pantalla completa con el botón arriba. El texto queda debajo de la foto --- */
   .hero{
-    --hero-h:calc(100vh - 76px);
-    --hero-h:calc(100svh - 76px);
+    --hero-h:calc(100vw * 16 / 9);
     display:block;
     min-height:0;
     overflow:visible;
@@ -639,9 +638,6 @@ blockquote.pull.soft{
     scroll-snap-stop:always;
   }
   /* Orden en celular: primero la foto del anuncio, luego la de siempre, luego las demás */
-  .hero-slides > img:nth-child(2){ order:1; }
-  .hero-slides > img:first-child{ order:2; }
-  .hero-slides > img:nth-child(n+3){ order:3; }
   .hero-scrim{
     inset:0 0 auto 0;
     height:var(--hero-h);

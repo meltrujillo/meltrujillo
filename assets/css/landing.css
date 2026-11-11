@@ -611,7 +611,8 @@ blockquote.pull.soft{
 
   /* --- Hero: foto a pantalla completa con el botón arriba. El texto queda debajo de la foto --- */
   .hero{
-    --hero-h:calc(100vw * 16 / 9);
+    --hero-h:calc(100vh - 73px);
+    --hero-h:calc(100svh - 73px);
     display:block;
     min-height:0;
     overflow:visible;

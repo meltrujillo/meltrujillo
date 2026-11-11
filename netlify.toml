@@ -1,5 +1,6 @@
 # Configuración de Netlify para meltrujillo.com
-# El sitio es una sola página (index.html en la raíz) y las funciones viven en netlify/functions.
+# Sitio estático: portada (index.html), blog, recursos y páginas sueltas en la raíz.
+# Las funciones del servidor viven en netlify/functions (capi.js y cal-webhook.js).
 
 [build]
   publish = "."
@@ -10,3 +11,30 @@
 
 [functions]
   node_bundler = "esbuild"
+
+# ---------- Direcciones alternativas ----------
+# /privacy lleva a la política de privacidad (la página real se llama privacidad.html).
+[[redirects]]
+  from = "/privacy"
+  to = "/privacidad"
+  status = 301
+
+[[redirects]]
+  from = "/privacy.html"
+  to = "/privacidad"
+  status = 301
+
+# ---------- Seguridad básica y velocidad ----------
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "SAMEORIGIN"
+
+# Los archivos compartidos (CSS y JS) se revalidan en cada visita, así un cambio de color o de tracking
+# llega a todas las páginas sin que nadie tenga que limpiar la memoria del navegador.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"

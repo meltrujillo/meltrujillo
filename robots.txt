@@ -1,6 +1,10 @@
 User-agent: *
 Allow: /
 
+# Páginas que no aportan nada en Google
+Disallow: /gracias-reunion
+Disallow: /.netlify/
+
 # Rastreadores de IA: pueden leer el sitio para explicar quién es Mel y qué hace
 User-agent: GPTBot
 Allow: /

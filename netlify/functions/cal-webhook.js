@@ -23,6 +23,12 @@ const SLUGS_LEAD = ['conocernos'];
 const SLUGS_CLIENTE = [];
 
 const SITE_URL = 'https://meltrujillo.com/';
+
+// "Programar" (Schedule) por servidor, además de "Cliente potencial" (Lead).
+// Cal.com ya envía su propio Schedule desde su página de reserva con el píxel del navegador, y ese evento
+// no se puede deduplicar con el del servidor. Por eso este envío viene APAGADO y se enciende en el mismo
+// momento en que se apaga el Meta Pixel dentro de Cal.com: variable SEND_SCHEDULE_CAPI = yes en Netlify.
+const SEND_SCHEDULE = process.env.SEND_SCHEDULE_CAPI === 'yes';
 const AUDIENCE_LEAD = 'Agendaron llamada - Mel Trujillo Weddings';
 const AUDIENCE_CLIENTE = 'Clientes - Mel Trujillo Weddings';
 
@@ -117,22 +123,29 @@ exports.handler = async (event) => {
   const eventName = kind === 'lead' ? 'Lead' : 'Schedule';
   const audienceName = kind === 'lead' ? AUDIENCE_LEAD : AUDIENCE_CLIENTE;
 
+  const userData = {
+    em: hashed.em ? [hashed.em] : undefined,
+    ph: hashed.ph ? [hashed.ph] : undefined,
+    fn: hashed.fn ? [hashed.fn] : undefined,
+    ln: hashed.ln ? [hashed.ln] : undefined,
+    country: hashed.country ? [hashed.country] : undefined,
+    fbp: metaCookies.fbp,
+    fbc: metaCookies.fbc,
+  };
+  const bookingId = String(payload.uid || body.createdAt || Date.now());
+
+  // Lead (o Schedule, para clientes) siempre; el Schedule extra de las llamadas solo si está encendido.
+  const sends = [
+    helpers.sendEvent({ eventName, eventId: bookingId, sourceUrl: SITE_URL, userData, customData: { content_name: slug } }),
+  ];
+  if (kind === 'lead' && SEND_SCHEDULE) {
+    sends.push(
+      helpers.sendEvent({ eventName: 'Schedule', eventId: bookingId + '-schedule', sourceUrl: SITE_URL, userData, customData: { content_name: slug } })
+    );
+  }
+
   const [capi, audience] = await Promise.allSettled([
-    helpers.sendEvent({
-      eventName,
-      eventId: String(payload.uid || body.createdAt || Date.now()),
-      sourceUrl: SITE_URL,
-      userData: {
-        em: hashed.em ? [hashed.em] : undefined,
-        ph: hashed.ph ? [hashed.ph] : undefined,
-        fn: hashed.fn ? [hashed.fn] : undefined,
-        ln: hashed.ln ? [hashed.ln] : undefined,
-        country: hashed.country ? [hashed.country] : undefined,
-        fbp: metaCookies.fbp,
-        fbc: metaCookies.fbc,
-      },
-      customData: { content_name: slug },
-    }),
+    Promise.all(sends),
     (async () => {
       const id = await helpers.findOrCreateAudience(
         audienceName,

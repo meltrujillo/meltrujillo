@@ -19,10 +19,18 @@ const crypto = require('crypto');
 const GRAPH = 'https://graph.facebook.com/' + (process.env.META_GRAPH_VERSION || 'v23.0');
 
 const ALLOWED_ORIGINS = ['https://meltrujillo.com', 'https://www.meltrujillo.com'];
-// Desde el navegador solo entran estos tres. "Lead" lo envía únicamente cal-webhook.js,
-// que verifica la firma de Cal.com. Así nadie puede fabricar Leads falsos que contaminen la optimización.
-const ALLOWED_EVENTS = ['PageView', 'ViewContent', 'Contact'];
-const ALLOWED_CONTENT_NAMES = ['colecciones', 'agendar_llamada'];
+// Desde el navegador solo entran estos eventos. "Lead" y "Schedule" los envía únicamente cal-webhook.js,
+// que verifica la firma de Cal.com, y "Purchase" nunca sale del navegador. Así nadie puede fabricar
+// Leads ni Compras falsas que contaminen la optimización de los anuncios.
+//   Estándar:      PageView, ViewContent, Contact, InitiateCheckout
+//   Personalizado: InteresadoEnReunion, VioPortafolio, VerBlog, IniciaEnBlog
+const ALLOWED_EVENTS = [
+  'PageView', 'ViewContent', 'Contact', 'InitiateCheckout',
+  'InteresadoEnReunion', 'VioPortafolio', 'VerBlog', 'IniciaEnBlog',
+];
+// content_name describe de dónde salió el evento ("portada", "coleccion-2", "mi-articulo"...).
+// Solo se aceptan minúsculas, números, guion y guion bajo: nada de texto libre hacia Meta.
+const CONTENT_NAME_PATTERN = /^[a-z0-9_-]{1,60}$/;
 
 // Límites de protección (se reinician si Netlify apaga la función por inactividad, y aun así frenan el abuso normal)
 const MAX_BODY_BYTES = 2048;
@@ -292,7 +300,7 @@ exports.handler = async (event) => {
   if (/^fb\.\d\.\d+\.[\w-]+$/.test(data.fbc || '')) userData.fbc = data.fbc;
 
   const customData = {};
-  if (ALLOWED_CONTENT_NAMES.includes(data.content_name)) customData.content_name = data.content_name;
+  if (typeof data.content_name === 'string' && CONTENT_NAME_PATTERN.test(data.content_name)) customData.content_name = data.content_name;
 
   try {
     await sendEvent({

@@ -10,7 +10,7 @@
  *
  * EVENTOS (nombre en Meta · qué ocurre · quién lo envía)
  *   PageView             entran a cualquier página                              navegador + servidor
- *   ViewContent          "Contenido visualizado": llevan 10 segundos con la landing abierta (o abrieron un recurso)  navegador + servidor
+ *   ViewContent          "Contenido visualizado": llevan 6 segundos con la landing abierta (o abrieron un recurso)  navegador + servidor
  *   InitiateCheckout     "Inicio de compra": clic en cualquier botón "Agendar reunión" (Cal.com)  navegador + servidor
  *                        (cuando exista el botón de pago, ese botón pasa a ser el inicio de compra: ver CAL_CLICK_EVENT)
  *   Lead                 "Cliente potencial": reservaron la reunión en Cal.com   SOLO cal-webhook.js (servidor)
@@ -40,7 +40,7 @@
   // 'InteresadoEnReunion' y poner data-mt-event="InitiateCheckout" en el botón de pago.
   var CAL_CLICK_EVENT = 'InitiateCheckout';
   // Segundos con la landing abierta (y visible) para contar "Contenido visualizado".
-  var VIEW_SECONDS = 10;
+  var VIEW_SECONDS = 6;
 
   // ---------- Decisión de la persona (localStorage puede fallar: siempre con try/catch) ----------
   function readConsent() {

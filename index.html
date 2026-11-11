@@ -473,63 +473,86 @@
   .colecciones-head{ max-width:60ch; margin-inline:auto; margin-bottom:34px; text-align:center; }
   .colecciones-head p:not(.eyebrow){ color:var(--ink-soft); font-size:16.5px; margin-top:10px; }
 
-  .coll-tabs-wrap{
-    max-width:460px;
-    margin:0 auto;
-    border:1px solid var(--line);
-    border-radius:2px;
-    background:#fff;
-    padding:26px 34px 20px;
+  /* Baraja de colecciones: en celular se desliza con el dedo y la siguiente carta asoma por el borde */
+  .coll-deck{
+    display:flex;
+    gap:14px;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+    margin-inline:-20px;
+    padding:10px 20px 24px;
+    scroll-padding-inline:20px;
   }
-  .coll-tab-panel{ min-height:132px; text-align:left; }
-  .coll-tab-content{ display:none; }
-  .coll-tab-content.is-active{ display:block; }
+  .coll-deck::-webkit-scrollbar{ display:none; }
+  .coll-card{
+    position:relative;
+    flex:0 0 76%;
+    max-width:300px;
+    scroll-snap-align:start;
+    display:flex;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:14px;
+    box-shadow:0 12px 30px rgba(34,31,27,0.10);
+  }
+  .coll-card::before{
+    content:"";
+    position:absolute;
+    inset:8px;
+    border:1px solid rgba(157,0,9,0.22);
+    border-radius:9px;
+    pointer-events:none;
+  }
+  .coll-card-inner{
+    display:flex;
+    flex-direction:column;
+    width:100%;
+    min-height:330px;
+    padding:30px 24px 26px;
+    text-align:left;
+  }
   .coll-name{
     display:block;
-    font-size:24px;
+    font-size:25px;
     letter-spacing:0.03em;
     color:var(--ink);
-    margin-bottom:12px;
+    line-height:1.2;
+  }
+  .coll-rule{
+    display:block;
+    width:34px;
+    height:1px;
+    background:var(--wine);
+    margin:16px 0;
   }
   .coll-desc{
     font-size:16px;
     line-height:1.6;
     color:var(--ink-soft);
-    margin:0 0 16px;
+    margin:0 0 20px;
   }
   .coll-cta{
     display:inline-block;
+    align-self:flex-start;
+    margin-top:auto;
     font-size:13.5px;
     letter-spacing:0.02em;
     color:var(--wine);
     text-decoration:none;
     border-bottom:1px solid var(--wine);
+    text-wrap:balance;
   }
   .coll-cta:hover{ opacity:0.75; }
-
-  .coll-tabs-divider{ border:0; border-top:1px solid var(--line); margin:6px 0 16px; }
-
-  .coll-tabs-nav{
-    display:flex;
-    justify-content:center;
-    gap:26px;
-    list-style:none;
-    margin:0; padding:0;
-  }
-  .coll-tab-btn{
-    background:none;
-    border:0;
-    padding:0 0 6px;
-    font-family:'Forum', Georgia, serif;
-    font-size:14px;
-    letter-spacing:0.03em;
+  .coll-cta:focus-visible{ outline:2px solid var(--wine); outline-offset:3px; }
+  .coll-deck-hint{
+    margin:2px 0 0;
+    text-align:center;
+    font-size:13px;
+    letter-spacing:0.05em;
     color:var(--ink-soft);
-    cursor:pointer;
-    border-bottom:1px solid transparent;
-    transition:color .2s ease, border-color .2s ease;
   }
-  .coll-tab-btn:hover{ color:var(--ink); }
-  .coll-tab-btn.is-active{ color:var(--ink); border-bottom-color:var(--ink); }
 
   .colecciones-foot{ margin:26px auto 0; max-width:48ch; color:var(--ink-soft); font-size:15.5px; text-align:center; white-space:normal; }
   .colecciones-desde{ margin:30px auto 0; text-align:center; font-family:var(--serif, inherit); font-size:19px; letter-spacing:0.02em; color:var(--ink); }
@@ -561,6 +584,7 @@
     .coll-gallery-item img{ width:180px; height:236px; }
   }
   @media (prefers-reduced-motion:reduce){
+    .coll-card{ transition:none !important; }
     .coll-gallery{ animation:none; }
   }
 
@@ -691,6 +715,32 @@
     .card{ grid-template-columns:0.85fr 1.15fr; gap:40px; align-items:baseline; }
     .proyecto-frag{ display:inline; margin:0; } /* en PC queda igual que antes: el texto fluye como un solo párrafo */
     .proyecto h2{ margin-bottom:18px; } /* reemplaza el margin-top:18px del primer fragmento, que en PC ya no aplica al ser inline */
+    /* Baraja abierta en abanico: al pasar el cursor, la carta sube y se endereza */
+    .coll-deck{
+      overflow:visible;
+      scroll-snap-type:none;
+      justify-content:center;
+      gap:0;
+      margin-inline:0;
+      padding:34px 0 46px;
+    }
+    .coll-card{
+      flex:0 0 236px;
+      max-width:none;
+      margin-inline:-14px;
+      transform-origin:50% 100%;
+      transition:transform .35s ease, box-shadow .35s ease;
+    }
+    .coll-card:nth-child(1){ transform:translateY(16px) rotate(-6deg); z-index:1; }
+    .coll-card:nth-child(2){ transform:translateY(2px) rotate(-2deg); z-index:2; }
+    .coll-card:nth-child(3){ transform:translateY(2px) rotate(2deg); z-index:3; }
+    .coll-card:nth-child(4){ transform:translateY(16px) rotate(6deg); z-index:4; }
+    .coll-card:hover, .coll-card:focus-within{
+      transform:translateY(-14px) rotate(0deg);
+      z-index:10;
+      box-shadow:0 22px 44px rgba(34,31,27,0.18);
+    }
+    .coll-deck-hint{ display:none; }
     .lightbox-close{ top:28px; right:32px; }
     .lightbox-prev{ left:28px; }
     .lightbox-next{ right:28px; }
@@ -737,12 +787,18 @@
       display:flex;
       flex-direction:column;
       justify-content:flex-start;
-      padding-block:118px 30px;
+      padding-block:84px 30px;
+      text-shadow:0 1px 16px rgba(0,0,0,0.5);
     }
-    .hero-content .eyebrow{ order:1; }
-    .hero-content h1{ order:2; }
-    .hero-content p.lede{ order:3; }
+    /* Orden en celular: titular y párrafo arriba, luego la línea de ubicación, y al fondo el lema */
+    .hero-content h1{ order:1; }
+    .hero-content p.lede{ order:2; }
+    .hero-content .eyebrow{ order:3; margin:24px 0 0; }
     .hero-content .tagline{ order:4; margin-top:auto; margin-bottom:0; padding-top:32px; }
+    /* Con el texto más arriba (sobre el cielo) la foto se oscurece un poco para que se lea bien */
+    .hero-scrim{
+      background:linear-gradient(180deg, rgba(20,17,14,0.52) 0%, rgba(20,17,14,0.44) 38%, rgba(20,17,14,0.5) 62%, rgba(20,17,14,0.8) 100%);
+    }
     .hero-content .hero-actions{ display:none; }
     .hero .eyebrow{
       font-size:13.5px;
@@ -949,46 +1005,48 @@
         <p><em>Cada historia de amor tiene su propio lenguaje, y sus fotos deberían hablarlo.</em> <strong style="white-space:nowrap;">Estas colecciones son el punto de partida.</strong><br>Las ajustamos juntos, según el ritmo de su día y lo que más quieren conservar.</p>
       </div>
 
-      <div class="coll-tabs-wrap">
-        <div class="coll-tab-panel">
-          <div class="coll-tab-content is-active" data-tab="1">
+      <div class="coll-deck" role="list" aria-label="Colecciones">
+        <article class="coll-card" role="listitem">
+          <div class="coll-card-inner">
             <span class="coll-name">Full Experience</span>
+            <span class="coll-rule" aria-hidden="true"></span>
             <p class="coll-desc">Para quienes quieren vivirlo y recordarlo todo, sin dejar nada por fuera.</p>
-            <a class="coll-cta" href="https://wa.me/573106985532?text=Hola%20Mel%2C%20queremos%20la%20experiencia%20completa%20para%20nuestra%20boda.%20%C2%BFNos%20cuentas%20m%C3%A1s%20sobre%20Full%20Experience%3F" target="_blank" rel="noopener">Queremos la experiencia completa →</a>
+            <a class="coll-cta" href="https://cal.com/meltrujillo/conocernos?notes=Me%20interesa%20Full%20Experience" target="_blank" rel="noopener">Queremos la experiencia completa&nbsp;→</a>
           </div>
-          <div class="coll-tab-content" data-tab="2">
+        </article>
+        <article class="coll-card" role="listitem">
+          <div class="coll-card-inner">
             <span class="coll-name">Colección I</span>
+            <span class="coll-rule" aria-hidden="true"></span>
             <p class="coll-desc">Foto y video para un día que merece ser visto y sentido.</p>
-            <a class="coll-cta" href="https://wa.me/573106985532?text=Hola%20Mel%2C%20%C2%BFNos%20cuentas%20m%C3%A1s%20sobre%20Colecci%C3%B3n%20I%3F" target="_blank" rel="noopener">Queremos verlo y sentirlo →</a>
+            <a class="coll-cta" href="https://cal.com/meltrujillo/conocernos?notes=Me%20interesa%20Colecci%C3%B3n%20I" target="_blank" rel="noopener">Queremos verlo y sentirlo&nbsp;→</a>
           </div>
-          <div class="coll-tab-content" data-tab="3">
+        </article>
+        <article class="coll-card" role="listitem">
+          <div class="coll-card-inner">
             <span class="coll-name">Colección II</span>
+            <span class="coll-rule" aria-hidden="true"></span>
             <p class="coll-desc">El día de su boda y un capítulo más de su historia.</p>
-            <a class="coll-cta" href="https://wa.me/573106985532?text=Hola%20Mel%2C%20queremos%20ir%20m%C3%A1s%20all%C3%A1%20del%20d%C3%ADa.%20%C2%BFNos%20cuentas%20m%C3%A1s%20sobre%20Colecci%C3%B3n%20II%3F" target="_blank" rel="noopener">Queremos ir más allá del día →</a>
+            <a class="coll-cta" href="https://cal.com/meltrujillo/conocernos?notes=Me%20interesa%20Colecci%C3%B3n%20II" target="_blank" rel="noopener">Queremos ir más allá del día&nbsp;→</a>
           </div>
-          <div class="coll-tab-content" data-tab="4">
+        </article>
+        <article class="coll-card" role="listitem">
+          <div class="coll-card-inner">
             <span class="coll-name">Colección III</span>
+            <span class="coll-rule" aria-hidden="true"></span>
             <p class="coll-desc">Lo esencial de su día, fotografiado con la misma entrega.</p>
-            <a class="coll-cta" href="https://wa.me/573106985532?text=Hola%20Mel%2C%20queremos%20lo%20esencial.%20%C2%BFNos%20cuentas%20m%C3%A1s%20sobre%20Colecci%C3%B3n%20III%3F" target="_blank" rel="noopener">Queremos lo esencial →</a>
+            <a class="coll-cta" href="https://cal.com/meltrujillo/conocernos?notes=Me%20interesa%20Colecci%C3%B3n%20III" target="_blank" rel="noopener">Queremos lo esencial&nbsp;→</a>
           </div>
-        </div>
-
-        <hr class="coll-tabs-divider" />
-
-        <nav class="coll-tabs-nav" aria-label="Seleccionar colección">
-          <button type="button" class="coll-tab-btn is-active" data-tab-target="1" aria-label="Ver Full Experience">1</button>
-          <button type="button" class="coll-tab-btn" data-tab-target="2" aria-label="Ver Colección I">2</button>
-          <button type="button" class="coll-tab-btn" data-tab-target="3" aria-label="Ver Colección II">3</button>
-          <button type="button" class="coll-tab-btn" data-tab-target="4" aria-label="Ver Colección III">4</button>
-        </nav>
+        </article>
       </div>
+      <p class="coll-deck-hint">desliza para ver todas →</p>
 
       <p class="colecciones-desde">Mis colecciones inician <span style="white-space:nowrap;">desde $1.400.000 COP</span></p>
 
-      <p class="colecciones-foot">Cada propuesta se construye a partir de una conversación, escríbeme para personalizarla.</p>
+      <p class="colecciones-foot">Cada propuesta se construye a partir de una conversación, agenda tu llamada para personalizarla.</p>
 
       <div class="colecciones-cta">
-        <a class="btn btn-primary" href="https://wa.me/573106985532?text=Hola%20Mel%2C%20queremos%20contarte%20sobre%20nuestra%20boda%20y%20que%20nos%20ayudes%20a%20elegir%20la%20colecci%C3%B3n%20ideal." target="_blank" rel="noopener">Conéctate conmigo</a>
+        <a class="btn btn-primary" href="https://cal.com/meltrujillo/conocernos" target="_blank" rel="noopener">Cuéntame tu historia</a>
       </div>
 
           <div class="coll-gallery-viewport" aria-label="Mini portafolio">
@@ -1196,7 +1254,7 @@
       <span>Bogotá, Colombia</span>
       <div class="footer-contact">
         <a href="https://instagram.com/meltrujilloweddings" target="_blank" rel="noopener">@meltrujilloweddings</a>
-        <a href="https://wa.me/573106985532" target="_blank" rel="noopener">+57 310 698 5532</a>
+        <a href="https://cal.com/meltrujillo/conocernos" target="_blank" rel="noopener">Agenda tu llamada</a>
         <a href="/privacidad.html">Privacidad</a>
         <a href="#" id="mt-cookie-prefs">Cookies</a>
       </div>
@@ -1213,20 +1271,6 @@
 </div>
 
 <script>
-  (function(){
-    var wrap = document.querySelector('.coll-tabs-wrap');
-    if(!wrap) return;
-    var buttons = wrap.querySelectorAll('.coll-tab-btn');
-    var panels = wrap.querySelectorAll('.coll-tab-content');
-    buttons.forEach(function(btn){
-      btn.addEventListener('click', function(){
-        var target = btn.getAttribute('data-tab-target');
-        buttons.forEach(function(b){ b.classList.toggle('is-active', b === btn); });
-        panels.forEach(function(p){ p.classList.toggle('is-active', p.getAttribute('data-tab') === target); });
-      });
-    });
-  })();
-
   /* ---------- Lightbox: portafolio en ladrillo + mini portafolio deslizable --------- */
   (function(){
     var lightbox = document.getElementById('lightbox');

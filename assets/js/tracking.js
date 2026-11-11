@@ -35,6 +35,10 @@
   var PIXEL_ID = '1094122853434268';
   var CAPI_URL = '/.netlify/functions/capi';
   var STORAGE_KEY = 'mt_consent_v1';
+  // Solo el sitio real mide. Las vistas previas de Netlify, localhost o cualquier otra dirección no mandan
+  // eventos a Meta, para que las pruebas no ensucien los datos de los anuncios.
+  var HOST = window.location.hostname;
+  var IS_PRODUCTION = HOST === 'meltrujillo.com' || HOST === 'www.meltrujillo.com';
   // Qué evento de Meta representa el clic en "Agendar reunión".
   // Hoy es el inicio de compra (InitiateCheckout). Cuando exista el botón de pago, cambiar esta línea a
   // 'InteresadoEnReunion' y poner data-mt-event="InitiateCheckout" en el botón de pago.
@@ -67,7 +71,7 @@
   // ---------- Píxel de Meta (código base oficial, cargado solo con permiso) ----------
   var pixelReady = false;
   function loadPixel() {
-    if (pixelReady) return;
+    if (pixelReady || !IS_PRODUCTION) return;
     pixelReady = true;
     /* eslint-disable */
     !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
@@ -80,7 +84,7 @@
   var STANDARD_EVENTS = ['PageView', 'ViewContent', 'Contact', 'Lead', 'Schedule', 'InitiateCheckout', 'Purchase'];
 
   function track(name, customData) {
-    if (readConsent() !== 'yes') return;
+    if (!IS_PRODUCTION || readConsent() !== 'yes') return;
     loadPixel();
     var eventId = uid();
     var data = customData || {};

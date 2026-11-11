@@ -54,6 +54,8 @@
       var u = new URL(link.href, window.location.href);
       u.searchParams.forEach(function (value, key) { config[key] = value; });  // por ejemplo notes=Me interesa Colección I
     } catch (e) { /* sin parámetros extra */ }
+    // Colombia por defecto: el campo de WhatsApp arranca con +57 (la persona puede cambiarlo)
+    if (!config.attendeePhoneNumber) config.attendeePhoneNumber = '+57';
     if (readConsent() === 'yes') {
       var fbp = getCookie('_fbp');
       var fbc = getCookie('_fbc');

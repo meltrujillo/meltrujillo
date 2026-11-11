@@ -153,3 +153,34 @@
     if(nxt) nxt.addEventListener('click', function(){ go(1); });
   }
 })();
+
+// Colecciones: mazo de cartas. La carta activa va al frente y las demás quedan detrás en orden.
+(function(){
+  var deck = document.querySelector('.coll-deck');
+  if(!deck) return;
+  var cards = Array.prototype.slice.call(deck.querySelectorAll('.coll-card'));
+  if(cards.length < 2) return;
+  var active = 0;
+  var render = function(){
+    cards.forEach(function(card, i){
+      card.setAttribute('data-pos', (i - active + cards.length) % cards.length);
+    });
+  };
+  var activate = function(i){ active = (i + cards.length) % cards.length; render(); };
+  render();
+  cards.forEach(function(card, i){
+    card.addEventListener('click', function(e){
+      if(card.getAttribute('data-pos') !== '0'){ e.preventDefault(); activate(i); }
+    });
+    card.addEventListener('focusin', function(){ if(card.getAttribute('data-pos') !== '0') activate(i); });
+  });
+  // Deslizar a los lados también pasa de carta
+  var sx = null, sy = null;
+  deck.addEventListener('touchstart', function(e){ var t = e.touches[0]; sx = t.clientX; sy = t.clientY; }, { passive:true });
+  deck.addEventListener('touchend', function(e){
+    if(sx === null) return;
+    var t = e.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy;
+    sx = sy = null;
+    if(Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) activate(active + (dx < 0 ? 1 : -1));
+  }, { passive:true });
+})();

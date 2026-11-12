@@ -627,6 +627,7 @@ blockquote.pull.soft{
     scroll-snap-type:x mandatory;
     scrollbar-width:none;
     overscroll-behavior-x:contain;
+    overflow-anchor:none;
   }
   .hero-slides::-webkit-scrollbar{ display:none; }
   .hero-slides .hero-bg,
@@ -637,13 +638,16 @@ blockquote.pull.soft{
     height:100%;
     scroll-snap-align:center;
     scroll-snap-stop:always;
+    transform:none;
+    transition:none;
+    animation:none;
   }
   /* Orden en celular: primero la foto del anuncio, luego la de siempre, luego las demás */
   .hero-scrim{
     inset:0 0 auto 0;
     height:var(--hero-h);
     pointer-events:none;
-    background:linear-gradient(180deg, rgba(20,17,14,0.34) 0%, rgba(20,17,14,0.04) 26%, rgba(20,17,14,0) 100%);
+    background:linear-gradient(180deg, rgba(20,17,14,0.36) 0%, rgba(20,17,14,0.26) 24%, rgba(20,17,14,0.06) 40%, rgba(20,17,14,0) 55%);
   }
   .hero-content{
     position:static;
@@ -651,10 +655,10 @@ blockquote.pull.soft{
     flex-direction:column;
     align-items:center;
     text-align:center;
-    padding-block:34px 14px;
+    padding-block:26px 14px;
     text-shadow:none;
   }
-  .hero-content .eyebrow{ color:var(--ink-soft); font-size:12.5px; letter-spacing:0.12em; white-space:nowrap; margin:0; }
+  .hero-content .eyebrow{ position:absolute; top:94px; left:0; right:0; z-index:3; color:#fff; font-size:12px; letter-spacing:0.14em; white-space:nowrap; margin:0; text-align:center; text-shadow:0 1px 10px rgba(0,0,0,0.55); }
   .hero-content .tagline{ color:var(--wine); font-size:clamp(28px, 8vw, 36px); margin:10px 0 0; padding:0; }
   .hero-content h1{ color:var(--ink); font-size:clamp(26px, 7.4vw, 40px); margin-block:10px 0; }
   .hero-content p.lede{ color:var(--ink-soft); font-size:17px; line-height:1.6; max-width:34ch; margin:18px auto 0; }
@@ -701,42 +705,6 @@ blockquote.pull.soft{
   .hero-arrow.prev{ left:8px; }
   .hero-arrow.next{ right:8px; }
   .hero-arrow:focus-visible{ outline:2px solid #fff; outline-offset:2px; }
-
-  /* --- Colecciones: mazo de cartas en la mano. La de adelante se lee completa, las de atrás asoman por arriba --- */
-  .coll-deck{
-    --peek:66px;
-    position:relative;
-    display:block;
-    overflow:visible;
-    scroll-snap-type:none;
-    margin-inline:0;
-    padding:0;
-    height:calc(min(300px, 78vw) + var(--peek) * 3 + 44px);
-    touch-action:pan-y;
-  }
-  .coll-card{
-    --pos:0; --rot:0deg;
-    position:absolute;
-    left:50%;
-    bottom:20px;
-    width:min(300px, 78vw);
-    max-width:none;
-    flex:none;
-    margin-left:calc(min(300px, 78vw) / -2);
-    transform-origin:50% 100%;
-    transform:translateY(calc(var(--pos) * var(--peek) * -1)) rotate(var(--rot)) scale(calc(1 - var(--pos) * 0.045));
-    z-index:calc(10 - var(--pos));
-    transition:transform .45s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease;
-    box-shadow:0 10px 26px rgba(34,31,27,0.16);
-    cursor:pointer;
-    -webkit-tap-highlight-color:transparent;
-  }
-  .coll-card[data-pos="0"]{ --rot:0deg; cursor:default; box-shadow:0 18px 40px rgba(34,31,27,0.22); }
-  .coll-card[data-pos="1"]{ --pos:1; --rot:-3.5deg; }
-  .coll-card[data-pos="2"]{ --pos:2; --rot:3deg; }
-  .coll-card[data-pos="3"]{ --pos:3; --rot:-2deg; }
-  .coll-card:not([data-pos="0"]) .coll-card-inner > :not(.coll-name){ visibility:hidden; }
-  .coll-deck-hint{ margin-top:6px; }
 
   /* --- Cómo funciona: pasos centrados --- */
   .steps{ text-align:center; }

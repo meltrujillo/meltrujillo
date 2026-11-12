@@ -627,6 +627,7 @@ blockquote.pull.soft{
     scroll-snap-type:x mandatory;
     scrollbar-width:none;
     overscroll-behavior-x:contain;
+    overflow-anchor:none;
   }
   .hero-slides::-webkit-scrollbar{ display:none; }
   .hero-slides .hero-bg,
@@ -637,13 +638,16 @@ blockquote.pull.soft{
     height:100%;
     scroll-snap-align:center;
     scroll-snap-stop:always;
+    transform:none;
+    transition:none;
+    animation:none;
   }
   /* Orden en celular: primero la foto del anuncio, luego la de siempre, luego las demás */
   .hero-scrim{
     inset:0 0 auto 0;
     height:var(--hero-h);
     pointer-events:none;
-    background:linear-gradient(180deg, rgba(20,17,14,0.34) 0%, rgba(20,17,14,0.04) 26%, rgba(20,17,14,0) 100%);
+    background:linear-gradient(180deg, rgba(20,17,14,0.36) 0%, rgba(20,17,14,0.26) 24%, rgba(20,17,14,0.06) 40%, rgba(20,17,14,0) 55%);
   }
   .hero-content{
     position:static;
@@ -651,10 +655,10 @@ blockquote.pull.soft{
     flex-direction:column;
     align-items:center;
     text-align:center;
-    padding-block:34px 14px;
+    padding-block:26px 14px;
     text-shadow:none;
   }
-  .hero-content .eyebrow{ color:var(--ink-soft); font-size:12.5px; letter-spacing:0.12em; white-space:nowrap; margin:0; }
+  .hero-content .eyebrow{ position:absolute; top:94px; left:0; right:0; z-index:3; color:#fff; font-size:12px; letter-spacing:0.14em; white-space:nowrap; margin:0; text-align:center; text-shadow:0 1px 10px rgba(0,0,0,0.55); }
   .hero-content .tagline{ color:var(--wine); font-size:clamp(28px, 8vw, 36px); margin:10px 0 0; padding:0; }
   .hero-content h1{ color:var(--ink); font-size:clamp(26px, 7.4vw, 40px); margin-block:10px 0; }
   .hero-content p.lede{ color:var(--ink-soft); font-size:17px; line-height:1.6; max-width:34ch; margin:18px auto 0; }

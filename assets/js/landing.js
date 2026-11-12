@@ -113,9 +113,8 @@
       while(shift > 0){ list.push(list.shift()); shift--; }
       while(shift < 0){ list.unshift(list.pop()); shift++; }
       paint();
-      slides.style.scrollSnapType = 'none';
+      slides.style.scrollBehavior = 'auto';
       slides.scrollLeft = w;
-      slides.style.scrollSnapType = '';
     };
     paint();
     if(mobileMQ.matches && list.length >= 3){

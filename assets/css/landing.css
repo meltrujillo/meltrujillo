@@ -611,6 +611,7 @@ blockquote.pull.soft{
   .hero{
     --hero-h:calc(100vh - 73px);
     --hero-h:calc(100svh - 73px);
+    --hero-h:calc(var(--hero-vh, 100svh) - 73px);
     display:block;
     min-height:0;
     overflow:visible;

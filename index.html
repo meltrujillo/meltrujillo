@@ -3,6 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+/* Celular: fija la altura de la foto del inicio al abrir la página. Así no se agranda ni se achica cuando el navegador esconde o muestra sus barras al hacer scroll. Solo se recalcula si giran el teléfono. */
+(function(){var w=window.innerWidth;if(w>=768)return;var s=function(){document.documentElement.style.setProperty('--hero-vh',window.innerHeight+'px');};s();window.addEventListener('resize',function(){if(window.innerWidth!==w){w=window.innerWidth;s();}});})();
+</script>
 <title>Mel Trujillo Weddings — Fotografía de bodas en Bogotá</title>
 <meta name="description" content="Fotografía de bodas con base en Bogotá. Menos poses, más autenticidad. Lo invisible, visible.">
 <link rel="canonical" href="https://meltrujillo.com/">

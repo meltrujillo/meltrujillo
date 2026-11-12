@@ -221,3 +221,31 @@
   // Si cambian el tamaño de la ventana a celular, se recarga para usar el carrusel del celular
   mq.addEventListener && mq.addEventListener('change', function(){ location.reload(); });
 })();
+
+// Enlaces internos (#colecciones, #portafolio...): las fotos que cargan mientras se baja empujan el destino.
+// Se corrige la posición durante un par de segundos para terminar siempre en la sección correcta.
+(function(){
+  var cancel = false, runId = 0;
+  ['wheel','touchstart','keydown','mousedown'].forEach(function(ev){
+    window.addEventListener(ev, function(){ cancel = true; }, { passive:true });
+  });
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if(!a) return;
+    var id = a.getAttribute('href').slice(1);
+    var target = id && document.getElementById(id);
+    if(!target) return;
+    e.preventDefault();
+    cancel = false;
+    var mine = ++runId, end = Date.now() + 2200;
+    var align = function(){
+      if(cancel || mine !== runId) return;
+      var y = Math.max(0, target.getBoundingClientRect().top + window.pageYOffset);
+      if(Math.abs(y - window.pageYOffset) > 1) window.scrollTo({ top: y, left: 0, behavior: 'instant' });
+      if(Date.now() < end) requestAnimationFrame(align);
+    };
+    // El menú del celular se cierra antes de medir
+    setTimeout(function(){ cancel = false; align(); }, 30);
+    try{ history.replaceState(null, '', '#' + id); }catch(err){}
+  });
+})();

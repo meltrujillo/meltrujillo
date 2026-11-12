@@ -204,15 +204,15 @@
   var nxt = document.querySelector('.hero-arrow.next');
   if(prev) prev.addEventListener('click', function(){ go(-1); schedule(); });
   if(nxt) nxt.addEventListener('click', function(){ go(1); schedule(); });
-  // Avance automático cada 5 segundos. Se pausa al pasar el cursor y si la persona pidió menos movimiento
+  // Avance automático cada 3 segundos (se apaga si la persona pidió menos movimiento)
   var hovering = false;
   var schedule = function(){
     clearTimeout(timer);
     if(reduce) return;
     timer = setTimeout(function(){
-      if(!hovering && !document.hidden) go(1);
+      if(!document.hidden) go(1);
       schedule();
-    }, 5000);
+    }, 3000);
   };
   var hero = slides.parentNode;
   hero.addEventListener('mousemove', function(e){ hovering = e.clientY <= slides.getBoundingClientRect().bottom; });

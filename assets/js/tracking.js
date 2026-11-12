@@ -148,6 +148,7 @@
     if (el.closest('header')) return 'encabezado';
     if (el.closest('footer')) return 'pie';
     if (el.closest('#colecciones')) return 'colecciones';
+    if (el.closest('.steps')) return 'pasos';
     if (el.closest('.hero')) return 'portada';
     if (el.closest('#reservar')) return 'cierre';
     if (IN_BLOG) return 'blog';

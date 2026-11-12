@@ -136,6 +136,7 @@
       })();
     };
     var go = function(dir){
+      if(!mobileMQ.matches) return;            // en PC lo maneja el carrusel de abajo
       if(busy){ pend = dir; return; }          // un clic durante el movimiento queda en fila
       busy = true;
       var w = slides.clientWidth;
@@ -151,4 +152,100 @@
     if(prev) prev.addEventListener('click', function(){ go(-1); });
     if(nxt) nxt.addEventListener('click', function(){ go(1); });
   }
+})();
+
+// Hero en PC: las 6 fotos pasan solas y también con las flechas, sin fin
+(function(){
+  var slides = document.getElementById('heroSlides');
+  var mq = window.matchMedia('(min-width:768px)');
+  if(!slides || !mq.matches) return;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var imgs = Array.prototype.slice.call(slides.querySelectorAll('img'));
+  imgs.forEach(function(im){ im.loading = 'eager'; });
+  // Orden: primero la foto del anuncio, luego la de siempre y las demás
+  var list = [imgs[1], imgs[0]].concat(imgs.slice(2)).filter(Boolean);
+  var paint = function(){ list.forEach(function(el, i){ el.style.order = i; }); };
+  paint();
+  var gap = function(){ return parseFloat(getComputedStyle(slides).columnGap) || 0; };
+  var busy = false, pend = 0, timer;
+  var waitStop = function(cb){
+    var last = -1, still = 0;
+    (function tick(){
+      var x = slides.scrollLeft;
+      if(Math.abs(x - last) < 0.5) still++; else still = 0;
+      last = x;
+      if(still >= 4) cb(); else requestAnimationFrame(tick);
+    })();
+  };
+  var go = function(dir){
+    if(!mq.matches) return;
+    if(busy){ pend = dir; return; }
+    busy = true;
+    var first, w;
+    if(dir > 0){
+      w = list[0].getBoundingClientRect().width + gap();
+      slides.scrollTo({ left: w, behavior: reduce ? 'auto' : 'smooth' });
+      waitStop(function(){
+        list.push(list.shift()); paint();
+        slides.scrollLeft = 0;
+        busy = false; next();
+      });
+    } else {
+      first = list[list.length - 1];
+      w = first.getBoundingClientRect().width + gap();
+      list.unshift(list.pop()); paint();
+      slides.scrollLeft = w;
+      slides.scrollTo({ left: 0, behavior: reduce ? 'auto' : 'smooth' });
+      waitStop(function(){ busy = false; next(); });
+    }
+  };
+  var next = function(){ if(pend){ var d = pend; pend = 0; go(d); } };
+  var prev = document.querySelector('.hero-arrow.prev');
+  var nxt = document.querySelector('.hero-arrow.next');
+  if(prev) prev.addEventListener('click', function(){ go(-1); schedule(); });
+  if(nxt) nxt.addEventListener('click', function(){ go(1); schedule(); });
+  // Avance automático cada 3 segundos (se apaga si la persona pidió menos movimiento)
+  var hovering = false;
+  var schedule = function(){
+    clearTimeout(timer);
+    if(reduce) return;
+    timer = setTimeout(function(){
+      if(!document.hidden) go(1);
+      schedule();
+    }, 3000);
+  };
+  var hero = slides.parentNode;
+  hero.addEventListener('mousemove', function(e){ hovering = e.clientY <= slides.getBoundingClientRect().bottom; });
+  hero.addEventListener('mouseleave', function(){ hovering = false; });
+  schedule();
+  // Si cambian el tamaño de la ventana a celular, se recarga para usar el carrusel del celular
+  mq.addEventListener && mq.addEventListener('change', function(){ location.reload(); });
+})();
+
+// Enlaces internos (#colecciones, #portafolio...): las fotos que cargan mientras se baja empujan el destino.
+// Se corrige la posición durante un par de segundos para terminar siempre en la sección correcta.
+(function(){
+  var cancel = false, runId = 0;
+  ['wheel','touchstart','keydown','mousedown'].forEach(function(ev){
+    window.addEventListener(ev, function(){ cancel = true; }, { passive:true });
+  });
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if(!a) return;
+    var id = a.getAttribute('href').slice(1);
+    var target = id && document.getElementById(id);
+    if(!target) return;
+    e.preventDefault();
+    cancel = false;
+    var mine = ++runId, end = Date.now() + 2200;
+    var align = function(){
+      if(cancel || mine !== runId) return;
+      var y = Math.max(0, target.getBoundingClientRect().top + window.pageYOffset);
+      if(Math.abs(y - window.pageYOffset) > 1) window.scrollTo({ top: y, left: 0, behavior: 'instant' });
+      if(Date.now() < end) requestAnimationFrame(align);
+    };
+    // El menú del celular se cierra antes de medir
+    setTimeout(function(){ cancel = false; align(); }, 30);
+    try{ history.replaceState(null, '', '#' + id); }catch(err){}
+  });
 })();

@@ -1,6 +1,6 @@
 # Configuración de Netlify para meltrujillo.com
 # Sitio estático: portada (index.html), blog, recursos y páginas sueltas en la raíz.
-# Las funciones del servidor viven en netlify/functions (capi.js y cal-webhook.js).
+# Las funciones del servidor viven en netlify/functions (capi.js, cal-webhook.js y uptime-check.js).
 
 [build]
   publish = "."
@@ -11,6 +11,10 @@
 
 [functions]
   node_bundler = "esbuild"
+
+# Vigilante de caídas: revisa la landing cada 10 minutos y avisa al celular y al correo.
+[functions."uptime-check"]
+  schedule = "*/10 * * * *"
 
 # ---------- Direcciones alternativas ----------
 # /privacy lleva a la política de privacidad (la página real se llama privacidad.html).

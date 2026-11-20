@@ -13,9 +13,8 @@
  *   ViewContent          "Contenido visualizado": llevan 6 segundos con la landing abierta (o abrieron un recurso)  navegador + servidor
  *   InitiateCheckout     "Inicio de compra": clic en cualquier botón "Agendar reunión" (Cal.com)  navegador + servidor
  *                        (cuando exista el botón de pago, ese botón pasa a ser el inicio de compra: ver CAL_CLICK_EVENT)
- *   Lead                 "Cliente potencial": reservaron la reunión en Cal.com (cal-webhook.js, servidor)
- *                        y clic en "confirmar por WhatsApp" de la página de gracias y del aviso al agendar (data-mt-event="Lead")  navegador + servidor
- *   Contact              "Contacto": ya no se usa en los botones de WhatsApp; se mantiene permitido por si se necesita más adelante
+ *   Lead                 "Cliente potencial": reservaron la reunión en Cal.com   SOLO cal-webhook.js (servidor)
+ *   Contact              "Contacto": clic en "confirmar por WhatsApp" de la página de gracias y del aviso al agendar (data-mt-event="Contact")  navegador + servidor
  *   Schedule             "Programar": agendaron su sesión (no sale de esta página; ver cal-webhook.js)
  *   Purchase             "Compra": pagaron su sesión. Nunca sale del navegador: se sube desde una fuente verificada
  *   VioPortafolio        abren una foto del portafolio                          navegador + servidor  (personalizado)
@@ -181,7 +180,7 @@
     if (PAGE === 'blog-post') track('VerBlog', { content_name: safeLabel(SLUG) || 'articulo' });
     if (PAGE === 'recurso') track('ViewContent', { content_name: 'recurso-' + (safeLabel(SLUG) || 'indice') });
     var pageEvent = body && body.getAttribute('data-page-event');
-    if (pageEvent === 'Contact' || pageEvent === 'Lead' || pageEvent === 'InitiateCheckout') {
+    if (pageEvent === 'Contact' || pageEvent === 'InitiateCheckout') {
       track(pageEvent, { content_name: safeLabel(SLUG) || safeLabel(PAGE) });
     }
 
@@ -224,7 +223,7 @@
       var marked = target.closest('[data-mt-event]');
       if (marked) {
         var name = marked.getAttribute('data-mt-event');
-        var allowed = ['Contact', 'Lead', 'VioPortafolio', 'InitiateCheckout'];
+        var allowed = ['Contact', 'VioPortafolio', 'InitiateCheckout'];
         if (allowed.indexOf(name) === -1) return;
         var key = name + ':' + (marked.getAttribute('data-mt-label') || '');
         if (marked.hasAttribute('data-mt-once') && firedOnce[key]) return;

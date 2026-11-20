@@ -19,13 +19,13 @@ const crypto = require('crypto');
 const GRAPH = 'https://graph.facebook.com/' + (process.env.META_GRAPH_VERSION || 'v23.0');
 
 const ALLOWED_ORIGINS = ['https://meltrujillo.com', 'https://www.meltrujillo.com'];
-// Desde el navegador entran estos eventos. "Schedule" lo envía únicamente cal-webhook.js, que verifica la
-// firma de Cal.com, y "Purchase" nunca sale del navegador. "Lead" también sale del navegador, solo por el clic
-// en "confirmar por WhatsApp"; el límite de envíos por IP de abajo frena el abuso.
-//   Estándar:      PageView, ViewContent, Contact, Lead, InitiateCheckout
+// Desde el navegador solo entran estos eventos. "Lead" y "Schedule" los envía únicamente cal-webhook.js,
+// que verifica la firma de Cal.com, y "Purchase" nunca sale del navegador. Así nadie puede fabricar
+// Leads ni Compras falsas que contaminen la optimización de los anuncios.
+//   Estándar:      PageView, ViewContent, Contact, InitiateCheckout
 //   Personalizado: InteresadoEnReunion, VioPortafolio, VerBlog, IniciaEnBlog
 const ALLOWED_EVENTS = [
-  'PageView', 'ViewContent', 'Contact', 'Lead', 'InitiateCheckout',
+  'PageView', 'ViewContent', 'Contact', 'InitiateCheckout',
   'InteresadoEnReunion', 'VioPortafolio', 'VerBlog', 'IniciaEnBlog',
 ];
 // content_name describe de dónde salió el evento ("portada", "coleccion-2", "mi-articulo"...).

@@ -115,7 +115,7 @@
         '<p>ya tengo su reserva. confírmenme por WhatsApp y nos vemos en la llamada.</p>' +
         '<div class="mt-thanks-actions">' +
         '<a class="btn btn-primary" href="' + WHATSAPP_URL + '" target="_blank" rel="noopener" ' +
-        'data-mt-event="Contact" data-mt-label="agenda-popup" data-mt-once>Confirmar por WhatsApp</a>' +
+        'data-mt-event="Lead" data-mt-label="agenda-popup" data-mt-once>Confirmar por WhatsApp</a>' +
         '<button type="button" class="btn btn-ghost" data-mt-close>cerrar</button>' +
         '</div></div>';
       box.addEventListener('click', function (event) {

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Cronogramas 1:1 · Mel Trujillo Weddings</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Forum&family=Alex+Brush&family=Nunito+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/cronogramas/style.css">
+<style>
+  .box{background:#fff;border:1px solid var(--line);border-radius:22px;padding:22px;display:flex;flex-direction:column;gap:14px;box-shadow:0 22px 44px -26px rgba(120,40,40,.3)}
+  .box label{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600;color:#6e6064;letter-spacing:.03em}
+  .box .f{font-weight:400}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media (max-width:620px){.two{grid-template-columns:1fr}}
+  select.f{appearance:none;background-image:none}
+  .btn{font:700 15px var(--body);letter-spacing:.06em;color:#fff;background:var(--wine);border:0;border-radius:999px;padding:14px 30px;cursor:pointer;align-self:flex-start}
+  .btn.sec{background:#fff;color:var(--wine);border:1px solid var(--pend-line);padding:9px 16px;font-size:13px}
+  .btn:disabled{opacity:.6}
+  .res{background:#f3faf5;border:1px solid #cfe6d6;border-radius:16px;padding:14px 16px;display:none;flex-direction:column;gap:10px;font-size:14px;word-break:break-all}
+  .res.show{display:flex}
+  .item{display:flex;flex-direction:column;gap:6px;padding:14px 4px;border-top:1px solid var(--line)}
+  .item:first-child{border-top:0}
+  .item b{font-family:var(--display);font-weight:400;font-size:20px}
+  .meta{font-size:12.5px;color:var(--muted)}
+  .acts{display:flex;gap:8px;flex-wrap:wrap}
+  .acts a,.acts button{font:600 12.5px var(--body);color:var(--wine);background:#fff;border:1px solid var(--pend-line);border-radius:999px;padding:7px 13px;cursor:pointer;text-decoration:none}
+  .hint{font-size:12.5px;color:var(--muted);margin:0}
+  .err{color:var(--wine);font-weight:600;font-size:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Mel Trujillo Weddings</div>
+    <h1>Cronogramas 1:1</h1>
+    <div class="lema">Lo invisible, visible</div>
+  </header>
+
+  <section>
+    <h2>Acceso</h2>
+    <div class="box">
+      <label>Clave de Mel<input class="f" id="key" type="password" autocomplete="current-password" placeholder="tu clave"></label>
+      <p class="hint">Se queda guardada solo en este dispositivo.</p>
+      <div id="authMsg"></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Nuevo cronograma</h2>
+    <form class="box" id="nuevo" autocomplete="off">
+      <div class="two">
+        <label>Pareja<input class="f" id="pareja" placeholder="Camilo &amp; María Paula" required></label>
+        <label>Fecha de la boda<input class="f" id="fecha" type="date" required></label>
+      </div>
+      <div class="two">
+        <label>Hora de la ceremonia<input class="f" id="hora" placeholder="3:00 pm" required></label>
+        <label>Colección
+          <select class="f" id="col">
+            <option value="">elige una colección</option>
+            <option value="full">Full Experience</option>
+            <option value="1">Colección I</option>
+            <option value="2">Colección II</option>
+            <option value="3">Colección III</option>
+          </select>
+        </label>
+      </div>
+      <label>Lugar de la ceremonia<input class="f" id="cer" placeholder="Catedral Diocesana de Zipaquirá · Calle 5 # 7-51" required></label>
+      <label>Lugar de la recepción (si es diferente)<input class="f" id="rec" placeholder="Hacienda El Refugio, vía El Neusa, Cogua"></label>
+      <label>Adicionales contratados (uno por línea, opcional)<textarea class="f" id="adic" rows="2" placeholder="Evento adicional: preboda"></textarea></label>
+      <p class="hint">Los adicionales se muestran en "Qué incluye". Escribe cada uno en su línea; si necesita detalle, sepáralo con dos puntos.</p>
+      <button class="btn" id="crear" type="submit">Crear cronograma</button>
+      <div class="res" id="res"></div>
+      <div id="crearMsg"></div>
+    </form>
+  </section>
+
+  <section>
+    <h2>Cronogramas creados</h2>
+    <div class="box" id="lista"><p class="hint">Escribe tu clave para ver la lista.</p></div>
+  </section>
+</div>
+<script>
+(function(){
+  var $=function(id){return document.getElementById(id);};
+  var KEY_LS='cron_admin_key';
+  var COLS={
+    full:{n:'Full Experience',i:['10 horas de cobertura','Fotógrafo','Videógrafo','Álbum premium','1 evento extra (preboda, despedida, ensayo u otro)','Dron','Fotos en alta resolución en galería online']},
+    '1':{n:'Colección I',i:['10 horas de cobertura','Fotógrafo','Videógrafo','Fotos en alta resolución en galería online']},
+    '2':{n:'Colección II',i:['10 horas de cobertura','Fotógrafo','1 evento extra (preboda, despedida, ensayo u otro)','Fotos en alta resolución en galería online']},
+    '3':{n:'Colección III',i:['6 horas de cobertura','Fotógrafo','Fotos en alta resolución en galería online']}
+  };
+  var MESES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  function key(){return $('key').value.trim();}
+  try{$('key').value=localStorage.getItem(KEY_LS)||'';}catch(e){}
+
+  function api(method,path,body){
+    return fetch(path,{method:method,headers:{'Content-Type':'application/json','x-admin-key':key()},body:body?JSON.stringify(body):undefined})
+      .then(function(r){return r.json().then(function(j){return {ok:r.ok,status:r.status,j:j};});});
+  }
+  function fechaLarga(iso){var p=iso.split('-');return Number(p[2])+' de '+MESES[Number(p[1])-1]+' de '+p[0];}
+  function fmt(ms){ if(!ms) return 'aún sin respuestas'; return new Date(ms).toLocaleString('es-CO',{dateStyle:'medium',timeStyle:'short'}); }
+
+  function lista(){
+    if(!key()){ $('lista').innerHTML='<p class="hint">Escribe tu clave para ver la lista.</p>'; return; }
+    api('GET','/api/cronogramas/admin/lista').then(function(r){
+      if(r.status===401){ $('authMsg').innerHTML='<span class="err">Clave incorrecta</span>'; $('lista').innerHTML=''; return; }
+      $('authMsg').innerHTML=''; try{localStorage.setItem(KEY_LS,key());}catch(e){}
+      var it=r.j.items||[];
+      if(!it.length){ $('lista').innerHTML='<p class="hint">Todavía no hay cronogramas.</p>'; return; }
+      $('lista').innerHTML=it.map(function(x){
+        var link=location.origin+'/c/'+x.slug;
+        return '<div class="item"><b>'+esc(x.pareja)+'</b><div class="meta">'+esc(x.fecha_larga)+' · '+esc(x.coleccion)+'</div>'
+          +'<div class="meta">Última edición: '+esc(fmt(x.updated))+' · campos llenos: '+x.campos_llenos+'</div>'
+          +'<div class="acts"><a href="'+esc(link)+'" target="_blank" rel="noopener">Abrir</a>'
+          +'<button type="button" data-copy="'+esc(link)+'">Copiar enlace</button>'
+          +'<button type="button" data-del="'+esc(x.slug)+'" data-name="'+esc(x.pareja)+'">Eliminar</button></div></div>';
+      }).join('');
+    }).catch(function(){ $('lista').innerHTML='<p class="err">No se pudo cargar la lista.</p>'; });
+  }
+
+  $('key').addEventListener('change', lista);
+  $('lista').addEventListener('click', function(e){
+    var c=e.target.getAttribute&&e.target.getAttribute('data-copy');
+    if(c){ (navigator.clipboard?navigator.clipboard.writeText(c):Promise.reject()).then(function(){e.target.textContent='Copiado';setTimeout(function(){e.target.textContent='Copiar enlace';},1800);}).catch(function(){prompt('Copia este enlace',c);}); return; }
+    var d=e.target.getAttribute&&e.target.getAttribute('data-del');
+    if(d && confirm('¿Eliminar el cronograma de '+e.target.getAttribute('data-name')+'? Esto borra también lo que la pareja ya llenó.')){
+      api('DELETE','/api/cronogramas/admin/c/'+d).then(lista);
+    }
+  });
+
+  $('nuevo').addEventListener('submit', function(e){
+    e.preventDefault();
+    if(!key()){ $('crearMsg').innerHTML='<span class="err">Escribe tu clave arriba.</span>'; return; }
+    var col=COLS[$('col').value];
+    if(!col){ $('crearMsg').innerHTML='<span class="err">Elige la colección.</span>'; return; }
+    var groups=[{t:col.n,i:col.i}];
+    $('adic').value.split('\n').map(function(s){return s.trim();}).filter(Boolean).forEach(function(l){
+      var k=l.indexOf(':');
+      if(k>0) groups.push({t:l.slice(0,k).trim(),i:[l.slice(k+1).trim()].filter(Boolean)});
+      else groups.push({t:l,i:[]});
+    });
+    groups=groups.map(function(g){ if(!g.i.length) g.i=['Incluido en su contrato']; return g; });
+    var nombreCol=col.n+($('adic').value.trim()?' + '+$('adic').value.split('\n').map(function(s){return s.trim();}).filter(Boolean).map(function(l){return l.charAt(0).toLowerCase()+l.slice(1);}).join(' + '):'');
+    var body={pareja:$('pareja').value,fecha_iso:$('fecha').value,fecha_larga:fechaLarga($('fecha').value),hora_ceremonia:$('hora').value,ceremonia:$('cer').value,recepcion:$('rec').value||'Misma ubicación de la ceremonia',coleccion:nombreCol,groups:groups};
+    $('crear').disabled=true; $('crearMsg').innerHTML='';
+    api('POST','/api/cronogramas/admin/crear',body).then(function(r){
+      $('crear').disabled=false;
+      if(!r.ok){ $('crearMsg').innerHTML='<span class="err">'+(r.status===401?'Clave incorrecta':'No se pudo crear ('+esc(r.j.error||r.status)+')')+'</span>'; return; }
+      var link=location.origin+r.j.path;
+      $('res').className='res show';
+      $('res').innerHTML='<b>Listo, este es el enlace para la pareja:</b><a href="'+esc(link)+'" target="_blank" rel="noopener">'+esc(link)+'</a><div class="acts"><button type="button" id="cp">Copiar enlace</button></div>';
+      $('cp').onclick=function(){ (navigator.clipboard?navigator.clipboard.writeText(link):Promise.reject()).then(function(){$('cp').textContent='Copiado';}).catch(function(){prompt('Copia este enlace',link);}); };
+      $('nuevo').reset(); lista();
+    }).catch(function(){ $('crear').disabled=false; $('crearMsg').innerHTML='<span class="err">Sin conexión, inténtalo de nuevo.</span>'; });
+  });
+  if(key()) lista();
+})();
+</script>
+</body>
+</html>

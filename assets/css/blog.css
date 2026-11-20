@@ -136,3 +136,24 @@ button.btn{ font-family:inherit; cursor:pointer; }
   .page-wrap{ max-width:none; padding-inline:0; }
   .resource-sheet td.blank{ height:44px; }
 }
+
+/* ---------- Más sobre mí (video de presentación) ---------- */
+.presentacion{ margin:34px 0 0; }
+.video-marco{
+  width:100%;
+  aspect-ratio:16 / 9;
+  background:var(--bg-soft);
+  border:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:20px;
+}
+.video-nota{
+  font-family:'Cormorant Garamond', Georgia, serif;
+  font-style:italic;
+  font-weight:700;
+  font-size:clamp(20px,4.6vw,28px);
+  color:var(--wine);
+}

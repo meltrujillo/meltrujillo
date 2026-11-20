@@ -270,7 +270,7 @@ blockquote.pull.soft{
 .marquee{
   display:flex;
   width:max-content;
-  animation:marquee-scroll 126s linear infinite;
+  animation:marquee-scroll 200s linear infinite;
 }
 .marquee:hover{ animation-play-state:paused; }
 .marquee-item{
@@ -866,3 +866,70 @@ blockquote.pull.soft{
   header.site .logo-lockup .word{ font-size:11.5px; letter-spacing:0.12em; white-space:nowrap; }
   header.site nav.site-nav{ gap:12px; flex-wrap:nowrap; font-size:10.5px; letter-spacing:0.04em; white-space:nowrap; }
 }
+
+/* ==========================================================
+   AJUSTES NOVIEMBRE 2026 — más rojo de marca, sección "conocernos" y carta de preguntas frecuentes.
+   Va al final del archivo; funciona igual en celular y en PC.
+   ========================================================== */
+
+/* Más rojo de marca: etiquetas de sección, títulos en rojo y filetes */
+main .eyebrow{ color:var(--wine); }
+.hero .eyebrow, .contact .eyebrow{ color:#f1e4d8; }
+.fit-list li{ border-top-color:var(--wine); }
+.colecciones-cta .btn-primary, .conocernos .btn-primary{ background:var(--wine); border-color:var(--wine); color:#fff; }
+.step h3{ color:var(--ink); }
+.coll-name{ color:var(--wine); }
+
+/* Conocernos (justo después del inicio) */
+.conocernos{ text-align:center; max-width:64ch; margin-inline:auto; }
+.conocernos h2{ font-size:clamp(28px,6.4vw,40px); margin:10px auto 22px; }
+.conocernos p:not(.eyebrow){ color:var(--ink-soft); font-size:17.5px; margin:0 0 16px; }
+.conocernos .btn{ margin-top:14px; }
+
+/* Primera frase del inicio: sobresale del párrafo */
+.lede-fuerte{ display:block; font-weight:700; font-size:1.18em; line-height:1.35; margin-top:12px; color:#fff; }
+.lede-rojo{ display:block; white-space:nowrap; font-weight:700; font-size:1.18em; margin-top:2px; color:#e3202c; text-shadow:0 1px 14px rgba(0,0,0,0.55); }
+
+.conocernos h2{ text-align:center; }
+.conocernos .porque{ font-family:'Cormorant Garamond', serif; font-style:italic; font-weight:700; font-size:clamp(30px,7vw,42px); color:var(--wine); margin:6px 0 2px; line-height:1.1; }
+.conocernos .porque-resp{ font-size:clamp(19px,4.4vw,23px); color:var(--ink); margin:0 auto 22px; max-width:30ch; }
+.conocernos-lista{ list-style:none; margin:0 auto 24px; padding:0; max-width:34ch; display:grid; gap:0; }
+.conocernos-lista li{ padding:12px 0; border-top:1px solid rgba(157,0,9,0.3); color:var(--ink-soft); font-size:17px; }
+.conocernos-lista li:last-child{ border-bottom:1px solid rgba(157,0,9,0.3); }
+
+/* Cómo funciona: las tarjetas suben al hacer scroll */
+.js-reveal .steps .step{ opacity:0; transform:translateY(64px) scale(.97); transition:opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1); }
+.js-reveal .steps .step.is-in{ opacity:1; transform:none; }
+.js-reveal .steps .step:nth-child(2){ transition-delay:.15s; }
+.js-reveal .steps .step:nth-child(3){ transition-delay:.3s; }
+@media (prefers-reduced-motion:reduce){ .js-reveal .steps .step{ opacity:1; transform:none; transition:none; } }
+
+/* Preguntas frecuentes: papel hecho a mano sobre fondo claro */
+.faq{ --w:min(560px, calc(100vw - 24px)); --hb:calc(var(--w) * 0.4422); background:var(--bg-soft); padding-block:64px 72px; }
+.carta{ width:var(--w); margin-inline:auto; filter:drop-shadow(0 14px 22px rgba(34,31,27,0.22)); }
+.carta-papel{
+  display:block;
+  padding:calc(var(--w) * 0.2) 13% calc(var(--w) * 0.2);
+  background:
+    url('/assets/img/carta-top.webp') 0 0 / 100% var(--hb) no-repeat,
+    url('/assets/img/carta-bot.webp') 0 100% / 100% var(--hb) no-repeat,
+    url('/assets/img/carta-mid.webp') 0 calc(var(--hb) - 2px) / 100% calc(100% - var(--hb) - var(--hb) + 4px) no-repeat;
+}
+.carta-titulo{ margin:0 0 12px; text-align:center; font-family:'Cormorant Garamond', serif; font-style:italic; font-weight:700; font-size:clamp(32px,8vw,46px); line-height:1.05; color:var(--wine); text-transform:none; }
+.pregunta{ border-bottom:1px solid rgba(157,0,9,0.25); }
+.pregunta summary{ list-style:none; cursor:pointer; display:flex; justify-content:space-between; align-items:baseline; gap:14px; padding:16px 0; font-size:15.5px; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink); }
+.pregunta summary::-webkit-details-marker{ display:none; }
+.pregunta summary::after{ content:"+"; color:var(--wine); font-size:22px; line-height:1; flex:0 0 auto; }
+.pregunta[open] summary::after{ content:"–"; }
+.pregunta summary:hover{ color:var(--wine); }
+.pregunta summary:focus-visible{ outline:2px solid var(--wine); outline-offset:2px; }
+.pregunta p{ margin:0 0 18px; font-family:'Cormorant Garamond', serif; font-style:italic; font-weight:400; font-size:19px; line-height:1.55; color:var(--ink-soft); }
+@media (prefers-reduced-motion:reduce){ .carta-cuerpo{ animation:none; } }
+.conocernos p.porque{ font-size:clamp(30px,7vw,42px); color:var(--wine); margin:6px 0 2px; }
+.conocernos p.porque-resp{ font-size:clamp(19px,4.4vw,23px); color:var(--ink); margin:0 auto 22px; }
+@media (max-width:767.98px){
+  .lede-fuerte{ color:var(--ink); font-size:1.12em; }
+  .lede-rojo{ color:var(--wine); text-shadow:none; font-size:1.12em; }
+}
+.carta[open] .sobre-izq, .carta[open] .sobre-der{ opacity:0; }
+.carta[open] .sobre-base{ clip-path:polygon(0 100%, 50% 25%, 100% 100%); background:#f6ede1; }

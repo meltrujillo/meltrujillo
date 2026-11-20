@@ -1,6 +1,6 @@
 # Configuración de Netlify para meltrujillo.com
 # Sitio estático: portada (index.html), blog, recursos y páginas sueltas en la raíz.
-# Las funciones del servidor viven en netlify/functions (capi.js, cal-webhook.js y uptime-check.js).
+# Las funciones del servidor viven en netlify/functions (capi.js, cal-webhook.js, uptime-check.js y cronogramas-api.mjs).
 
 [build]
   publish = "."
@@ -42,3 +42,31 @@
   for = "/assets/*"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
+
+# ---------- Cronogramas 1:1 de las parejas ----------
+# Cada pareja tiene su enlace privado /c/<pareja>-<código>; todas usan la misma plantilla.
+# Lo que ellos llenan se guarda en Netlify Blobs a través de /api/cronogramas (función cronogramas-api.mjs).
+# Crear una pareja nueva no necesita publicar el sitio otra vez. Mel administra todo desde /cronogramas/ con su clave.
+[[redirects]]
+  from = "/c/*"
+  to = "/cronogramas/cronograma.html"
+  status = 200
+  force = true
+
+[[headers]]
+  for = "/c/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    Referrer-Policy = "no-referrer"
+
+[[headers]]
+  for = "/cronogramas/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    Referrer-Policy = "no-referrer"
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/api/cronogramas/*"
+  [headers.values]
+    Cache-Control = "no-store"

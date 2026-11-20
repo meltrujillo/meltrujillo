@@ -14,7 +14,7 @@
  *   InitiateCheckout     "Inicio de compra": clic en cualquier botón "Agendar reunión" (Cal.com)  navegador + servidor
  *                        (cuando exista el botón de pago, ese botón pasa a ser el inicio de compra: ver CAL_CLICK_EVENT)
  *   Lead                 "Cliente potencial": reservaron la reunión en Cal.com   SOLO cal-webhook.js (servidor)
- *   Contact              "Contacto": clic en "confirmar por WhatsApp" de la página de gracias (data-mt-event="Contact")  navegador + servidor
+ *   Contact              "Contacto": clic en "confirmar por WhatsApp" de la página de gracias y del aviso al agendar (data-mt-event="Contact")  navegador + servidor
  *   Schedule             "Programar": agendaron su sesión (no sale de esta página; ver cal-webhook.js)
  *   Purchase             "Compra": pagaron su sesión. Nunca sale del navegador: se sube desde una fuente verificada
  *   VioPortafolio        abren una foto del portafolio                          navegador + servidor  (personalizado)
@@ -24,7 +24,7 @@
  * CÓMO SE USA EN CUALQUIER PÁGINA NUEVA
  *   <body data-page="landing|blog|blog-post|recurso|gracias" data-slug="nombre-corto">
  *   <script src="/assets/js/tracking.js" defer></script>
- *   Un botón que debe medirse:  data-mt-event="Contact" data-mt-label="whatsapp"
+ *   Un botón que debe medirse:  data-mt-event="Lead" data-mt-label="whatsapp"
  *   Los enlaces a cal.com/meltrujillo ya se miden solos; un data-mt-label="nombre" dice cuál fue.
  *
  * El ID del píxel es un dato público, por eso puede vivir en este archivo.

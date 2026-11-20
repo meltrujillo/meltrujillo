@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Cronograma 1:1 · Mel Trujillo Weddings</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Forum&family=Alex+Brush&family=Nunito+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/cronogramas/style.css">
+<style>.state{max-width:520px;margin:18vh auto;text-align:center;padding:0 20px;color:var(--muted)}.state h1{font-family:var(--display);font-weight:400;color:var(--ink);font-size:30px}</style>
+</head>
+<body>
+<div id="root"><div class="state"><p>cargando su cronograma…</p></div></div>
+<div class="save" id="save" role="status" aria-live="polite"></div>
+<script>
+(function(){
+  var API = '/api/cronogramas';
+  var SLUG = location.pathname.replace(/^\/c\//,'').replace(/\/+$/,'');
+  var LS_CFG = 'cron_cfg_' + SLUG, LS_ANS = 'cron_ans_' + SLUG;
+  var root = document.getElementById('root'), saveEl = document.getElementById('save'), hideT;
+
+  var SECTIONS = [
+    ['prep','Preparativos','Preparativos',['Llegada de la fotógrafa a la locación de preparativos','Maquillaje y peinado de la novia','La novia se pone el vestido','Preparativos del novio (vestuario, detalles)','Fotos de detalles (anillos, vestido, invitaciones, perfume)','Primera mirada, first look (solo si la pareja lo desea)']],
+    ['cer','Ceremonia','Ceremonia',['Llegada de invitados','Llegada del novio al altar','Entrada de la novia','Inicio de la ceremonia','Salida de los novios ya casados']],
+    ['fot','Sesión de fotos','Sesión',['Fotos familiares y grupales','Sesión de pareja (golden hour, si el horario lo permite)','Traslado a la recepción']],
+    ['rec','Recepción y fiesta','Fiesta',['Entrada de los novios a la recepción','Brindis','Primer baile','Corte de torta','Apertura de pista / fiesta','Hora de cierre de la cobertura fotográfica']]
+  ];
+  var ROLES = ['Wedding planner','Lugar / venue','Maquillista','DJ / banda'];
+  var NOTE_PH = 'escribe aquí tus observaciones si aplica', PH = 'pendiente de rellenar';
+
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+  function say(msg, err){ saveEl.textContent=msg; saveEl.className='save show'+(err?' err':''); clearTimeout(hideT); hideT=setTimeout(function(){ saveEl.className='save'; }, 3200); }
+  function grow(t){ t.style.height='auto'; t.style.height=(t.scrollHeight+2)+'px'; }
+
+  function timebox(name,label){
+    return '<div><span class="lab">'+esc(label)+'</span><div class="timebox pend" data-name="'+esc(name)+'" role="group" aria-label="'+esc(label)+'">'
+      +'<input class="th" type="text" inputmode="numeric" maxlength="2" placeholder="hh" aria-label="Hora">'
+      +'<span class="tc">:</span>'
+      +'<input class="tm" type="text" inputmode="numeric" maxlength="2" placeholder="mm" aria-label="Minutos">'
+      +'<div class="ampm"><button type="button" data-p="am" aria-pressed="false">AM</button><button type="button" data-p="pm" aria-pressed="false">PM</button></div>'
+      +'<input type="hidden" name="'+esc(name)+'" value=""></div></div>';
+  }
+  /* observación plegable: empieza como un enlace discreto */
+  function notefold(name,aria){
+    return '<div class="nwrap"><button type="button" class="addnote" aria-expanded="false">+ añadir observación</button>'
+      +'<div class="nbox" hidden><span class="lab">Notas</span><textarea class="f note" rows="1" name="'+esc(name)+'" placeholder="'+NOTE_PH+'" aria-label="'+esc(aria)+'"></textarea></div></div>';
+  }
+  function textfield(name,label,aria,note,area){
+    var cls = note ? 'f note' : 'f pend', ph = note ? NOTE_PH : PH, lab='<span class="lab">'+esc(label)+'</span>';
+    if(area) return '<div>'+lab+'<textarea class="'+cls+'" rows="1" name="'+esc(name)+'" placeholder="'+ph+'" aria-label="'+esc(aria)+'"></textarea></div>';
+    return '<div>'+lab+'<input class="'+cls+'" type="text" name="'+esc(name)+'" placeholder="'+ph+'" aria-label="'+esc(aria)+'"></div>';
+  }
+
+  function render(cfg){
+    document.title = 'Cronograma 1:1 — '+cfg.pareja+' ('+cfg.fecha_larga+')';
+    var h=[];
+    h.push('<section id="s-info"><h2>Información general</h2><div class="card"><div class="row head cols2"><div>Campo</div><div>Detalle</div></div>');
+    [['Pareja',cfg.pareja],['Fecha de la boda',cfg.fecha_larga],['Lugar de la ceremonia',cfg.ceremonia],['Lugar de la recepción (si es diferente)',cfg.recepcion],['Hora de inicio de la ceremonia',cfg.hora_ceremonia],['Colección / paquete contratado',cfg.coleccion]].forEach(function(r){
+      h.push('<div class="row cols2"><div class="k">'+esc(r[0])+'</div><div class="v">'+esc(r[1])+'</div></div>');
+    });
+    var g=(cfg.groups||[]).map(function(x){ return '<div class="g"><b>'+esc(x.t)+'</b><ul class="inc">'+x.i.map(function(i){return '<li>'+esc(i)+'</li>';}).join('')+'</ul></div>'; }).join('');
+    h.push('<div class="row cols2"><div class="k">Qué incluye</div><div class="incs">'+g+'</div></div></div></section>');
+    SECTIONS.forEach(function(s){
+      h.push('<section id="s-'+s[0]+'"><h2>'+esc(s[1])+'<span class="cnt" data-cnt="'+s[0]+'">0 de '+s[3].length+'</span></h2><div class="card"><div class="row head cols3"><div>Hora</div><div>Actividad</div><div>Notas</div></div>');
+      s[3].forEach(function(a,i){
+        h.push('<div class="row cols3">'+timebox(s[0]+'_'+i+'_hora','Hora')+'<div class="fixed">'+esc(a)+'</div>'+notefold(s[0]+'_'+i+'_notas','Notas: '+a)+'</div>');
+      });
+      h.push('</div></section>');
+    });
+    h.push('<section id="s-con"><h2>Contactos clave<span class="cnt" data-cnt="con">0 de '+ROLES.length+'</span></h2><div class="card"><div class="row head cols3c"><div>Rol</div><div>Nombre</div><div>Teléfono</div></div>');
+    ROLES.forEach(function(r,i){
+      h.push('<div class="row cols3c"><div class="fixed">'+esc(r)+'</div>'+textfield('con_'+i+'_nombre','Nombre','Nombre: '+r,false,false)+textfield('con_'+i+'_tel','Teléfono','Teléfono: '+r,false,false)+'</div>');
+    });
+    h.push('</div></section>');
+    h.push('<section id="s-fin"><h2>Notas finales</h2><p class="lead">Espacio para cualquier detalle especial del día (restricciones del lugar, horario de la luz, momentos que la pareja pidió cuidar, logística de traslados).</p><div class="card final"><div class="row" style="grid-template-columns:1fr">'+textfield('notas_finales','Notas finales','Notas finales',true,true)+'</div></div></section>');
+
+    var chips=[['s-prep','Preparativos'],['s-cer','Ceremonia'],['s-fot','Sesión'],['s-rec','Fiesta'],['s-con','Contactos'],['s-fin','Notas finales']].map(function(c){return '<a href="#'+c[0]+'">'+c[1]+'</a>';}).join('');
+    root.innerHTML =
+      '<form id="cron" autocomplete="off">'
+      +'<div class="sticky" id="sticky"><div class="in"><div class="prog" aria-live="polite"><span class="txt" id="progTxt">0 de 25 datos listos</span><span class="track"><span class="fill" id="progFill"></span></span></div><nav class="chips" aria-label="Ir a una sección">'+chips+'</nav></div></div>'
+      +'<div class="wrap">'
+      +'<header><div class="eyebrow">Mel Trujillo Weddings · Cronograma 1:1</div><h1>'+esc(cfg.pareja)+'</h1><div class="date">'+esc(cfg.fecha_larga)+'</div><div class="lema">Lo invisible, visible</div>'
+      +'<div class="legend"><span><i class="dot p"></i>pendiente de rellenar</span><span><i class="dot d"></i>listo</span><span><i class="dot n"></i>observaciones</span></div></header>'
+      +'<main id="app">'+h.join('')+'</main>'
+      +'<footer class="closing"><div class="cl-t">Antes de su boda</div>'
+      +'<p><strong>Estos datos son el hilo que nos mantiene conectados durante todo su día.</strong></p>'
+      +'<p>Con cada hora y cada detalle puedo seguir el cronograma paso a paso y estar justo donde ustedes me necesitan.</p>'
+      +'<p>Llénenlos en cuanto vayan teniendo claro cada punto, <strong>de eso depende que no se me escape ningún momento de su historia.</strong></p>'
+      +'<div class="lema">Lo invisible, visible</div></footer>'
+      +'<div class="savebar"><button type="submit" id="sendBtn">Guardar cambios</button><p id="sendMsg">Se guarda solo mientras escriben. Pueden volver a este mismo enlace cuando quieran y seguir editando.</p></div>'
+      +'</div></form>';
+  }
+
+  /* hora hh:mm + AM/PM */
+  function parseT(v){ var m=/^(\d{1,2}):(\d{2})\s*(am|pm)$/i.exec(v||''); return m?{h:m[1],m:m[2],p:m[3].toLowerCase()}:null; }
+  function setBox(box,v){
+    var t=parseT(v);
+    box.querySelector('.th').value=t?t.h:''; box.querySelector('.tm').value=t?t.m:'';
+    box.querySelectorAll('.ampm button').forEach(function(b){ b.setAttribute('aria-pressed', t&&b.dataset.p===t.p?'true':'false'); });
+    box.querySelector('input[type=hidden]').value = t ? (Number(t.h)+':'+t.m+' '+t.p) : '';
+    box.classList.toggle('pend',!t);
+  }
+  function updBox(box){
+    var th=box.querySelector('.th'), tm=box.querySelector('.tm');
+    th.value=th.value.replace(/\D/g,''); tm.value=tm.value.replace(/\D/g,'');
+    if(th.value&&Number(th.value)>12) th.value='12';
+    if(tm.value&&Number(tm.value)>59) tm.value='59';
+    var pb=box.querySelector('.ampm button[aria-pressed="true"]'), per=pb?pb.dataset.p:'', val='';
+    if(th.value&&Number(th.value)>=1&&per){ val=Number(th.value)+':'+(tm.value?('0'+tm.value).slice(-2):'00')+' '+per; }
+    box.querySelector('input[type=hidden]').value=val;
+    box.classList.toggle('pend',!val);
+  }
+
+  var FORM, serverUpdated = 0, dirty = false, saving = false, autoT;
+
+  /* avance: horas listas + nombres de contactos */
+  function refresh(){
+    var total=0, done=0;
+    SECTIONS.forEach(function(s){
+      var n=s[3].length, d=0;
+      for(var i=0;i<n;i++){ var v=FORM.elements[s[0]+'_'+i+'_hora']; if(v&&v.value) d++; }
+      total+=n; done+=d;
+      var c=FORM.querySelector('[data-cnt="'+s[0]+'"]'); if(c){ c.textContent=d+' de '+n; c.classList.toggle('ok', d===n); }
+    });
+    var cd=0; for(var j=0;j<ROLES.length;j++){ var nv=FORM.elements['con_'+j+'_nombre']; if(nv&&nv.value.trim()) cd++; }
+    total+=ROLES.length; done+=cd;
+    var cc=FORM.querySelector('[data-cnt="con"]'); if(cc){ cc.textContent=cd+' de '+ROLES.length; cc.classList.toggle('ok', cd===ROLES.length); }
+    var pct=Math.round(done*100/total);
+    document.getElementById('progFill').style.width=pct+'%';
+    document.getElementById('progTxt').textContent = done===total ? 'Todo listo, gracias' : (done+' de '+total+' datos listos');
+    document.getElementById('sticky').classList.toggle('done', done===total);
+  }
+
+  function openNote(wrap, focus){
+    var b=wrap.querySelector('.addnote'), box=wrap.querySelector('.nbox'), ta=wrap.querySelector('textarea');
+    box.hidden=false; b.hidden=true; b.setAttribute('aria-expanded','true'); grow(ta); if(focus) ta.focus();
+  }
+
+  function snapshot(){
+    var o={}; FORM.querySelectorAll('[name]').forEach(function(el){ o[el.name]=el.value; }); return o;
+  }
+  function cacheLocal(){ try{ localStorage.setItem(LS_ANS, JSON.stringify({t:Date.now(), r:snapshot()})); }catch(e){} }
+  function fill(r){
+    FORM.querySelectorAll('.timebox').forEach(function(box){ setBox(box, r[box.dataset.name]||''); });
+    FORM.querySelectorAll('input.f[name], textarea.f[name]').forEach(function(el){
+      el.value = r[el.name]||'';
+      if(!el.classList.contains('note')) el.classList.toggle('pend', !el.value.trim());
+      var w=el.closest('.nwrap'); if(w && el.value.trim()) openNote(w,false);
+    });
+    FORM.querySelectorAll('textarea.f').forEach(function(t){ if(!t.closest('.nbox')||!t.closest('.nbox').hidden) grow(t); });
+    refresh();
+  }
+
+  function save(manual){
+    if(saving) { dirty = true; return Promise.resolve(); }
+    clearTimeout(autoT); autoT=null;
+    FORM.querySelectorAll('.timebox').forEach(updBox);
+    var btn=document.getElementById('sendBtn'), msg=document.getElementById('sendMsg');
+    saving=true; dirty=false;
+    if(manual){ btn.disabled=true; btn.textContent='Guardando…'; }
+    var data=snapshot();
+    return fetch(API+'/c/'+encodeURIComponent(SLUG), {method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify({respuestas:data})})
+      .then(function(r){ if(!r.ok) throw new Error('http '+r.status); return r.json(); })
+      .then(function(j){
+        serverUpdated=j.updated||Date.now();
+        msg.className='ok'; msg.textContent='Listo, Mel recibió sus datos. Pueden volver a este enlace y seguir editando cuando quieran.';
+        say(manual?'Cambios guardados':'Guardado');
+      })
+      .catch(function(){
+        dirty=true;
+        msg.className='bad'; msg.textContent='No se pudo guardar ahora. Lo que escribieron sigue aquí y se vuelve a intentar solo.';
+        say('No se pudo guardar', true);
+        autoT=setTimeout(function(){ autoT=null; save(false); }, 8000);
+      })
+      .then(function(){
+        saving=false; btn.disabled=false; btn.textContent='Guardar cambios';
+        if(dirty && !autoT) autoT=setTimeout(function(){ autoT=null; save(false); }, 1500);
+      });
+  }
+  function schedule(){ cacheLocal(); dirty=true; refresh(); clearTimeout(autoT); autoT=setTimeout(function(){ autoT=null; save(false); }, 2500); }
+
+  function wire(cfg, serverAns, srvUpdated){
+    FORM=document.getElementById('cron');
+    var local=null; try{ local=JSON.parse(localStorage.getItem(LS_ANS)||'null'); }catch(e){}
+    var base=serverAns||{};
+    if(!base.cer_3_hora && cfg.hora_ceremonia) base=Object.assign({}, base, {cer_3_hora: cfg.hora_ceremonia});
+    var useLocal = local && local.r && local.t > (srvUpdated||0);
+    fill(useLocal ? Object.assign({}, base, local.r) : base);
+    serverUpdated = srvUpdated||0;
+    if(useLocal) schedule();
+
+    FORM.addEventListener('input', function(e){
+      var el=e.target, box=el.closest&&el.closest('.timebox');
+      if(box){
+        updBox(box);
+        /* salto automático: de la hora a los minutos */
+        if(el.classList.contains('th') && e.inputType && e.inputType.indexOf('insert')===0 && el.value && (el.value.length===2 || Number(el.value)>=2)){ box.querySelector('.tm').focus(); }
+      }
+      else if(el.classList&&el.classList.contains('f')){
+        if(!el.classList.contains('note')) el.classList.toggle('pend', !el.value.trim());
+        if(el.tagName==='TEXTAREA') grow(el);
+      }
+      schedule();
+    });
+    FORM.addEventListener('focusout', function(e){
+      if(e.target.classList&&e.target.classList.contains('tm')&&e.target.value.length===1){ e.target.value='0'+e.target.value; updBox(e.target.closest('.timebox')); schedule(); }
+    });
+    FORM.addEventListener('click', function(e){
+      var n=e.target.closest&&e.target.closest('.addnote'); if(n){ openNote(n.closest('.nwrap'), true); return; }
+      var b=e.target.closest&&e.target.closest('.ampm button'); if(!b) return;
+      var box=b.closest('.timebox');
+      box.querySelectorAll('.ampm button').forEach(function(x){ x.setAttribute('aria-pressed', x===b?'true':'false'); });
+      updBox(box); schedule();
+    });
+    FORM.addEventListener('submit', function(e){ e.preventDefault(); save(true); });
+    window.addEventListener('pagehide', function(){
+      if(dirty){ try{ navigator.sendBeacon(API+'/c/'+encodeURIComponent(SLUG), new Blob([JSON.stringify({respuestas:snapshot()})],{type:'application/json'})); }catch(e){} }
+    });
+    var regrow=function(){ FORM.querySelectorAll('.nbox:not([hidden]) textarea, .final textarea').forEach(grow); };
+    window.addEventListener('load', regrow);
+    if(document.fonts&&document.fonts.ready) document.fonts.ready.then(regrow);
+  }
+
+  function fail(msg){ root.innerHTML='<div class="state"><h1>no encontramos este cronograma</h1><p>'+esc(msg)+'</p></div>'; }
+
+  fetch(API+'/c/'+encodeURIComponent(SLUG), {cache:'no-store'})
+    .then(function(r){ if(r.status===404) throw {nf:true}; if(!r.ok) throw new Error('http'); return r.json(); })
+    .then(function(d){
+      try{ localStorage.setItem(LS_CFG, JSON.stringify(d.config)); }catch(e){}
+      render(d.config); wire(d.config, d.respuestas, d.updated);
+    })
+    .catch(function(err){
+      if(err && err.nf){ fail('Revisa que el enlace esté completo, o pídele a Mel que te lo envíe de nuevo.'); return; }
+      var cfg=null; try{ cfg=JSON.parse(localStorage.getItem(LS_CFG)||'null'); }catch(e){}
+      if(cfg){ render(cfg); wire(cfg, {}, 0); say('Sin conexión: se guarda en este dispositivo', true); }
+      else fail('No hay conexión en este momento. Inténtalo de nuevo en unos minutos.');
+    });
+})();
+</script>
+</body>
+</html>

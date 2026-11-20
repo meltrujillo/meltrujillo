@@ -890,14 +890,7 @@ main .eyebrow{ color:var(--wine); }
 .lede-fuerte{ display:block; font-weight:700; font-size:1.18em; line-height:1.35; margin-top:12px; color:#fff; }
 .lede-rojo{ display:block; white-space:nowrap; font-weight:700; font-size:1.18em; margin-top:2px; color:#e3202c; text-shadow:0 1px 14px rgba(0,0,0,0.55); }
 
-/* Conocernos: taza con vapor y mensaje corto */
-.conocernos h2{ display:flex; align-items:center; justify-content:center; gap:14px; flex-wrap:wrap; }
-.conocernos h2 > span{ text-align:left; }
-.taza{ color:var(--wine); flex:0 0 auto; }
-.taza .vapor path{ stroke-dasharray:16; animation:vapor 3.2s ease-in-out infinite; opacity:0; }
-.taza .vapor path:nth-child(2){ animation-delay:.8s; }
-.taza .vapor path:nth-child(3){ animation-delay:1.6s; }
-@keyframes vapor{ 0%{ stroke-dashoffset:16; opacity:0; transform:translateY(4px);} 35%{ opacity:.9;} 100%{ stroke-dashoffset:-16; opacity:0; transform:translateY(-6px);} }
+.conocernos h2{ text-align:center; }
 .conocernos .porque{ font-family:'Cormorant Garamond', serif; font-style:italic; font-weight:700; font-size:clamp(30px,7vw,42px); color:var(--wine); margin:6px 0 2px; line-height:1.1; }
 .conocernos .porque-resp{ font-size:clamp(19px,4.4vw,23px); color:var(--ink); margin:0 auto 22px; max-width:30ch; }
 .conocernos-lista{ list-style:none; margin:0 auto 24px; padding:0; max-width:34ch; display:grid; gap:0; }
@@ -909,60 +902,51 @@ main .eyebrow{ color:var(--wine); }
 .js-reveal .steps .step.is-in{ opacity:1; transform:none; }
 .js-reveal .steps .step:nth-child(2){ transition-delay:.15s; }
 .js-reveal .steps .step:nth-child(3){ transition-delay:.3s; }
-@media (prefers-reduced-motion:reduce){ .js-reveal .steps .step{ opacity:1; transform:none; transition:none; } .taza .vapor path{ animation:none; opacity:.8; } }
+@media (prefers-reduced-motion:reduce){ .js-reveal .steps .step{ opacity:1; transform:none; transition:none; } }
 
-/* Preguntas frecuentes: nota de papel sobre fondo rojo, con clip y sello */
-.faq{ background:#6d1a17; padding-block:64px 72px; }
-.carta{ max-width:560px; margin-inline:auto; position:relative; filter:drop-shadow(0 18px 26px rgba(0,0,0,0.35)); }
+/* Preguntas frecuentes: carta de papel sobre fondo vino, con la tipografía de la marca */
+.faq{ background:var(--wine); padding-block:64px 72px; }
+.carta{ max-width:560px; margin-inline:auto; position:relative; filter:drop-shadow(0 18px 26px rgba(0,0,0,0.3)); }
 .carta > summary{ list-style:none; cursor:pointer; }
 .carta > summary::-webkit-details-marker{ display:none; }
+.carta-cabeza, .carta-cuerpo{ background:#fbf8f4; }
 .carta-cabeza{
   position:relative;
-  display:flex; flex-direction:column; align-items:center; gap:10px;
-  background:#f4f2ee;
-  background-image:radial-gradient(rgba(34,31,27,0.045) 1px, transparent 1.2px);
-  background-size:5px 5px;
-  padding:34px 26px 28px;
-  min-height:360px;
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+  padding:56px 28px 26px;
+  min-height:340px;
   justify-content:center;
   text-align:center;
-  transition:min-height .5s ease;
+  border:1px solid rgba(255,255,255,0.4);
 }
 .carta[open] .carta-cabeza{ min-height:0; padding-bottom:18px; }
 .carta-cabeza:focus-visible{ outline:2px solid #fff; outline-offset:4px; }
-.clip{ position:absolute; top:-26px; right:26px; }
+.clip{ position:absolute; top:-24px; right:28px; opacity:.9; }
 .sello{
-  position:absolute; top:22px; left:22px;
-  width:62px; height:62px;
-  background:#f4ead9;
-  padding:5px;
-  -webkit-mask:radial-gradient(circle 3px at 50% 0, transparent 98%, #000) top/8px 51% repeat-x;
+  position:absolute; top:20px; left:22px;
+  width:50px; height:50px;
+  border:1px solid var(--wine); border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
 }
-.sello{ -webkit-mask:none; mask:none; border:3px dotted var(--wine); }
-.sello span{
-  display:flex; align-items:center; justify-content:center; width:100%; height:100%;
-  border:2px solid var(--wine); color:var(--wine);
-  font-family:'Cormorant Garamond', serif; font-style:italic; font-weight:700; font-size:22px;
-}
-.carta-titulo{ font-family:'Reenie Beanie', cursive; font-size:clamp(44px,11vw,64px); line-height:1; color:#1d1b18; transform:rotate(-3deg); margin-top:34px; }
-.carta[open] .carta-titulo{ font-size:clamp(36px,9vw,48px); margin-top:40px; }
-.carta-de{ display:flex; justify-content:space-between; gap:18px; width:100%; margin-top:14px; padding:10px 0; border-top:1px solid #6b665e; border-bottom:1px solid #6b665e; font-size:12px; letter-spacing:0.12em; color:#6b665e; }
-.carta-de em, .carta-pie em{ font-family:'Reenie Beanie', cursive; font-style:normal; font-size:24px; letter-spacing:0; color:#3a3733; margin-left:6px; }
-.carta-abrir{ font-family:'IBM Plex Mono', monospace; font-size:12.5px; color:var(--wine); margin-top:8px; }
+.sello span{ font-family:'Cormorant Garamond', serif; font-style:italic; font-weight:700; font-size:20px; color:var(--wine); }
+.carta-titulo{ font-family:'Cormorant Garamond', serif; font-style:italic; font-weight:700; font-size:clamp(38px,9vw,54px); line-height:1.05; color:var(--wine); }
+.carta[open] .carta-titulo{ font-size:clamp(32px,7.5vw,42px); }
+.carta-de{ display:flex; justify-content:space-between; gap:18px; width:100%; margin-top:18px; padding:10px 0; border-top:1px solid rgba(157,0,9,0.35); border-bottom:1px solid rgba(157,0,9,0.35); font-size:12px; letter-spacing:0.18em; color:var(--ink-soft); }
+.carta-de em, .carta-pie em{ font-family:'Cormorant Garamond', serif; font-style:italic; font-weight:700; font-size:18px; letter-spacing:0; color:var(--wine); margin-left:6px; text-transform:none; }
+.carta-abrir{ font-size:12px; letter-spacing:0.28em; text-transform:uppercase; color:var(--ink-soft); margin-top:10px; }
 .carta[open] .carta-abrir{ display:none; }
-.carta-cuerpo{ background:#f4f2ee; background-image:radial-gradient(rgba(34,31,27,0.045) 1px, transparent 1.2px); background-size:5px 5px; padding:6px 26px 26px; animation:carta-sale .7s ease both; }
+.carta-cuerpo{ padding:6px 28px 26px; animation:carta-sale .7s ease both; }
 @keyframes carta-sale{ from{ opacity:0; transform:translateY(-18px); } to{ opacity:1; transform:none; } }
-.pregunta{ border-bottom:1px solid #6b665e; }
-.pregunta summary{ list-style:none; cursor:pointer; display:flex; justify-content:space-between; align-items:flex-start; gap:14px; padding:16px 0 12px; font-family:'Reenie Beanie', cursive; font-size:28px; line-height:1.05; color:#1d1b18; text-transform:none; }
+.pregunta{ border-bottom:1px solid rgba(157,0,9,0.25); }
+.pregunta summary{ list-style:none; cursor:pointer; display:flex; justify-content:space-between; align-items:baseline; gap:14px; padding:16px 0; font-size:15.5px; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink); }
 .pregunta summary::-webkit-details-marker{ display:none; }
-.pregunta summary::after{ content:"+"; font-family:'IBM Plex Mono', monospace; color:var(--wine); font-size:20px; flex:0 0 auto; }
+.pregunta summary::after{ content:"+"; color:var(--wine); font-size:22px; line-height:1; flex:0 0 auto; }
 .pregunta[open] summary::after{ content:"–"; }
 .pregunta summary:hover{ color:var(--wine); }
 .pregunta summary:focus-visible{ outline:2px solid var(--wine); outline-offset:2px; }
-.pregunta p{ margin:0 0 18px; font-family:'IBM Plex Mono', monospace; font-size:14.5px; line-height:1.7; color:#2b2825; }
-.carta-pie{ display:flex; justify-content:space-between; gap:14px; padding-top:16px; font-size:12px; letter-spacing:0.12em; color:#6b665e; }
+.pregunta p{ margin:0 0 18px; font-family:'Cormorant Garamond', serif; font-style:italic; font-weight:400; font-size:19px; line-height:1.55; color:var(--ink-soft); }
+.carta-pie{ display:flex; justify-content:space-between; gap:14px; padding-top:16px; font-size:12px; letter-spacing:0.18em; color:var(--ink-soft); }
 @media (prefers-reduced-motion:reduce){ .carta-cuerpo{ animation:none; } }
-.taza{ width:56px; height:56px; }
 .conocernos p.porque{ font-size:clamp(30px,7vw,42px); color:var(--wine); margin:6px 0 2px; }
 .conocernos p.porque-resp{ font-size:clamp(19px,4.4vw,23px); color:var(--ink); margin:0 auto 22px; }
 @media (max-width:767.98px){

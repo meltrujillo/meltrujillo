@@ -904,57 +904,42 @@ main .eyebrow{ color:var(--wine); }
 .js-reveal .steps .step:nth-child(3){ transition-delay:.3s; }
 @media (prefers-reduced-motion:reduce){ .js-reveal .steps .step{ opacity:1; transform:none; transition:none; } }
 
-/* Preguntas frecuentes: un sobre que se abre y deja salir la carta */
-.faq{ background:var(--bg-soft); padding-block:72px 80px; }
-.carta{ max-width:560px; margin-inline:auto; position:relative; }
+/* Preguntas frecuentes: papel hecho a mano con sello de cera, sobre fondo vino */
+.faq{ --w:min(540px, calc(100vw - 32px)); background:#380607; padding-block:72px 220px; position:relative; }
+.faq::after{ content:""; position:absolute; left:0; right:0; bottom:0; height:190px; background:linear-gradient(to bottom, rgba(255,255,255,0), #fff); pointer-events:none; }
+.carta{ width:var(--w); margin-inline:auto; position:relative; z-index:1; filter:drop-shadow(0 18px 24px rgba(0,0,0,0.45)); }
 .carta > summary{ list-style:none; cursor:pointer; }
 .carta > summary::-webkit-details-marker{ display:none; }
-.sobre{
-  position:relative; z-index:3; display:block; height:290px;
-  perspective:900px;
-  background:#efe3d4;
-  border:1px solid rgba(157,0,9,0.4);
-  box-shadow:0 16px 34px rgba(34,31,27,0.16);
-  transition:height .6s ease, margin-top .6s ease;
+.carta-papel, .carta-preguntas{ display:block; }
+.faq{ --ht:calc(var(--w) * 0.5327); --hb:calc(var(--w) * 0.4422); }
+.carta-papel{
+  position:relative;
+  min-height:calc(var(--w) * 1.12);
+  padding:calc(var(--w) * 0.42) 14% calc(var(--w) * 0.12);
+  text-align:center;
+  background:
+    url('/assets/img/carta-top.webp') 0 0 / 100% var(--ht) no-repeat,
+    url('/assets/img/carta-bot.webp') 0 100% / 100% var(--hb) no-repeat,
+    url('/assets/img/carta-mid.webp') 0 calc(var(--ht) - 2px) / 100% calc(100% - var(--ht) - var(--hb) + 4px) no-repeat;
 }
-.sobre:focus-visible{ outline:2px solid var(--wine); outline-offset:5px; }
-.sobre-lado{ position:absolute; inset:0; }
-.sobre-izq{ background:#e9dac8; clip-path:polygon(0 0, 52% 54%, 0 100%); }
-.sobre-der{ background:#e9dac8; clip-path:polygon(100% 0, 48% 54%, 100% 100%); }
-.sobre-base{ background:#f3e9dc; clip-path:polygon(0 100%, 50% 46%, 100% 100%); }
-.sobre-solapa{
-  position:absolute; top:0; left:0; right:0; height:58%;
-  background:#e2d0bb;
-  clip-path:polygon(0 0, 100% 0, 50% 100%);
-  transform-origin:top center;
-  transition:transform .7s ease, background .7s ease;
+.carta-papel:focus-visible{ outline:2px solid #fff; outline-offset:4px; }
+.carta-titulo{ display:block; font-family:'Cormorant Garamond', serif; font-style:italic; font-weight:700; font-size:clamp(32px,8vw,46px); line-height:1.05; color:var(--wine); }
+.carta-abrir{ display:block; margin-top:14px; font-size:11.5px; letter-spacing:0.26em; text-transform:uppercase; color:#5b5249; }
+.carta[open] .carta-abrir{ display:none; }
+.carta[open] > .carta-papel{
+  min-height:0; padding-bottom:6px;
+  background:
+    url('/assets/img/carta-top.webp') 0 0 / 100% var(--ht) no-repeat,
+    url('/assets/img/carta-mid.webp') 0 calc(var(--ht) - 2px) / 100% calc(100% - var(--ht) + 2px) no-repeat;
 }
-.sobre-sello{
-  position:absolute; left:50%; top:calc(58% - 28px); margin-left:-28px;
-  width:56px; height:56px; border-radius:50%;
-  background:var(--wine); color:#f7e9dc;
-  display:flex; align-items:center; justify-content:center;
-  font-family:'Cormorant Garamond', serif; font-style:italic; font-weight:700; font-size:24px;
-  box-shadow:0 4px 12px rgba(157,0,9,0.4);
-  transition:opacity .35s ease;
+.carta-preguntas{
+  padding:0 14% calc(var(--w) * 0.2);
+  background:
+    url('/assets/img/carta-bot.webp') 0 100% / 100% var(--hb) no-repeat,
+    url('/assets/img/carta-mid.webp') 0 -2px / 100% calc(100% - var(--hb) + 4px) no-repeat;
+  animation:carta-sale .7s ease both;
 }
-.sobre-para{ position:absolute; left:0; right:0; bottom:46px; text-align:center; font-family:'Cormorant Garamond', serif; font-style:italic; font-weight:700; font-size:26px; color:var(--wine); z-index:2; transition:opacity .35s ease; }
-.sobre-abrir{ position:absolute; left:0; right:0; bottom:20px; text-align:center; font-size:11.5px; letter-spacing:0.26em; text-transform:uppercase; color:var(--ink-soft); z-index:2; transition:opacity .35s ease; }
-.carta[open] > .sobre{ height:96px; margin-top:64px; }
-.carta[open] .sobre-solapa{ transform:rotateX(180deg); background:#f5ece0; }
-.carta[open] .sobre-sello, .carta[open] .sobre-para, .carta[open] .sobre-abrir{ opacity:0; }
-.carta-cuerpo{
-  position:relative; z-index:1; margin:-46px 22px 0;
-  background:#fffdf9; border:1px solid rgba(34,31,27,0.1);
-  padding:76px 28px 28px;
-  box-shadow:0 14px 30px rgba(34,31,27,0.1);
-  animation:carta-sale .8s ease both;
-}
-@keyframes carta-sale{ from{ opacity:0; transform:translateY(-50px); } to{ opacity:1; transform:none; } }
-.carta-titulo{ font-family:'Cormorant Garamond', serif; font-style:italic; font-weight:700; font-size:clamp(32px,7.5vw,42px); line-height:1.05; color:var(--wine); text-align:center; margin:0; text-transform:none; }
-.carta-de{ display:flex; justify-content:space-between; gap:18px; margin:16px 0 4px; padding:10px 0; border-top:1px solid rgba(157,0,9,0.35); border-bottom:1px solid rgba(157,0,9,0.35); font-size:12px; letter-spacing:0.18em; color:var(--ink-soft); }
-.carta-de em, .carta-pie em{ font-family:'Cormorant Garamond', serif; font-style:italic; font-weight:700; font-size:18px; letter-spacing:0; color:var(--wine); margin-left:6px; text-transform:none; }
-@media (prefers-reduced-motion:reduce){ .carta-cuerpo{ animation:none; } .sobre, .sobre-solapa{ transition:none; } }
+@keyframes carta-sale{ from{ opacity:0; transform:translateY(-14px); } to{ opacity:1; transform:none; } }
 .pregunta{ border-bottom:1px solid rgba(157,0,9,0.25); }
 .pregunta summary{ list-style:none; cursor:pointer; display:flex; justify-content:space-between; align-items:baseline; gap:14px; padding:16px 0; font-size:15.5px; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink); }
 .pregunta summary::-webkit-details-marker{ display:none; }
@@ -963,7 +948,6 @@ main .eyebrow{ color:var(--wine); }
 .pregunta summary:hover{ color:var(--wine); }
 .pregunta summary:focus-visible{ outline:2px solid var(--wine); outline-offset:2px; }
 .pregunta p{ margin:0 0 18px; font-family:'Cormorant Garamond', serif; font-style:italic; font-weight:400; font-size:19px; line-height:1.55; color:var(--ink-soft); }
-.carta-pie{ display:flex; justify-content:space-between; gap:14px; padding-top:16px; font-size:12px; letter-spacing:0.18em; color:var(--ink-soft); }
 @media (prefers-reduced-motion:reduce){ .carta-cuerpo{ animation:none; } }
 .conocernos p.porque{ font-size:clamp(30px,7vw,42px); color:var(--wine); margin:6px 0 2px; }
 .conocernos p.porque-resp{ font-size:clamp(19px,4.4vw,23px); color:var(--ink); margin:0 auto 22px; }

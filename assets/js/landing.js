@@ -249,3 +249,15 @@
     try{ history.replaceState(null, '', '#' + id); }catch(err){}
   });
 })();
+
+
+/* ---------- Cómo funciona: las tarjetas suben al hacer scroll ---------- */
+(function(){
+  var cards = document.querySelectorAll('.steps .step');
+  if(!cards.length || !('IntersectionObserver' in window)) return;
+  document.documentElement.classList.add('js-reveal');
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('is-in'); io.unobserve(e.target); } });
+  }, { threshold:0.2, rootMargin:'0px 0px -6% 0px' });
+  cards.forEach(function(c){ io.observe(c); });
+})();

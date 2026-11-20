@@ -866,3 +866,144 @@ blockquote.pull.soft{
   header.site .logo-lockup .word{ font-size:11.5px; letter-spacing:0.12em; white-space:nowrap; }
   header.site nav.site-nav{ gap:12px; flex-wrap:nowrap; font-size:10.5px; letter-spacing:0.04em; white-space:nowrap; }
 }
+
+/* ==========================================================
+   AJUSTES NOVIEMBRE 2026 — más rojo de marca, sección "conocernos" y carta de preguntas frecuentes.
+   Va al final del archivo; funciona igual en celular y en PC.
+   ========================================================== */
+
+/* Más rojo de marca: etiquetas de sección, títulos en rojo y filetes */
+main .eyebrow{ color:var(--wine); }
+.hero .eyebrow, .contact .eyebrow{ color:#f1e4d8; }
+.h2-red{ color:var(--wine); }
+.fit-list li{ border-top-color:var(--wine); }
+.colecciones-cta .btn-primary, .conocernos .btn-primary{ background:var(--wine); border-color:var(--wine); color:#fff; }
+.step h3{ color:var(--ink); }
+.coll-name{ color:var(--wine); }
+
+/* Conocernos (justo después del inicio) */
+.conocernos{ text-align:center; max-width:64ch; margin-inline:auto; }
+.conocernos h2{ font-size:clamp(28px,6.4vw,40px); margin:10px auto 22px; }
+.conocernos p:not(.eyebrow){ color:var(--ink-soft); font-size:17.5px; margin:0 0 16px; }
+.conocernos .btn{ margin-top:14px; }
+
+/* Preguntas frecuentes: una carta que se abre */
+.faq{ text-align:center; }
+.faq h2{ font-size:clamp(26px,6vw,36px); margin:10px auto 34px; max-width:20ch; }
+.carta{ max-width:620px; margin-inline:auto; text-align:left; }
+.carta > summary{ list-style:none; cursor:pointer; }
+.carta > summary::-webkit-details-marker{ display:none; }
+.carta-sobre{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-end;
+  gap:4px;
+  height:270px;
+  padding:0 20px 28px;
+  background:#f3e9dd;
+  border:1px solid rgba(157,0,9,0.35);
+  box-shadow:0 14px 34px rgba(34,31,27,0.14);
+  overflow:hidden;
+  transition:box-shadow .3s ease;
+}
+.carta-sobre:hover{ box-shadow:0 18px 40px rgba(34,31,27,0.2); }
+.carta-sobre:focus-visible{ outline:2px solid var(--wine); outline-offset:4px; }
+.carta-solapa{
+  position:absolute;
+  top:0; left:0; right:0;
+  height:56%;
+  background:#ead9c6;
+  clip-path:polygon(0 0, 100% 0, 50% 100%);
+  transform-origin:top center;
+  transition:transform .7s ease, background .7s ease;
+}
+.carta-sello{
+  position:absolute;
+  top:calc(56% - 26px);
+  left:50%;
+  width:52px; height:52px;
+  margin-left:-26px;
+  border-radius:50%;
+  background:var(--wine);
+  color:#f7e9dc;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Cormorant Garamond', serif;
+  font-style:italic;
+  font-weight:700;
+  font-size:22px;
+  box-shadow:0 3px 10px rgba(157,0,9,0.45);
+  transition:opacity .4s ease;
+  z-index:2;
+}
+.carta-rotulo{
+  font-family:'Cormorant Garamond', serif;
+  font-style:italic;
+  font-weight:700;
+  font-size:24px;
+  color:var(--wine);
+  position:relative;
+}
+.carta-abrir{
+  font-size:12px;
+  letter-spacing:0.28em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+  position:relative;
+}
+.carta[open] > .carta-sobre{ height:72px; justify-content:center; padding-bottom:0; }
+.carta[open] .carta-solapa{ transform:rotateX(180deg); background:#f6eee4; }
+.carta[open] .carta-sello, .carta[open] .carta-abrir{ opacity:0; height:0; }
+.carta[open] .carta-rotulo{ font-size:20px; }
+.carta-papel{
+  background:#fffdf9;
+  border:1px solid rgba(34,31,27,0.12);
+  border-top:0;
+  padding:30px 26px 32px;
+  box-shadow:0 14px 34px rgba(34,31,27,0.1);
+  animation:carta-sale .8s ease both;
+}
+@keyframes carta-sale{
+  from{ opacity:0; transform:translateY(-26px); }
+  to{ opacity:1; transform:translateY(0); }
+}
+.carta-saludo, .carta-firma{
+  font-family:'Cormorant Garamond', serif;
+  font-style:italic;
+  font-weight:700;
+  color:var(--wine);
+  font-size:22px;
+  margin:0 0 14px;
+}
+.carta-firma{ margin:24px 0 0; text-align:right; }
+.pregunta{ border-top:1px solid rgba(157,0,9,0.25); }
+.pregunta:last-of-type{ border-bottom:1px solid rgba(157,0,9,0.25); }
+.pregunta summary{
+  list-style:none;
+  cursor:pointer;
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  gap:16px;
+  padding:16px 0;
+  font-size:16.5px;
+  letter-spacing:0.04em;
+  text-transform:uppercase;
+  color:var(--ink);
+}
+.pregunta summary::-webkit-details-marker{ display:none; }
+.pregunta summary::after{ content:"+"; color:var(--wine); font-size:22px; line-height:1; flex:0 0 auto; }
+.pregunta[open] summary::after{ content:"–"; }
+.pregunta summary:hover{ color:var(--wine); }
+.pregunta summary:focus-visible{ outline:2px solid var(--wine); outline-offset:2px; }
+.pregunta p{
+  margin:0 0 18px;
+  color:var(--ink-soft);
+  font-size:17px;
+  line-height:1.7;
+}
+@media (prefers-reduced-motion:reduce){
+  .carta-papel{ animation:none; }
+  .carta-solapa, .carta-sello{ transition:none; }
+}

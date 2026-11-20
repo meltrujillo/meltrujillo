@@ -904,42 +904,18 @@ main .eyebrow{ color:var(--wine); }
 .js-reveal .steps .step:nth-child(3){ transition-delay:.3s; }
 @media (prefers-reduced-motion:reduce){ .js-reveal .steps .step{ opacity:1; transform:none; transition:none; } }
 
-/* Preguntas frecuentes: papel hecho a mano con sello de cera, sobre fondo vino */
-.faq{ --w:min(540px, calc(100vw - 32px)); background:#380607; padding-block:72px 220px; position:relative; }
-.faq::after{ content:""; position:absolute; left:0; right:0; bottom:0; height:190px; background:linear-gradient(to bottom, rgba(255,255,255,0), #fff); pointer-events:none; }
-.carta{ width:var(--w); margin-inline:auto; position:relative; z-index:1; filter:drop-shadow(0 18px 24px rgba(0,0,0,0.45)); }
-.carta > summary{ list-style:none; cursor:pointer; }
-.carta > summary::-webkit-details-marker{ display:none; }
-.carta-papel, .carta-preguntas{ display:block; }
-.faq{ --ht:calc(var(--w) * 0.5327); --hb:calc(var(--w) * 0.4422); }
+/* Preguntas frecuentes: papel hecho a mano sobre fondo claro */
+.faq{ --w:min(560px, calc(100vw - 24px)); --hb:calc(var(--w) * 0.4422); background:var(--bg-soft); padding-block:64px 72px; }
+.carta{ width:var(--w); margin-inline:auto; filter:drop-shadow(0 14px 22px rgba(34,31,27,0.22)); }
 .carta-papel{
-  position:relative;
-  min-height:calc(var(--w) * 1.12);
-  padding:calc(var(--w) * 0.42) 14% calc(var(--w) * 0.12);
-  text-align:center;
+  display:block;
+  padding:calc(var(--w) * 0.2) 13% calc(var(--w) * 0.2);
   background:
-    url('/assets/img/carta-top.webp') 0 0 / 100% var(--ht) no-repeat,
+    url('/assets/img/carta-top.webp') 0 0 / 100% var(--hb) no-repeat,
     url('/assets/img/carta-bot.webp') 0 100% / 100% var(--hb) no-repeat,
-    url('/assets/img/carta-mid.webp') 0 calc(var(--ht) - 2px) / 100% calc(100% - var(--ht) - var(--hb) + 4px) no-repeat;
+    url('/assets/img/carta-mid.webp') 0 calc(var(--hb) - 2px) / 100% calc(100% - var(--hb) - var(--hb) + 4px) no-repeat;
 }
-.carta-papel:focus-visible{ outline:2px solid #fff; outline-offset:4px; }
-.carta-titulo{ display:block; font-family:'Cormorant Garamond', serif; font-style:italic; font-weight:700; font-size:clamp(32px,8vw,46px); line-height:1.05; color:var(--wine); }
-.carta-abrir{ display:block; margin-top:14px; font-size:11.5px; letter-spacing:0.26em; text-transform:uppercase; color:#5b5249; }
-.carta[open] .carta-abrir{ display:none; }
-.carta[open] > .carta-papel{
-  min-height:0; padding-bottom:6px;
-  background:
-    url('/assets/img/carta-top.webp') 0 0 / 100% var(--ht) no-repeat,
-    url('/assets/img/carta-mid.webp') 0 calc(var(--ht) - 2px) / 100% calc(100% - var(--ht) + 2px) no-repeat;
-}
-.carta-preguntas{
-  padding:0 14% calc(var(--w) * 0.2);
-  background:
-    url('/assets/img/carta-bot.webp') 0 100% / 100% var(--hb) no-repeat,
-    url('/assets/img/carta-mid.webp') 0 -2px / 100% calc(100% - var(--hb) + 4px) no-repeat;
-  animation:carta-sale .7s ease both;
-}
-@keyframes carta-sale{ from{ opacity:0; transform:translateY(-14px); } to{ opacity:1; transform:none; } }
+.carta-titulo{ margin:0 0 12px; text-align:center; font-family:'Cormorant Garamond', serif; font-style:italic; font-weight:700; font-size:clamp(32px,8vw,46px); line-height:1.05; color:var(--wine); text-transform:none; }
 .pregunta{ border-bottom:1px solid rgba(157,0,9,0.25); }
 .pregunta summary{ list-style:none; cursor:pointer; display:flex; justify-content:space-between; align-items:baseline; gap:14px; padding:16px 0; font-size:15.5px; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink); }
 .pregunta summary::-webkit-details-marker{ display:none; }

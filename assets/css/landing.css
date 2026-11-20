@@ -270,7 +270,7 @@ blockquote.pull.soft{
 .marquee{
   display:flex;
   width:max-content;
-  animation:marquee-scroll 126s linear infinite;
+  animation:marquee-scroll 200s linear infinite;
 }
 .marquee:hover{ animation-play-state:paused; }
 .marquee-item{

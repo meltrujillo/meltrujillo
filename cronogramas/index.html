@@ -29,6 +29,7 @@
   .acts a,.acts button{font:600 12.5px var(--body);color:var(--wine);background:#fff;border:1px solid var(--pend-line);border-radius:999px;padding:7px 13px;cursor:pointer;text-decoration:none}
   .hint{font-size:12.5px;color:var(--muted);margin:0}
   .err{color:var(--wine);font-weight:600;font-size:14px}
+  section[hidden]{display:none}
 </style>
 </head>
 <body>
@@ -41,14 +42,15 @@
 
   <section>
     <h2>Acceso</h2>
-    <div class="box">
+    <form class="box" id="acceso" autocomplete="on">
       <label>Clave de Mel<input class="f" id="key" type="password" autocomplete="current-password" placeholder="tu clave"></label>
-      <p class="hint">Se queda guardada solo en este dispositivo.</p>
+      <p class="hint">Se queda guardada solo en este dispositivo. Al entrar se abre la creación y la lista de cronogramas.</p>
+      <button class="btn" id="entrar" type="submit">Entrar</button>
       <div id="authMsg"></div>
-    </div>
+    </form>
   </section>
 
-  <section>
+  <section id="s-nuevo" hidden>
     <h2>Nuevo cronograma</h2>
     <form class="box" id="nuevo" autocomplete="off">
       <div class="two">
@@ -77,9 +79,9 @@
     </form>
   </section>
 
-  <section>
+  <section id="s-lista" hidden>
     <h2>Cronogramas creados</h2>
-    <div class="box" id="lista"><p class="hint">Escribe tu clave para ver la lista.</p></div>
+    <div class="box" id="lista"></div>
   </section>
 </div>
 <script>
@@ -104,11 +106,19 @@
   function fechaLarga(iso){var p=iso.split('-');return Number(p[2])+' de '+MESES[Number(p[1])-1]+' de '+p[0];}
   function fmt(ms){ if(!ms) return 'aún sin respuestas'; return new Date(ms).toLocaleString('es-CO',{dateStyle:'medium',timeStyle:'short'}); }
 
-  function lista(){
-    if(!key()){ $('lista').innerHTML='<p class="hint">Escribe tu clave para ver la lista.</p>'; return; }
+  function panels(show){ $('s-nuevo').hidden=!show; $('s-lista').hidden=!show; }
+
+  function lista(silent){
+    if(!key()){ panels(false); $('lista').innerHTML=''; return; }
     api('GET','/api/cronogramas/admin/lista').then(function(r){
-      if(r.status===401){ $('authMsg').innerHTML='<span class="err">Clave incorrecta</span>'; $('lista').innerHTML=''; return; }
+      if(r.status===401){
+        panels(false); $('lista').innerHTML='';
+        if(silent===true){ try{localStorage.removeItem(KEY_LS);}catch(e){} $('key').value=''; $('authMsg').innerHTML=''; }
+        else { $('authMsg').innerHTML='<span class="err">Clave incorrecta</span>'; }
+        return;
+      }
       $('authMsg').innerHTML=''; try{localStorage.setItem(KEY_LS,key());}catch(e){}
+      panels(true);
       var it=r.j.items||[];
       if(!it.length){ $('lista').innerHTML='<p class="hint">Todavía no hay cronogramas.</p>'; return; }
       $('lista').innerHTML=it.map(function(x){
@@ -119,10 +129,10 @@
           +'<button type="button" data-copy="'+esc(link)+'">Copiar enlace</button>'
           +'<button type="button" data-del="'+esc(x.slug)+'" data-name="'+esc(x.pareja)+'">Eliminar</button></div></div>';
       }).join('');
-    }).catch(function(){ $('lista').innerHTML='<p class="err">No se pudo cargar la lista.</p>'; });
+    }).catch(function(){ panels(false); $('authMsg').innerHTML='<span class="err">No se pudo verificar la clave. Revisa tu conexión.</span>'; });
   }
 
-  $('key').addEventListener('change', lista);
+  $('acceso').addEventListener('submit', function(e){ e.preventDefault(); $('authMsg').innerHTML=''; lista(false); });
   $('lista').addEventListener('click', function(e){
     var c=e.target.getAttribute&&e.target.getAttribute('data-copy');
     if(c){ (navigator.clipboard?navigator.clipboard.writeText(c):Promise.reject()).then(function(){e.target.textContent='Copiado';setTimeout(function(){e.target.textContent='Copiar enlace';},1800);}).catch(function(){prompt('Copia este enlace',c);}); return; }
@@ -157,7 +167,7 @@
       $('nuevo').reset(); lista();
     }).catch(function(){ $('crear').disabled=false; $('crearMsg').innerHTML='<span class="err">Sin conexión, inténtalo de nuevo.</span>'; });
   });
-  if(key()) lista();
+  if(key()) lista(true);
 })();
 </script>
 </body>

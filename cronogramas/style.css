@@ -205,3 +205,69 @@ h2::after{order:2}
 .locked input:disabled,.locked textarea:disabled{-webkit-text-fill-color:var(--ink);cursor:default}
 .locked .f.pend::placeholder{opacity:.55}
 .locked .ampm button:disabled{opacity:1;cursor:default}
+
+/* ---------- v4: revisión de diseño (accesibilidad, ritmo y movimiento) ---------- */
+:root{
+  --ease-out:cubic-bezier(.23,1,.32,1);
+  --pend-ink:#a14a51;
+  --done-bg:#f6fbf7;
+  --done-line:#cfe3d4;
+}
+
+/* corrige: el selector AM/PM se salía de su columna en pantallas grandes */
+.cols3{grid-template-columns:244px 1.3fr 1.15fr}
+.timebox{flex-wrap:nowrap}
+@media (max-width:860px){
+  .row.head.cols3{display:none}
+  .cols3{grid-template-columns:1fr;gap:8px;padding:14px 14px}
+  .cols3 > :nth-child(2){order:-1;font-size:17px;padding:0 4px 0 22px}
+  .cols3 .timebox{width:fit-content;max-width:100%}
+}
+/* la etiqueta "Hora" sobraba: ya lo dicen hh y mm */
+.row.cols3 .lab{display:none!important}
+
+/* observación: enlace discreto en lugar de una caja punteada por fila */
+.addnote{border:0;background:transparent;width:auto;padding:10px 6px;min-height:44px;border-radius:12px;text-decoration:underline;text-decoration-color:rgba(157,0,9,.3);text-underline-offset:4px;transition:background-color .15s var(--ease-out),text-decoration-color .15s var(--ease-out)}
+.addnote:hover{background:#fdf5f3;text-decoration-color:var(--wine)}
+
+/* leyenda: los puntos ahora se distinguen */
+.dot{width:14px;height:14px}
+.dot.p{background:var(--pend-bg);border:1px solid #e9b4b0}
+.dot.d{background:#eaf5ed;border:1px solid #b9d6c0}
+.dot.n{background:#faf8f7;border:1px dashed #c9bbb6}
+
+/* foco visible para teclado */
+.chips a:focus-visible,.savebar button:focus-visible,.printbtn:focus-visible{outline:2px solid var(--wine);outline-offset:2px}
+
+/* chip de la sección actual */
+.chips a{transition:background-color .15s var(--ease-out),color .15s var(--ease-out),border-color .15s var(--ease-out),transform .14s var(--ease-out)}
+.chips a[aria-current="true"]{background:var(--wine);border-color:var(--wine);color:#fff}
+
+/* respuesta al tacto: todo botón se hunde un poco al presionarlo */
+.chips a:active,.ampm button:active,.seg button:active,.addslot:active,.savebar button:active,.addnote:active{transform:scale(.97)}
+.ampm button,.seg button,.addslot{transition:background-color .15s var(--ease-out),color .15s var(--ease-out),transform .14s var(--ease-out)}
+.savebar button{transition:transform .14s var(--ease-out),box-shadow .2s var(--ease-out),opacity .15s}
+@media (hover:hover){
+  .chips a:hover{background:var(--pend-bg)}
+  .chips a[aria-current="true"]:hover{background:var(--wine)}
+  .savebar button:hover{transform:translateY(-1px)}
+  .savebar button:active{transform:scale(.97)}
+}
+
+/* entrada del encabezado, una sola vez al cargar */
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+@keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.1)}100%{transform:scale(1)}}
+header > *{animation:rise .42s var(--ease-out) both}
+header > :nth-child(2){animation-delay:.05s}
+header > :nth-child(3){animation-delay:.1s}
+header > :nth-child(4){animation-delay:.15s}
+header > :nth-child(5){animation-delay:.2s}
+header > :nth-child(6){animation-delay:.25s}
+/* un bloque completo se celebra con un pequeño rebote */
+h2 .cnt.ok{animation:pop .32s var(--ease-out)}
+.lightmsg:not([hidden]){animation:fadein .18s var(--ease-out)}
+.pop-in{animation:rise .2s var(--ease-out) both}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}

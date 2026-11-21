@@ -2,9 +2,20 @@ import { getStore } from "@netlify/blobs";
 
 export const config = { path: "/api/cronogramas/*" };
 
-const KEY_RE = /^(?:(?:prep|cer|fot|rec)_\d{1,2}_(?:hora|notas)|con_\d{1,2}_(?:nombre|tel)|notas_finales)$/;
+const KEY_RE = new RegExp(
+  "^(?:" + [
+    "(?:prep|cer|fot|rec)_\\d{1,2}_(?:hora|notas)",
+    "ext_(?:prep|cer|fot|rec)_[0-4]_(?:hora|nombre|notas)",
+    "con_\\d{1,2}_(?:nombre|tel)",
+    "per_\\d{1,2}_(?:nombre|rel)",
+    "imp_(?:momentos|grupos|no|poses)",
+    "log_(?:novia|novio|restric|acceso|lluvia|evento)",
+    "log_(?:ini|fin)_hora",
+    "notas_finales",
+  ].join("|") + ")$"
+);
 const SLUG_RE = /^[a-z0-9-]{3,80}$/;
-const MAX_BODY = 40000;
+const MAX_BODY = 90000;
 const MAX_VAL = 2000;
 
 const json = (obj, status = 200) =>

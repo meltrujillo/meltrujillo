@@ -22,20 +22,28 @@
   var root = document.getElementById('root'), saveEl = document.getElementById('save'), hideT;
 
   var SECTIONS = [
-    ['prep','Preparativos','Preparativos',['Llegada de la fotógrafa a la locación de preparativos','Maquillaje y peinado de la novia','La novia se pone el vestido','Preparativos del novio (vestuario, detalles)','Fotos de detalles (anillos, vestido, invitaciones, perfume)','Primera mirada, first look (solo si la pareja lo desea)']],
-    ['cer','Ceremonia','Ceremonia',['Llegada de invitados','Llegada del novio al altar','Entrada de la novia','Inicio de la ceremonia','Salida de los novios ya casados']],
-    ['fot','Sesión de fotos','Sesión',['Fotos familiares y grupales','Sesión de pareja (golden hour, si el horario lo permite)','Traslado a la recepción']],
-    ['rec','Recepción y fiesta','Fiesta',['Entrada de los novios a la recepción','Brindis','Primer baile','Corte de torta','Apertura de pista / fiesta','Hora de cierre de la cobertura fotográfica']]
+    ['prep','Preparativos','Preparativos',['Llegada de la fotógrafa a la locación de preparativos','Maquillaje y peinado de la novia','La novia se pone el vestido','Preparativos del novio (vestuario, detalles)','Fotos de detalles (anillos, vestido, invitaciones, perfume)','Primera mirada, first look (solo si la pareja lo desea)','Salida hacia la ceremonia']],
+    ['cer','Ceremonia','Ceremonia',['Llegada de invitados','Llegada del novio al altar','Entrada de la novia','Inicio de la ceremonia','Salida de los novios ya casados','Felicitaciones y fotos con los invitados']],
+    ['fot','Sesión de fotos','Sesión',['Fotos familiares y grupales','Sesión de pareja (golden hour, si el horario lo permite)','Cóctel de bienvenida','Traslado a la recepción']],
+    ['rec','Recepción y fiesta','Fiesta',['Entrada de los novios a la recepción','Brindis','Primer baile','Baile con los padres','Corte de torta','Lanzamiento del ramo','Apertura de pista / fiesta','Fotos nocturnas (si las desean)','Hora de cierre de la cobertura fotográfica']]
   ];
-  var ROLES = ['Wedding planner','Lugar / venue','Maquillista','DJ / banda'];
+  var LIGHT_ROW = {sec:'fot', idx:1};
+  var XMAX = 5, PMAX = 10, PSHOW = 4;
+  var ROLES = ['Novia','Novio','Persona de coordinación del día','Wedding planner','Lugar / venue','Maquillista','Videógrafo / segundo fotógrafo','DJ / banda'];
+  var ROLE_REQ = 3;
+  var REQ = {
+    imp:['imp_momentos','per_0_nombre','imp_poses'],
+    log:['log_novia','log_novio','log_ini_hora','log_fin_hora'],
+    con:['con_0_tel','con_1_tel','con_2_nombre','con_2_tel']
+  };
   var NOTE_PH = 'escribe aquí tus observaciones si aplica', PH = 'pendiente de rellenar';
 
   function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
   function say(msg, err){ saveEl.textContent=msg; saveEl.className='save show'+(err?' err':''); clearTimeout(hideT); hideT=setTimeout(function(){ saveEl.className='save'; }, 3200); }
   function grow(t){ t.style.height='auto'; t.style.height=(t.scrollHeight+2)+'px'; }
 
-  function timebox(name,label){
-    return '<div><span class="lab">'+esc(label)+'</span><div class="timebox pend" data-name="'+esc(name)+'" role="group" aria-label="'+esc(label)+'">'
+  function timebox(name,label,show){
+    return '<div><span class="lab'+(show?' show':'')+'">'+esc(label)+'</span><div class="timebox pend" data-name="'+esc(name)+'" role="group" aria-label="'+esc(label)+'">'
       +'<input class="th" type="text" inputmode="numeric" maxlength="2" placeholder="hh" aria-label="Hora">'
       +'<span class="tc">:</span>'
       +'<input class="tm" type="text" inputmode="numeric" maxlength="2" placeholder="mm" aria-label="Minutos">'
@@ -47,41 +55,99 @@
     return '<div class="nwrap"><button type="button" class="addnote" aria-expanded="false">+ añadir observación</button>'
       +'<div class="nbox" hidden><span class="lab">Notas</span><textarea class="f note" rows="1" name="'+esc(name)+'" placeholder="'+NOTE_PH+'" aria-label="'+esc(aria)+'"></textarea></div></div>';
   }
-  function textfield(name,label,aria,note,area){
-    var cls = note ? 'f note' : 'f pend', ph = note ? NOTE_PH : PH, lab='<span class="lab">'+esc(label)+'</span>';
-    if(area) return '<div>'+lab+'<textarea class="'+cls+'" rows="1" name="'+esc(name)+'" placeholder="'+ph+'" aria-label="'+esc(aria)+'"></textarea></div>';
-    return '<div>'+lab+'<input class="'+cls+'" type="text" name="'+esc(name)+'" placeholder="'+ph+'" aria-label="'+esc(aria)+'"></div>';
+  function textfield(name,label,aria,note,area,ph){
+    var cls = note ? 'f note' : 'f pend', p = ph || (note ? NOTE_PH : PH), lab='<span class="lab">'+esc(label)+'</span>';
+    if(area) return '<div>'+lab+'<textarea class="'+cls+'" rows="1" name="'+esc(name)+'" placeholder="'+esc(p)+'" aria-label="'+esc(aria)+'"></textarea></div>';
+    return '<div>'+lab+'<input class="'+cls+'" type="text" name="'+esc(name)+'" placeholder="'+esc(p)+'" aria-label="'+esc(aria)+'"></div>';
+  }
+  /* campos de las secciones de preguntas (etiqueta visible siempre) */
+  function area(name,aria,ph,rows){ return '<textarea class="f pend" rows="'+(rows||2)+'" name="'+esc(name)+'" placeholder="'+esc(ph||PH)+'" aria-label="'+esc(aria)+'"></textarea>'; }
+  function inp(name,aria,ph){ return '<input class="f pend" type="text" name="'+esc(name)+'" placeholder="'+esc(ph||PH)+'" aria-label="'+esc(aria)+'">'; }
+  function lblf(label,inner){ return '<div><span class="lab show">'+esc(label)+'</span>'+inner+'</div>'; }
+  function qa(title,hint,body){
+    return '<div class="row qa"><div><div class="q">'+esc(title)+'</div>'+(hint?'<div class="qh">'+esc(hint)+'</div>':'')+'</div>'+body+'</div>';
+  }
+  function seg(name,aria,opts){
+    return '<div class="seg" data-name="'+esc(name)+'" role="group" aria-label="'+esc(aria)+'">'
+      +opts.map(function(o){ return '<button type="button" data-v="'+esc(o)+'" aria-pressed="false">'+esc(o)+'</button>'; }).join('')
+      +'<input type="hidden" name="'+esc(name)+'" value=""></div>';
+  }
+
+  function daysTo(iso){
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(iso||'')) return null;
+    var t=iso.split('-'), d=new Date(Number(t[0]),Number(t[1])-1,Number(t[2])), n=new Date(); n=new Date(n.getFullYear(),n.getMonth(),n.getDate());
+    return Math.round((d-n)/86400000);
   }
 
   function render(cfg){
     document.title = 'Cronograma 1:1 — '+cfg.pareja+' ('+cfg.fecha_larga+')';
-    var h=[];
+    var h=[], tlTotal=0, reqTotal=0, k;
+    SECTIONS.forEach(function(s){ tlTotal+=s[3].length; });
+    for(k in REQ) reqTotal+=REQ[k].length;
+
     h.push('<section id="s-info"><h2>Información general</h2><div class="card"><div class="row head cols2"><div>Campo</div><div>Detalle</div></div>');
     [['Pareja',cfg.pareja],['Fecha de la boda',cfg.fecha_larga],['Lugar de la ceremonia',cfg.ceremonia],['Lugar de la recepción (si es diferente)',cfg.recepcion],['Hora de inicio de la ceremonia',cfg.hora_ceremonia],['Colección / paquete contratado',cfg.coleccion]].forEach(function(r){
       h.push('<div class="row cols2"><div class="k">'+esc(r[0])+'</div><div class="v">'+esc(r[1])+'</div></div>');
     });
     var g=(cfg.groups||[]).map(function(x){ return '<div class="g"><b>'+esc(x.t)+'</b><ul class="inc">'+x.i.map(function(i){return '<li>'+esc(i)+'</li>';}).join('')+'</ul></div>'; }).join('');
     h.push('<div class="row cols2"><div class="k">Qué incluye</div><div class="incs">'+g+'</div></div></div></section>');
+
+    /* lo que más importa */
+    h.push('<section id="s-imp"><h2>Lo que más importa<span class="cnt" data-cnt="imp">0 de '+REQ.imp.length+'</span></h2><p class="lead">Lo primero que quiero saber es qué no puede faltar. Con esto me preparo antes de llegar.</p><div class="card">');
+    h.push(qa('Momentos que no queremos perder','Un momento, una persona o un detalle que no puede faltar: el abrazo con la abuela, la carta del papá, el baile sorpresa…',area('imp_momentos','Momentos que no queremos perder','escriban aquí lo que más les importa',3)));
+    var pp=[]; for(var pi=0;pi<PMAX;pi++){
+      pp.push('<div class="slot pslot" data-grp="per"'+(pi>=PSHOW?' hidden':'')+'>'+inp('per_'+pi+'_nombre','Persona '+(pi+1)+': nombre','nombre')+inp('per_'+pi+'_rel','Persona '+(pi+1)+': quién es','quién es (mamá, tío…)')+'</div>');
+    }
+    h.push(qa('Personas importantes','Padres, hermanos, abuelos, amigos cercanos y quienes tienen un papel en la boda. Con su parentesco, así las reconozco ese día.','<div class="pgrid">'+pp.join('')+'</div><button type="button" class="addslot" data-grp="per">+ añadir otra persona</button>'));
+    h.push(qa('Fotos de grupo que quieren','Por ejemplo: novios con los abuelos, los hermanos de la novia, amigos de la universidad.',area('imp_grupos','Fotos de grupo que quieren','escriban una combinación por línea',3)));
+    h.push(qa('Qué prefieren evitar en sus fotos','Ángulos, poses, personas, momentos o cualquier cosa que prefieran dejar por fuera.',area('imp_no','Qué prefieren evitar en sus fotos','si no hay nada, pueden escribir “nada en especial”',2)));
+    h.push(qa('Cómo se sienten frente a la cámara','Así sé cuánto guiarlos y cuánto dejar que todo fluya.',seg('imp_poses','Estilo de las poses',['Más espontáneo','Un poco de ambos','Más dirigido'])));
+    h.push('</div></section>');
+
+    /* línea de tiempo */
     SECTIONS.forEach(function(s){
-      h.push('<section id="s-'+s[0]+'"><h2>'+esc(s[1])+'<span class="cnt" data-cnt="'+s[0]+'">0 de '+s[3].length+'</span></h2><div class="card"><div class="row head cols3"><div>Hora</div><div>Actividad</div><div>Notas</div></div>');
+      var lead = s[0]==='fot' ? '<p class="lead">El sol se pone cerca de las 6:00 pm. La mejor luz para la sesión de pareja llega entre 3:30 y 4:45 pm.</p>' : '';
+      h.push('<section id="s-'+s[0]+'"><h2>'+esc(s[1])+'<span class="cnt" data-cnt="'+s[0]+'">0 de '+s[3].length+'</span></h2>'+lead+'<div class="card"><div class="row head cols3"><div>Hora</div><div>Actividad</div><div>Notas</div></div>');
       s[3].forEach(function(a,i){
-        h.push('<div class="row cols3">'+timebox(s[0]+'_'+i+'_hora','Hora')+'<div class="fixed">'+esc(a)+'</div>'+notefold(s[0]+'_'+i+'_notas','Notas: '+a)+'</div>');
+        var light = (s[0]===LIGHT_ROW.sec && i===LIGHT_ROW.idx) ? '<div class="lightmsg" id="lightmsg" hidden></div>' : '';
+        h.push('<div class="row cols3">'+timebox(s[0]+'_'+i+'_hora','Hora')+'<div class="fixed">'+esc(a)+'</div>'+notefold(s[0]+'_'+i+'_notas','Notas: '+a)+light+'</div>');
       });
+      for(var xi=0;xi<XMAX;xi++){
+        h.push('<div class="row cols3 slot" data-grp="x-'+s[0]+'" hidden>'+timebox('ext_'+s[0]+'_'+xi+'_hora','Hora')
+          +'<div>'+'<span class="lab">Momento</span>'+inp('ext_'+s[0]+'_'+xi+'_nombre','Momento propio '+(xi+1),'nombre del momento (ej. baile sorpresa)')+'</div>'
+          +notefold('ext_'+s[0]+'_'+xi+'_notas','Notas: momento propio '+(xi+1))+'</div>');
+      }
+      h.push('<div class="row addrow"><button type="button" class="addslot" data-grp="x-'+s[0]+'">+ añadir un momento propio (sorpresa, discurso, tradición…)</button></div>');
       h.push('</div></section>');
     });
-    h.push('<section id="s-con"><h2>Contactos clave<span class="cnt" data-cnt="con">0 de '+ROLES.length+'</span></h2><div class="card"><div class="row head cols3c"><div>Rol</div><div>Nombre</div><div>Teléfono</div></div>');
+
+    /* logística */
+    h.push('<section id="s-log"><h2>Logística del día<span class="cnt" data-cnt="log">0 de '+REQ.log.length+'</span></h2><p class="lead">Estos datos me ahorran llamadas ese día y me permiten llegar con todo resuelto.</p><div class="card">');
+    h.push(qa('Cobertura','Hora a la que quieren que empiece y hora a la que termina mi trabajo ese día.','<div class="pair">'+timebox('log_ini_hora','Inicio de cobertura',true)+timebox('log_fin_hora','Fin de cobertura',true)+'</div>'));
+    h.push(qa('¿Dónde se preparan?','Dirección, nombre del lugar, piso o habitación y cualquier indicación para llegar.','<div class="pair">'+lblf('Novia',area('log_novia','Dónde se prepara la novia','dirección y habitación',2))+lblf('Novio',area('log_novio','Dónde se prepara el novio','dirección y habitación',2))+'</div>'));
+    h.push(qa('Restricciones del lugar','Flash, dron, zonas donde no se puede fotografiar, permisos o reglas de la iglesia o del venue.',area('log_restric','Restricciones del lugar','si no hay ninguna, escriban “ninguna”',2)));
+    h.push(qa('Parqueo y acceso del equipo','Dónde dejo el carro, por dónde entro y a quién le aviso al llegar.',area('log_acceso','Parqueo y acceso del equipo',PH,2)));
+    h.push(qa('Plan B si llueve','Qué pasa con la sesión de pareja y con la ceremonia si el clima cambia.',area('log_lluvia','Plan B si llueve',PH,2)));
+    h.push(qa('Evento adicional','Solo si contrataron uno (preboda, ensayo, despedida, brunch): fecha, hora y lugar.',area('log_evento','Evento adicional','fecha, hora y lugar',2)));
+    h.push('</div></section>');
+
+    /* contactos */
+    h.push('<section id="s-con"><h2>Contactos clave<span class="cnt" data-cnt="con">0 de '+REQ.con.length+'</span></h2><p class="lead">Los teléfonos de ustedes y de la persona que coordinará el día son los más importantes. Ese día estarán ocupados y necesito a alguien que conteste.</p><div class="card"><div class="row head cols3c"><div>Rol</div><div>Nombre</div><div>Teléfono</div></div>');
     ROLES.forEach(function(r,i){
-      h.push('<div class="row cols3c"><div class="fixed">'+esc(r)+'</div>'+textfield('con_'+i+'_nombre','Nombre','Nombre: '+r,false,false)+textfield('con_'+i+'_tel','Teléfono','Teléfono: '+r,false,false)+'</div>');
+      var opt = i>=ROLE_REQ ? '<small class="opt">opcional</small>' : '';
+      h.push('<div class="row cols3c"><div class="fixed">'+esc(r)+opt+'</div>'+textfield('con_'+i+'_nombre','Nombre','Nombre: '+r,false,false)+textfield('con_'+i+'_tel','Teléfono','Teléfono: '+r,false,false)+'</div>');
     });
     h.push('</div></section>');
-    h.push('<section id="s-fin"><h2>Notas finales</h2><p class="lead">Espacio para cualquier detalle especial del día (restricciones del lugar, horario de la luz, momentos que la pareja pidió cuidar, logística de traslados).</p><div class="card final"><div class="row" style="grid-template-columns:1fr">'+textfield('notas_finales','Notas finales','Notas finales',true,true)+'</div></div></section>');
+    h.push('<section id="s-fin"><h2>Notas finales</h2><p class="lead">Cualquier otro detalle del día: sorpresas, tradiciones, familiares delicados, traslados o algo que quieran que sepa.</p><div class="card final"><div class="row" style="grid-template-columns:1fr">'+textfield('notas_finales','Notas finales','Notas finales',true,true)+'</div></div></section>');
 
-    var chips=[['s-prep','Preparativos'],['s-cer','Ceremonia'],['s-fot','Sesión'],['s-rec','Fiesta'],['s-con','Contactos'],['s-fin','Notas finales']].map(function(c){return '<a href="#'+c[0]+'">'+c[1]+'</a>';}).join('');
+    var chips=[['s-imp','Lo importante'],['s-prep','Preparativos'],['s-cer','Ceremonia'],['s-fot','Sesión'],['s-rec','Fiesta'],['s-log','Logística'],['s-con','Contactos'],['s-fin','Notas']].map(function(c){return '<a href="#'+c[0]+'">'+c[1]+'</a>';}).join('');
+    var dd=daysTo(cfg.fecha_iso), cd='';
+    if(dd!==null && dd>0) cd='<div class="count">'+(dd===1?'falta 1 día':'faltan '+dd+' días')+'</div>';
     root.innerHTML =
       '<form id="cron" autocomplete="off">'
-      +'<div class="sticky" id="sticky"><div class="in"><div class="prog" aria-live="polite"><span class="txt" id="progTxt">0 de 25 datos listos</span><span class="track"><span class="fill" id="progFill"></span></span></div><nav class="chips" aria-label="Ir a una sección">'+chips+'</nav></div></div>'
+      +'<div class="sticky" id="sticky"><div class="in"><div class="prog" aria-live="polite"><span class="txt" id="progTxt">0 de '+(tlTotal+reqTotal)+' datos listos</span><span class="track"><span class="fill" id="progFill"></span></span></div><nav class="chips" aria-label="Ir a una sección">'+chips+'</nav></div></div>'
       +'<div class="wrap">'
-      +'<header><div class="eyebrow">Mel Trujillo Weddings · Cronograma 1:1</div><h1>'+esc(cfg.pareja)+'</h1><div class="date">'+esc(cfg.fecha_larga)+'</div><div class="lema">Lo invisible, visible</div>'
+      +'<header><div class="eyebrow">Mel Trujillo Weddings · Cronograma 1:1</div><h1>'+esc(cfg.pareja)+'</h1><div class="date">'+esc(cfg.fecha_larga)+'</div>'+cd+'<div class="lema">Lo invisible, visible</div>'
       +'<div class="legend"><span><i class="dot p"></i>pendiente de rellenar</span><span><i class="dot d"></i>listo</span><span><i class="dot n"></i>observaciones</span></div></header>'
       +'<main id="app">'+h.join('')+'</main>'
       +'<footer class="closing"><div class="cl-t">Antes de su boda</div>'
@@ -89,7 +155,7 @@
       +'<p>Con cada hora y cada detalle puedo seguir el cronograma paso a paso y estar justo donde ustedes me necesitan.</p>'
       +'<p>Llénenlos en cuanto vayan teniendo claro cada punto, <strong>de eso depende que no se me escape ningún momento de su historia.</strong></p>'
       +'<div class="lema">Lo invisible, visible</div></footer>'
-      +'<div class="savebar"><button type="submit" id="sendBtn">Guardar cambios</button><p id="sendMsg">Se guarda solo mientras escriben. Pueden volver a este mismo enlace cuando quieran y seguir editando.</p></div>'
+      +'<div class="savebar"><button type="submit" id="sendBtn">Guardar cambios</button><p id="sendMsg">Se guarda solo mientras escriben. Pueden volver a este mismo enlace cuando quieran y seguir editando.</p><button type="button" class="printbtn" id="printBtn">Guardar como PDF o imprimir</button></div>'
       +'</div></form>';
   }
 
@@ -115,22 +181,41 @@
 
   var FORM, serverUpdated = 0, dirty = false, saving = false, autoT;
 
-  /* avance: horas listas + nombres de contactos */
+  /* avance: horas de la línea de tiempo + datos clave de cada bloque */
+  function doneOf(keys){ var d=0; keys.forEach(function(k){ var v=FORM.elements[k]; if(v&&String(v.value).trim()) d++; }); return d; }
+  function setCnt(id,d,n){ var c=FORM.querySelector('[data-cnt="'+id+'"]'); if(c){ c.textContent=d+' de '+n; c.classList.toggle('ok', d===n); } }
+  function toMin(v){ var t=parseT(v); if(!t) return null; var h=Number(t.h)%12; if(t.p==='pm') h+=12; return h*60+Number(t.m); }
+  function lightCheck(){
+    var el=document.getElementById('lightmsg'); if(!el) return;
+    var f=FORM.elements[LIGHT_ROW.sec+'_'+LIGHT_ROW.idx+'_hora'], m=f?toMin(f.value):null, msg='', cls='';
+    if(m!==null){
+      if(m>=16*60+45){ msg='Ojo con la luz: el sol se pone cerca de las 6:00 pm y a esta hora queda poca luz dorada. Si el horario lo permite, adelántenla un poco.'; cls='warn'; }
+      else if(m>=15*60+30){ msg='Buena hora: la luz dorada se pone suave y favorece mucho a la pareja.'; cls='good'; }
+      else if(m>=11*60 && m<=14*60+30){ msg='A esta hora la luz es más dura. Buscaré sombra abierta para cuidar los rostros.'; cls='info'; }
+    }
+    el.hidden=!msg; el.textContent=msg; el.className='lightmsg '+cls;
+  }
   function refresh(){
     var total=0, done=0;
     SECTIONS.forEach(function(s){
-      var n=s[3].length, d=0;
-      for(var i=0;i<n;i++){ var v=FORM.elements[s[0]+'_'+i+'_hora']; if(v&&v.value) d++; }
-      total+=n; done+=d;
-      var c=FORM.querySelector('[data-cnt="'+s[0]+'"]'); if(c){ c.textContent=d+' de '+n; c.classList.toggle('ok', d===n); }
+      var n=s[3].length, keys=[];
+      for(var i=0;i<n;i++) keys.push(s[0]+'_'+i+'_hora');
+      var d=doneOf(keys); total+=n; done+=d; setCnt(s[0],d,n);
     });
-    var cd=0; for(var j=0;j<ROLES.length;j++){ var nv=FORM.elements['con_'+j+'_nombre']; if(nv&&nv.value.trim()) cd++; }
-    total+=ROLES.length; done+=cd;
-    var cc=FORM.querySelector('[data-cnt="con"]'); if(cc){ cc.textContent=cd+' de '+ROLES.length; cc.classList.toggle('ok', cd===ROLES.length); }
+    for(var k in REQ){ var dd=doneOf(REQ[k]); total+=REQ[k].length; done+=dd; setCnt(k,dd,REQ[k].length); }
     var pct=Math.round(done*100/total);
     document.getElementById('progFill').style.width=pct+'%';
     document.getElementById('progTxt').textContent = done===total ? 'Todo listo, gracias' : (done+' de '+total+' datos listos');
     document.getElementById('sticky').classList.toggle('done', done===total);
+    lightCheck();
+  }
+  function syncAdd(){
+    FORM.querySelectorAll('.addslot').forEach(function(b){ b.hidden = !FORM.querySelector('.slot[data-grp="'+b.dataset.grp+'"][hidden]'); });
+  }
+  function setSeg(box,v){
+    var any=false;
+    box.querySelectorAll('button').forEach(function(b){ var on=b.dataset.v===v; if(on) any=true; b.setAttribute('aria-pressed', on?'true':'false'); });
+    box.querySelector('input[type=hidden]').value = any ? v : '';
   }
 
   function openNote(wrap, focus){
@@ -144,11 +229,17 @@
   function cacheLocal(){ try{ localStorage.setItem(LS_ANS, JSON.stringify({t:Date.now(), r:snapshot()})); }catch(e){} }
   function fill(r){
     FORM.querySelectorAll('.timebox').forEach(function(box){ setBox(box, r[box.dataset.name]||''); });
+    FORM.querySelectorAll('.seg').forEach(function(box){ setSeg(box, r[box.dataset.name]||''); });
     FORM.querySelectorAll('input.f[name], textarea.f[name]').forEach(function(el){
       el.value = r[el.name]||'';
       if(!el.classList.contains('note')) el.classList.toggle('pend', !el.value.trim());
       var w=el.closest('.nwrap'); if(w && el.value.trim()) openNote(w,false);
     });
+    FORM.querySelectorAll('.slot[hidden]').forEach(function(sl){
+      var has=false; sl.querySelectorAll('[name]').forEach(function(el){ if(String(el.value).trim()) has=true; });
+      if(has) sl.hidden=false;
+    });
+    syncAdd();
     FORM.querySelectorAll('textarea.f').forEach(function(t){ if(!t.closest('.nbox')||!t.closest('.nbox').hidden) grow(t); });
     refresh();
   }
@@ -209,6 +300,15 @@
     });
     FORM.addEventListener('click', function(e){
       var n=e.target.closest&&e.target.closest('.addnote'); if(n){ openNote(n.closest('.nwrap'), true); return; }
+      var pb2=e.target.closest&&e.target.closest('#printBtn'); if(pb2){ window.print(); return; }
+      var ad=e.target.closest&&e.target.closest('.addslot');
+      if(ad){
+        var nx=FORM.querySelector('.slot[data-grp="'+ad.dataset.grp+'"][hidden]');
+        if(nx){ nx.hidden=false; var fi=nx.querySelector('input.th, input.f'); if(fi) fi.focus(); }
+        syncAdd(); return;
+      }
+      var sg=e.target.closest&&e.target.closest('.seg button');
+      if(sg){ var sb=sg.closest('.seg'); setSeg(sb, sg.getAttribute('aria-pressed')==='true' ? '' : sg.dataset.v); schedule(); return; }
       var b=e.target.closest&&e.target.closest('.ampm button'); if(!b) return;
       var box=b.closest('.timebox');
       box.querySelectorAll('.ampm button').forEach(function(x){ x.setAttribute('aria-pressed', x===b?'true':'false'); });
@@ -218,7 +318,7 @@
     window.addEventListener('pagehide', function(){
       if(dirty){ try{ navigator.sendBeacon(API+'/c/'+encodeURIComponent(SLUG), new Blob([JSON.stringify({respuestas:snapshot()})],{type:'application/json'})); }catch(e){} }
     });
-    var regrow=function(){ FORM.querySelectorAll('.nbox:not([hidden]) textarea, .final textarea').forEach(grow); };
+    var regrow=function(){ FORM.querySelectorAll('.nbox:not([hidden]) textarea, .final textarea, .qa textarea').forEach(grow); };
     window.addEventListener('load', regrow);
     if(document.fonts&&document.fonts.ready) document.fonts.ready.then(regrow);
   }

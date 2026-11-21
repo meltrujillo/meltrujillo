@@ -178,7 +178,7 @@
     box.classList.toggle('pend',!val);
   }
 
-  var FORM, serverUpdated = 0, dirty = false, saving = false, autoT;
+  var FORM, serverUpdated = 0, dirty = false, saving = false, autoT, LOCKED = false, CFG_ISO = '';
 
   /* avance: horas de la línea de tiempo + datos clave de cada bloque */
   function doneOf(keys){ var d=0; keys.forEach(function(k){ var v=FORM.elements[k]; if(v&&String(v.value).trim()) d++; }); return d; }
@@ -244,6 +244,7 @@
   }
 
   function save(manual){
+    if(LOCKED) return Promise.resolve();
     if(saving) { dirty = true; return Promise.resolve(); }
     clearTimeout(autoT); autoT=null;
     FORM.querySelectorAll('.timebox').forEach(updBox);
@@ -252,7 +253,7 @@
     if(manual){ btn.disabled=true; btn.textContent='Guardando…'; }
     var data=snapshot();
     return fetch(API+'/c/'+encodeURIComponent(SLUG), {method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify({respuestas:data})})
-      .then(function(r){ if(!r.ok) throw new Error('http '+r.status); return r.json(); })
+      .then(function(r){ if(r.status===423){ location.reload(); throw new Error('cerrado'); } if(!r.ok) throw new Error('http '+r.status); return r.json(); })
       .then(function(j){
         serverUpdated=j.updated||Date.now();
         msg.className='ok'; msg.textContent='Listo, Mel recibió sus datos. Pueden volver a este enlace y seguir editando cuando quieran.';
@@ -322,13 +323,24 @@
     if(document.fonts&&document.fonts.ready) document.fonts.ready.then(regrow);
   }
 
+  function lockUI(){
+    LOCKED = true; dirty = false; clearTimeout(autoT); autoT = null;
+    FORM.classList.add('locked');
+    FORM.querySelectorAll('input,textarea,button').forEach(function(el){ if(el.id!=='printBtn' && !el.classList.contains('addnote')) el.disabled = true; });
+    FORM.querySelectorAll('.addslot,#sendBtn,#sendMsg').forEach(function(el){ el.hidden = true; });
+    FORM.querySelectorAll('.addnote').forEach(function(b){ if(!b.closest('.nwrap').querySelector('textarea').value.trim()) b.hidden = true; });
+    var w=FORM.querySelector('.wrap'), n=document.createElement('div'); n.className='lockbar'; n.setAttribute('role','status');
+    var pas=(daysTo(CFG_ISO)||0)<0; n.innerHTML=pas ? '<b>Este cronograma ya está cerrado.</b> Todo lo que escribieron quedó guardado.' : '<b>Hoy es su boda y el cronograma quedó cerrado.</b> Todo lo que escribieron quedó guardado. Si hay un cambio de última hora, escríbanle a Mel directamente.';
+    w.insertBefore(n, w.querySelector('header').nextSibling);
+  }
+
   function fail(msg){ root.innerHTML='<div class="state"><h1>no encontramos este cronograma</h1><p>'+esc(msg)+'</p></div>'; }
 
   fetch(API+'/c/'+encodeURIComponent(SLUG), {cache:'no-store'})
     .then(function(r){ if(r.status===404) throw {nf:true}; if(!r.ok) throw new Error('http'); return r.json(); })
     .then(function(d){
       try{ localStorage.setItem(LS_CFG, JSON.stringify(d.config)); }catch(e){}
-      render(d.config); wire(d.config, d.respuestas, d.updated);
+      CFG_ISO=d.config.fecha_iso||''; render(d.config); wire(d.config, d.respuestas, d.updated); if(d.locked) lockUI();
     })
     .catch(function(err){
       if(err && err.nf){ fail('Revisa que el enlace esté completo, o pídele a Mel que te lo envíe de nuevo.'); return; }

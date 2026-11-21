@@ -197,3 +197,11 @@ h2::after{order:2}
   .timebox{background:#fff!important}
   .ampm button[aria-pressed="false"]{display:none}
 }
+
+/* cronograma cerrado el día de la boda */
+.lockbar{background:#fdf1ee;border:1px solid #f0cfca;border-radius:18px;padding:16px 18px;text-align:center;font-size:15px;line-height:1.55;color:var(--ink)}
+.lockbar b{color:var(--wine)}
+.locked .f,.locked .timebox{opacity:1}
+.locked input:disabled,.locked textarea:disabled{-webkit-text-fill-color:var(--ink);cursor:default}
+.locked .f.pend::placeholder{opacity:.55}
+.locked .ampm button:disabled{opacity:1;cursor:default}

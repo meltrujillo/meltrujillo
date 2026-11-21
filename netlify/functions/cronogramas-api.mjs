@@ -17,6 +17,10 @@ const SLUG_RE = /^[a-z0-9-]{3,80}$/;
 const MAX_BODY = 90000;
 const MAX_VAL = 2000;
 
+// Colombia no cambia de hora: UTC-5 todo el año. El cronograma se cierra el mismo día de la boda (a las 00:00 hora Colombia).
+const hoyBogota = () => new Date(Date.now() - 5 * 3600 * 1000).toISOString().slice(0, 10);
+const cerrado = (doc) => !doc.reabierto && /^\d{4}-\d{2}-\d{2}$/.test(doc.config?.fecha_iso || "") && hoyBogota() >= doc.config.fecha_iso;
+
 const json = (obj, status = 200) =>
   new Response(JSON.stringify(obj), {
     status,
@@ -82,7 +86,7 @@ export default async (req, context) => {
       if (req.method === "GET") {
         const doc = await store.get(key, { type: "json" });
         if (!doc) return json({ error: "no_existe" }, 404);
-        return json({ config: doc.config, respuestas: doc.respuestas || {}, updated: doc.updated || 0 });
+        return json({ config: doc.config, respuestas: doc.respuestas || {}, updated: doc.updated || 0, locked: cerrado(doc) });
       }
 
       if (req.method === "PUT" || req.method === "POST") {
@@ -95,6 +99,7 @@ export default async (req, context) => {
 
         const doc = await store.get(key, { type: "json" });
         if (!doc) return json({ error: "no_existe" }, 404);
+        if (cerrado(doc)) return json({ error: "cerrado" }, 423);
 
         const resp = { ...(doc.respuestas || {}) };
         for (const [k, v] of Object.entries(inc)) {
@@ -126,7 +131,7 @@ export default async (req, context) => {
           out.push({
             slug: d.slug, pareja: d.config.pareja, fecha_larga: d.config.fecha_larga, fecha_iso: d.config.fecha_iso,
             coleccion: d.config.coleccion, creado: d.creado, updated: d.updated || 0,
-            guardados: d.guardados || 0, campos_llenos: llenos,
+            guardados: d.guardados || 0, campos_llenos: llenos, cerrado: cerrado(d), reabierto: !!d.reabierto,
           });
         }
         out.sort((a, b) => String(a.fecha_iso || "9999").localeCompare(String(b.fecha_iso || "9999")));
@@ -148,6 +153,14 @@ export default async (req, context) => {
       if (parts[1] === "c" && parts[2] && SLUG_RE.test(parts[2])) {
         const slug = parts[2];
         const key = "c/" + slug;
+        if (parts[3] === "reabrir" && req.method === "POST") {
+          const d = await store.get(key, { type: "json" });
+          if (!d) return json({ error: "no_existe" }, 404);
+          const body = await req.json().catch(() => ({}));
+          d.reabierto = !!body.reabierto;
+          await store.setJSON(key, d);
+          return json({ ok: true, reabierto: d.reabierto });
+        }
         if (req.method === "GET") {
           const d = await store.get(key, { type: "json" });
           if (!d) return json({ error: "no_existe" }, 404);

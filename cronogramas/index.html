@@ -125,8 +125,10 @@
         var link=location.origin+'/c/'+x.slug;
         return '<div class="item"><b>'+esc(x.pareja)+'</b><div class="meta">'+esc(x.fecha_larga)+' · '+esc(x.coleccion)+'</div>'
           +'<div class="meta">Última edición: '+esc(fmt(x.updated))+' · campos llenos: '+x.campos_llenos+'</div>'
+          +(x.cerrado?'<div class="meta"><b>Cerrado:</b> ya es el día de la boda y la pareja no puede editar.</div>':(x.reabierto?'<div class="meta"><b>Reabierto</b> por ti: la pareja puede seguir editando.</div>':''))
           +'<div class="acts"><a href="'+esc(link)+'" target="_blank" rel="noopener">Abrir</a>'
           +'<button type="button" data-copy="'+esc(link)+'">Copiar enlace</button>'
+          +((x.cerrado||x.reabierto)?'<button type="button" data-reab="'+esc(x.slug)+'" data-on="'+(x.cerrado?'1':'0')+'">'+(x.cerrado?'Reabrir edición':'Volver al cierre automático')+'</button>':'')
           +'<button type="button" data-del="'+esc(x.slug)+'" data-name="'+esc(x.pareja)+'">Eliminar</button></div></div>';
       }).join('');
     }).catch(function(){ panels(false); $('authMsg').innerHTML='<span class="err">No se pudo verificar la clave. Revisa tu conexión.</span>'; });
@@ -136,6 +138,8 @@
   $('lista').addEventListener('click', function(e){
     var c=e.target.getAttribute&&e.target.getAttribute('data-copy');
     if(c){ (navigator.clipboard?navigator.clipboard.writeText(c):Promise.reject()).then(function(){e.target.textContent='Copiado';setTimeout(function(){e.target.textContent='Copiar enlace';},1800);}).catch(function(){prompt('Copia este enlace',c);}); return; }
+    var ra=e.target.getAttribute&&e.target.getAttribute('data-reab');
+    if(ra){ api('POST','/api/cronogramas/admin/c/'+ra+'/reabrir',{reabierto:e.target.getAttribute('data-on')==='1'}).then(function(){lista();}); return; }
     var d=e.target.getAttribute&&e.target.getAttribute('data-del');
     if(d && confirm('¿Eliminar el cronograma de '+e.target.getAttribute('data-name')+'? Esto borra también lo que la pareja ya llenó.')){
       api('DELETE','/api/cronogramas/admin/c/'+d).then(lista);

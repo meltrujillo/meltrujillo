@@ -59,7 +59,7 @@
   margin-block:16px 18px;
   color:#fff;
 }
-.hero .eyebrow{ color:#f1e4d8; font-size:12px; }
+.hero .eyebrow{ color:#f1e4d8; font-size:13px; }
 .hero .tagline{
   font-family:'Cormorant Garamond', serif;
   font-style:italic;
@@ -145,21 +145,21 @@ blockquote.pull.soft{
   border:1px solid var(--line);
   border-top:3px solid var(--wine);
   box-shadow:0 10px 26px rgba(34,31,27,0.09);
-  transition:transform .25s ease, box-shadow .25s ease, background .25s ease;
+  transition:transform .25s var(--ease-out), box-shadow .25s var(--ease-out), background .25s var(--ease-out);
 }
-.step-link h3{ transition:color .2s ease; }
+.step-link h3{ transition:color .2s var(--ease-out); }
 .step-link p{ flex:1; }
 .step-cta{
   display:inline-block;
   align-self:flex-start;
   margin-top:16px;
   padding-bottom:2px;
-  font-size:12px;
+  font-size:13px;
   letter-spacing:0.12em;
   text-transform:uppercase;
   color:var(--wine);
   border-bottom:1px solid var(--wine);
-  transition:letter-spacing .25s ease;
+  transition:letter-spacing .25s var(--ease-out);
 }
 .step-link:hover, .step-link:focus-visible{
   transform:translateY(-4px);
@@ -220,7 +220,7 @@ blockquote.pull.soft{
   display:flex;
   align-items:center;
   justify-content:center;
-  transition:opacity .2s ease;
+  transition:opacity .2s var(--ease-out);
 }
 .lightbox-close:hover,
 .lightbox-prev:hover,
@@ -295,7 +295,7 @@ blockquote.pull.soft{
   margin-top:10px;
   font-family:'Forum', Georgia, serif;
   font-style:normal;
-  font-size:11.5px;
+  font-size:13px;
   letter-spacing:0.12em;
   text-transform:uppercase;
   color:rgba(255,255,255,0.65);
@@ -544,7 +544,7 @@ blockquote.pull.soft{
   .coll-card{
     flex:0 0 238px;
     max-width:none;
-    transition:transform .3s ease, box-shadow .3s ease;
+    transition:transform .3s var(--ease-out), box-shadow .3s var(--ease-out);
   }
   .coll-card:hover, .coll-card:focus-within{
     transform:translateY(-6px);
@@ -597,7 +597,7 @@ blockquote.pull.soft{
   header.site .logo-lockup{ justify-self:center; margin:0; }
   header.site .logo-lockup .word{
     display:block;
-    font-size:12.5px;
+    font-size:13px;
     letter-spacing:0.2em;
     color:#f1e4d8;
     white-space:nowrap;
@@ -688,7 +688,7 @@ blockquote.pull.soft{
     padding-block:26px 14px;
     text-shadow:none;
   }
-  .hero-content .eyebrow{ position:absolute; top:94px; left:0; right:0; z-index:3; color:#fff; font-size:12px; letter-spacing:0.14em; white-space:nowrap; margin:0; text-align:center; text-shadow:0 1px 10px rgba(0,0,0,0.55); }
+  .hero-content .eyebrow{ position:absolute; top:94px; left:0; right:0; z-index:3; color:#fff; font-size:13px; letter-spacing:0.14em; white-space:nowrap; margin:0; text-align:center; text-shadow:0 1px 10px rgba(0,0,0,0.55); }
   .hero-content .tagline{ color:var(--wine); font-size:clamp(28px, 8vw, 36px); margin:10px 0 0; padding:0; }
   .hero-content h1{ color:var(--ink); font-size:clamp(26px, 7.4vw, 40px); margin-block:10px 0; }
   .hero-content p.lede{ color:var(--ink-soft); font-size:17px; line-height:1.6; max-width:34ch; margin:18px auto 0; }
@@ -933,3 +933,17 @@ main .eyebrow{ color:var(--wine); }
 }
 .carta[open] .sobre-izq, .carta[open] .sobre-der{ opacity:0; }
 .carta[open] .sobre-base{ clip-path:polygon(0 100%, 50% 25%, 100% 100%); background:#f6ede1; }
+
+
+/* =====================================================================
+   JERARQUÍA — H1 / H2 / H3 / cuerpo (usa los tokens de global.css)
+   H1 = hero (grande, sobre la foto) · H2 = título de sección · H3 = título pequeño en voz poética
+   ===================================================================== */
+section h2:not(.carta-titulo):not(.steps-title){ font-size:var(--h2); line-height:1.18; }
+.step h3{ font-size:var(--h3); letter-spacing:0; margin-bottom:6px; }
+.step h3 + p{ font-size:16.5px; line-height:1.6; }
+/* cuerpo de la portada: legible y con aire */
+.split p, .proyecto p, .sobre p{ line-height:1.7; }
+@media (min-width:721px){ .steps-title{ font-size:var(--h2); } }
+/* texto blanco sobre foto: sombra suave para sostener el contraste en cielos claros */
+.hero-content .eyebrow{ text-shadow:0 1px 10px rgba(0,0,0,.6); }

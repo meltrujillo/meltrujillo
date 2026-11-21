@@ -1,0 +1,162 @@
+/* estatus.css — capa de diseño "papel, vino y luz de ventana" (solo la portada).
+   Se carga DESPUÉS de landing.css. Para volver a la versión anterior basta con quitar
+   su <link> en index.html: no cambia ninguna regla de los demás archivos.
+   Ideas: papel cálido con grano · marcos finos y arcos · índices tipo cartel (001, 002…) ·
+          letra gigante cortada por una línea · vino profundo con luz de ventana. */
+:root{
+  --papel:#EFE8DC;          /* papel cálido: segundo fondo, solo para separar bloques */
+  --vino-hondo:#3A0006;     /* sombra del vino, para bandas oscuras */
+  --vino-medio:#6B0009;
+  --rosa:#EBCFC8;           /* texto suave sobre vino (contraste 11:1 sobre vino hondo) */
+  --crema:#F6EEE2;
+  --grano:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+/* Grano de película sobre toda la página: casi invisible, da calidez de papel */
+body::after{
+  content:""; position:fixed; inset:0; z-index:5; pointer-events:none;
+  background-image:var(--grano); opacity:.07; mix-blend-mode:multiply;
+}
+hr.rule{ display:none; }
+
+/* ---------- Bandas de color de lado a lado (sin tocar el ancho del contenido) ---------- */
+.band{ position:relative; clip-path:inset(0 -100vmax); }
+.band-papel{ background:var(--papel); box-shadow:0 0 0 100vmax var(--papel); }
+.band-vino{
+  background:var(--vino-hondo); box-shadow:0 0 0 100vmax var(--vino-hondo);
+  color:var(--crema);
+}
+/* Índice tipo cartel: 001 con doble línea */
+.band::after{
+  content:attr(data-idx); position:absolute; top:26px; right:0;
+  font-family:var(--font-display); font-size:13px; letter-spacing:.22em; padding-bottom:4px;
+  border-bottom:3px double currentColor; color:var(--ink);
+}
+.band-vino::after{ color:var(--rosa); }
+@media (max-width:720px){ .band::after{ top:16px; } }
+
+/* ---------- 1. Primero, conocernos: ventana en arco sobre vino con luz de ventana ---------- */
+.conocernos{
+  position:relative; max-width:600px; margin:34px auto; text-align:center;
+  padding:128px 44px 64px; color:var(--crema);
+  border-radius:999px 999px 18px 18px;
+  background:
+    linear-gradient(90deg, transparent 8%, rgba(255,110,100,.10) 20%, rgba(255,110,100,.10) 38%, transparent 50%, rgba(255,110,100,.07) 62%, rgba(255,110,100,.07) 80%, transparent 92%),
+    radial-gradient(ellipse at 50% 18%, var(--vino-medio) 0%, var(--vino-hondo) 72%);
+  box-shadow:0 30px 70px rgba(58,0,6,.28);
+  outline:1px solid rgba(246,238,226,.55); outline-offset:-14px;
+}
+.conocernos::before{
+  content:"✦" / ""; content:"✦"; display:block; color:var(--rosa); font-size:20px; line-height:1; margin:-64px 0 22px;
+}
+.conocernos .eyebrow{ color:var(--rosa); }
+.conocernos h2{ color:var(--crema); }
+.conocernos h2 .h2-script{ color:var(--rosa); }
+.conocernos .porque-resp, .conocernos p:not(.eyebrow){ color:var(--crema); }
+.conocernos-lista li{ color:var(--crema); border-color:rgba(235,207,200,.35); }
+.conocernos-lista li:last-child{ border-color:rgba(235,207,200,.35); }
+.conocernos .btn-primary{ background:var(--crema); color:var(--vino-hondo); border-color:var(--crema); }
+@media (hover:hover){ .conocernos .btn-primary:hover{ background:#fff; color:var(--wine); border-color:#fff; } }
+@media (max-width:720px){ .conocernos{ padding:96px 26px 48px; margin-block:20px; } .conocernos::before{ margin-top:-48px; } }
+
+/* ---------- 2. Son fotos genuinas: cartel con foto desplazada y marco fino ---------- */
+.problema .visual{ outline:1px solid var(--wine); outline-offset:14px; }
+section.band.problema h2{ font-size:clamp(40px,7vw,68px); line-height:1.02; max-width:12ch; }
+.problema .punto{ color:var(--wine); }
+.problema .split p:not(.eyebrow), .problema p:not(.eyebrow){ color:var(--ink-soft); }
+.problema blockquote.pull.soft{ border-color:var(--wine); }
+
+/* ---------- 3. Cómo funciona: tarjetas en arco, como ventanas ---------- */
+.step-link{
+  border-radius:999px 999px 10px 10px; border-top:1px solid var(--line);
+  padding:78px 30px 26px; align-items:center; text-align:center; background:#fff;
+}
+.step-cta{ align-self:center; }
+.step .num{ margin-bottom:10px; }
+
+/* ---------- 4. La promesa: vino profundo, foto en arco ---------- */
+.promesa .eyebrow{ color:var(--rosa); }
+.promesa h2{ color:var(--crema); }
+.promesa h2 .h2-script{ color:var(--rosa); }
+.promesa p:not(.eyebrow){ color:rgba(246,238,226,.88); }
+.promesa .visual{ border-radius:999px 999px 0 0; outline:1px solid rgba(235,207,200,.55); outline-offset:12px; }
+
+/* ---------- 5. Soy Mel: la M gigante cortada por una línea con nodos ---------- */
+@media (min-width:821px){
+  .sobre-band .about{
+    display:grid; grid-template-columns:minmax(120px,.8fr) 16px minmax(0,1.7fr); column-gap:26px; align-items:start;
+  }
+  .sobre-band .about > *{ grid-column:3; }
+  .sobre-band .about::before{
+    content:"M" / ""; content:"M"; grid-column:1; grid-row:1 / span 8; align-self:center; justify-self:end;
+    font-family:var(--font-display); font-size:clamp(220px,24vw,320px); line-height:.8; color:var(--ink);
+    width:.5em; overflow:hidden; white-space:nowrap; margin-right:-34px;
+  }
+  .sobre-band .about::after{
+    content:""; grid-column:2; grid-row:1 / span 8; width:16px; height:100%; min-height:260px; justify-self:center;
+    background:
+      radial-gradient(circle at 50% 7px, #fff 0 3px, var(--ink) 3.5px 6.5px, transparent 7px) top / 16px 16px no-repeat,
+      radial-gradient(circle at 50% 9px, #fff 0 3px, var(--ink) 3.5px 6.5px, transparent 7px) bottom / 16px 16px no-repeat,
+      linear-gradient(var(--ink), var(--ink)) center / 2px 100% no-repeat;
+    transform-origin:top;
+  }
+}
+.sobre-band .about .signature-line{ color:var(--wine); }
+.sobre-band .frame.square{ border-radius:999px 999px 0 0; aspect-ratio:3/4; object-position:center 22%; }
+
+/* ---------- 6. ¿Cuándo te casas?: marco fino con estrellas, vino al fondo y caja doble ---------- */
+.contact-scrim{
+  background:
+    radial-gradient(ellipse at 50% 42%, rgba(58,0,6,.30) 0%, rgba(58,0,6,.74) 68%, rgba(30,0,3,.92) 100%),
+    linear-gradient(180deg, rgba(58,0,6,.5) 0%, rgba(58,0,6,.35) 45%, rgba(30,0,3,.8) 100%);
+}
+.contact::before{
+  content:""; position:absolute; inset:22px; z-index:3; pointer-events:none;
+  border:1px solid rgba(246,238,226,.55); border-radius:2px;
+  background:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20'><path d='M10 0 L12 8 L20 10 L12 12 L10 20 L8 12 L0 10 L8 8 Z' fill='%23F6EEE2'/></svg>") left 14px top 14px / 18px no-repeat,
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20'><path d='M10 0 L12 8 L20 10 L12 12 L10 20 L8 12 L0 10 L8 8 Z' fill='%23F6EEE2'/></svg>") right 14px top 14px / 18px no-repeat,
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20'><path d='M10 0 L12 8 L20 10 L12 12 L10 20 L8 12 L0 10 L8 8 Z' fill='%23F6EEE2'/></svg>") left 14px bottom 14px / 18px no-repeat,
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20'><path d='M10 0 L12 8 L20 10 L12 12 L10 20 L8 12 L0 10 L8 8 Z' fill='%23F6EEE2'/></svg>") right 14px bottom 14px / 18px no-repeat;
+}
+.contact .eyebrow{ color:var(--rosa); }
+section#reservar.contact h2{ font-size:clamp(44px,9vw,92px); line-height:1.02; max-width:12ch; }
+.contact-info{ margin-top:44px; }
+.contact-cajas{ display:inline-flex; margin-top:34px; border:1px solid rgba(246,238,226,.6); }
+.contact-cajas span{ padding:12px 30px; font-size:13px; letter-spacing:.2em; text-transform:uppercase; color:var(--crema); }
+.contact-cajas span + span{ border-left:1px solid rgba(246,238,226,.6); }
+.contact .btn-primary{ background:var(--crema); border-color:var(--crema); color:var(--vino-hondo); }
+@media (hover:hover){ .contact .btn-primary:hover{ background:#fff; color:var(--wine); border-color:#fff; } }
+
+/* ---------- 7. Menú del celular: cae con suavidad, en voz poética ---------- */
+@media (max-width:720px){
+  header.site nav.site-nav{
+    background:linear-gradient(160deg,var(--vino-medio),var(--vino-hondo));
+    border-radius:0 0 28px 28px; padding:10px 28px 22px; border-bottom:0;
+    box-shadow:0 24px 40px rgba(30,0,3,.35);
+  }
+  header.site nav.site-nav.is-open{ animation:menuIn .22s var(--ease-out); }
+  header.site nav.site-nav a:not(.header-cta-mobile){
+    font-family:var(--font-voice); font-style:italic; font-weight:700; text-transform:none;
+    font-size:24px; letter-spacing:0; padding:12px 0; color:var(--crema);
+    border-bottom:1px solid rgba(235,207,200,.18);
+  }
+}
+@keyframes menuIn{ from{ opacity:0; transform:translateY(-8px); } to{ opacity:1; transform:none; } }
+
+/* ---------- Movimiento: entran una sola vez, con curva de salida suave ---------- */
+.est-js .conocernos, .est-js .problema .visual, .est-js .promesa .visual, .est-js .sobre-band .frame{
+  opacity:0; transform:translateY(26px);
+  transition:opacity .8s var(--ease-out), transform .9s var(--ease-out);
+}
+.est-js .conocernos.est-in, .est-js .problema.est-in .visual, .est-js .promesa.est-in .visual, .est-js .sobre-band.est-in .frame{
+  opacity:1; transform:none;
+}
+@media (min-width:821px){
+  .est-js .sobre-band .about::after{ transform:scaleY(0); transition:transform 1.3s var(--ease-in-out) .2s; }
+  .est-js .sobre-band.est-in .about::after{ transform:scaleY(1); }
+}
+@media (prefers-reduced-motion:reduce){
+  body::after{ display:none; }
+  header.site nav.site-nav.is-open{ animation:none; }
+}

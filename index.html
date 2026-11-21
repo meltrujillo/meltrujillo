@@ -46,8 +46,7 @@
   "description": "Fotografía de bodas en Bogotá, Colombia. Bodas grandes, elegantes y cuidadosamente producidas, con una mirada documental y emocional.",
   "telephone": "+573106985532",
   "founder": {
-    "@type": "Person",
-    "name": "Meliza Trujillo"
+    "@id": "https://meltrujillo.com/#meliza"
   },
   "areaServed": [
     {
@@ -80,6 +79,143 @@
   }
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://meltrujillo.com/#sitio",
+      "url": "https://meltrujillo.com/",
+      "name": "Mel Trujillo Weddings",
+      "description": "Fotografía de bodas en Bogotá y Colombia. Lo invisible, visible.",
+      "inLanguage": "es-CO",
+      "publisher": {
+        "@id": "https://meltrujillo.com/#negocio"
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://meltrujillo.com/#pagina",
+      "url": "https://meltrujillo.com/",
+      "name": "Mel Trujillo Weddings — Fotografía de bodas en Bogotá",
+      "isPartOf": {
+        "@id": "https://meltrujillo.com/#sitio"
+      },
+      "about": {
+        "@id": "https://meltrujillo.com/#negocio"
+      },
+      "inLanguage": "es-CO",
+      "primaryImageOfPage": {
+        "@type": "ImageObject",
+        "url": "https://res.cloudinary.com/yqfqih5o/image/upload/w_1200,h_630,c_fill,g_auto,q_auto,f_jpg/v1789771786/Mel_Trujillo_-_Photography-5505.jpg"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://meltrujillo.com/#meliza",
+      "name": "Meliza Trujillo",
+      "alternateName": "Mel Trujillo",
+      "url": "https://meltrujillo.com/mas-sobre-mi/",
+      "jobTitle": "Fotógrafa de bodas",
+      "worksFor": {
+        "@id": "https://meltrujillo.com/#negocio"
+      },
+      "homeLocation": {
+        "@type": "City",
+        "name": "Bogotá"
+      },
+      "knowsAbout": [
+        "fotografía de bodas",
+        "fotografía documental de bodas",
+        "bodas destino en Colombia"
+      ],
+      "sameAs": [
+        "https://instagram.com/meltrujilloweddings",
+        "https://www.tiktok.com/@meltrujillop"
+      ]
+    },
+    {
+      "@type": "Service",
+      "@id": "https://meltrujillo.com/#servicio-bodas",
+      "serviceType": "Fotografía de bodas",
+      "name": "Fotografía de bodas en Bogotá y Colombia",
+      "provider": {
+        "@id": "https://meltrujillo.com/#negocio"
+      },
+      "areaServed": [
+        {
+          "@type": "City",
+          "name": "Bogotá"
+        },
+        {
+          "@type": "Country",
+          "name": "Colombia"
+        }
+      ],
+      "audience": {
+        "@type": "Audience",
+        "audienceType": "Parejas que se casan"
+      },
+      "description": "Cobertura fotográfica documental y emocional del día de la boda, con una llamada previa para conocer a la pareja y una galería en línea editada con tonos cálidos."
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://meltrujillo.com/#preguntas",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "¿Cómo pueden reservarme?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Pueden reservar su fecha con el primer anticipo (50%) y la firma del contrato."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Cuántas fotos entrego?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Recibirán entre 400 y 800 fotos editadas. La cantidad final depende de la duración de la cobertura, los momentos vividos y la selección final de imágenes. Mi prioridad es entregar una galería completa y cuidadosamente editada, sin perseguir un número determinado de fotografías."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Cuánto tiempo tardaré en entregarles sus fotos?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Todas las fotos pasan por un proceso de selección y edición para que sean lo más hermosas posible, con un estilo de tonos cálidos. El tiempo de entrega de las galerías en línea es de entre 25 y 40 días."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Puedes hacernos Photoshop y adelgazarnos?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No hago retoques de adelgazamiento ni correcciones corporales. Si hay algo que prefieran que tenga en cuenta al momento de fotografiarlos, cuéntenmelo antes: así puedo cuidar cada ángulo con intención. Una edición más específica se cotiza por foto."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Viajas a otras ciudades o destinos?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sí. Los gastos de transporte y alojamiento se cotizan por separado, según el destino."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Trabajas con lluvia o imprevistos del clima?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sí. La luz y el clima hacen parte de la historia. Confíen en mí."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
 
 <!-- FAVICON — monograma real "mt" desde Cloudinary. Si prefieres quitarlo, dímelo y lo elimino. -->
 <link rel="icon" href="https://res.cloudinary.com/yqfqih5o/image/upload/w_64,h_64,c_fit,q_auto,f_auto/v1789771807/Logomt.png">
@@ -90,6 +226,7 @@
 
 <link rel="stylesheet" href="/assets/css/global.css">
 <link rel="stylesheet" href="/assets/css/landing.css">
+<link rel="stylesheet" href="/assets/css/estatus.css">
 </head>
 <body data-page="landing">
 
@@ -165,11 +302,11 @@
 
   <!-- ===================== PROBLEMA ===================== -->
   <div class="wrap">
-    <section class="split split-center" aria-label="El problema">
+    <section class="split split-center band band-papel problema" data-idx="001" aria-label="El problema">
       <img class="visual frame hero-frame" src="https://res.cloudinary.com/yqfqih5o/image/upload/w_900,q_auto,f_auto/v1789770879/Mel_Trujillo_-_Photography-202.jpg" alt="Pareja de novios en un momento íntimo" loading="lazy">
       <div>
         <p class="eyebrow">Lo que de verdad importa</p>
-        <h2>Son fotos genuinas.</h2>
+        <h2>Son fotos genuinas<span class="punto">.</span></h2>
         <p>No quiero ser un proveedor más en su lista, quiero convertirme en una nota de compañía en su boda, casi casi, como una amiga que solo busca su felicidad. Y una amiga se anticipa a lo que necesitan antes de que lo pidan.</p>
         <blockquote class="pull soft">Van a pasar más horas conmigo que con casi cualquiera de sus invitados...</blockquote>
       </div>
@@ -195,7 +332,7 @@
 
   <!-- ===================== PROMESA ===================== -->
   <div class="wrap">
-    <section class="split reverse split-center" aria-label="La promesa">
+    <section class="split reverse split-center band band-vino promesa" data-idx="002" aria-label="La promesa">
       <div>
         <p class="eyebrow">Lo que van a recibir</p>
         <h2>Convertir<br><span class="h2-script">Lo invisible, visible.</span></h2>
@@ -479,7 +616,7 @@
 
   <!-- ===================== PERFIL PROFESIONAL / SOBRE MÍ ===================== -->
   <div class="wrap">
-    <section id="sobre-mi" class="split" aria-label="Sobre mí">
+    <section id="sobre-mi" class="split band band-papel sobre-band" data-idx="003" aria-label="Sobre mí">
       <img class="frame square" src="https://res.cloudinary.com/yqfqih5o/image/upload/c_fill,g_face,w_800,h_1300,q_auto,f_auto/v1790036999/Foto_2025.jpg" alt="Retrato de Mel Trujillo" loading="lazy">
       <div class="about">
         <p class="eyebrow">Sobre mí</p>
@@ -542,6 +679,7 @@
       <div class="contact-info">
         <a class="btn btn-primary" href="https://cal.com/meltrujillo/conocernos" target="_blank" rel="noopener">Cuéntame tu historia</a>
       </div>
+      <div class="contact-cajas" aria-hidden="true"><span>Bogotá</span><span>Colombia</span></div>
     </div>
   </section>
 

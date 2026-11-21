@@ -261,3 +261,17 @@
   }, { threshold:0.2, rootMargin:'0px 0px -6% 0px' });
   cards.forEach(function(c){ io.observe(c); });
 })();
+
+
+/* ---------- Capa "estatus": entradas suaves al llegar a cada bloque (una sola vez) ---------- */
+(function(){
+  var els = document.querySelectorAll('.conocernos, .sobre-band, .promesa, .problema');
+  if(!els.length) return;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduce || !('IntersectionObserver' in window)){ els.forEach(function(e){ e.classList.add('est-in'); }); return; }
+  document.documentElement.classList.add('est-js');
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('est-in'); io.unobserve(e.target); } });
+  }, { threshold:0.18 });
+  els.forEach(function(e){ io.observe(e); });
+})();

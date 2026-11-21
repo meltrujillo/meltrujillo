@@ -36,6 +36,8 @@
     log:['log_novia','log_novio'],
     con:['con_0_nombre','con_1_nombre','con_2_nombre','con_3_nombre']
   };
+  var HERO = 'https://res.cloudinary.com/yqfqih5o/image/upload/w_1600,q_auto,f_auto/v1794439655/Mel_Trujillo_-_Photography-199.jpg';
+  var HERO_M = 'https://res.cloudinary.com/yqfqih5o/image/upload/c_fill,w_900,h_1200,g_auto,q_auto,f_auto/v1794439655/Mel_Trujillo_-_Photography-199.jpg';
   var NOTE_PH = 'escribe aquí tus observaciones si aplica', PH = 'pendiente de rellenar';
 
   function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
@@ -145,9 +147,10 @@
     root.innerHTML =
       '<form id="cron" autocomplete="off">'
       +'<div class="sticky" id="sticky"><div class="in"><div class="prog" aria-live="polite"><span class="txt" id="progTxt">0 de '+(tlTotal+reqTotal)+' datos listos</span><span class="track"><span class="fill" id="progFill"></span></span></div><nav class="chips" aria-label="Ir a una sección">'+chips+'</nav></div></div>'
+      +'<header class="hero"><picture><source media="(max-width:620px)" srcset="'+HERO_M+'"><img class="hero-img" src="'+HERO+'" alt="" fetchpriority="high" decoding="async"></picture>'
+      +'<div class="glass"><div class="eyebrow">Mel Trujillo Weddings · Cronograma 1:1</div><h1>'+esc(cfg.pareja)+'</h1><div class="date">'+esc(cfg.fecha_larga)+'</div>'+cd+'<div class="lema">Lo invisible, visible</div></div></header>'
       +'<div class="wrap">'
-      +'<header><div class="eyebrow">Mel Trujillo Weddings · Cronograma 1:1</div><h1>'+esc(cfg.pareja)+'</h1><div class="date">'+esc(cfg.fecha_larga)+'</div>'+cd+'<div class="lema">Lo invisible, visible</div>'
-      +'<div class="legend"><span><i class="dot p"></i>pendiente de rellenar</span><span><i class="dot d"></i>listo</span><span><i class="dot n"></i>observaciones</span></div></header>'
+      +'<div class="legend"><span><i class="dot p"></i>pendiente de rellenar</span><span><i class="dot d"></i>listo</span><span><i class="dot n"></i>observaciones</span></div>'
       +'<main id="app">'+h.join('')+'</main>'
       +'<footer class="closing"><div class="cl-t">Antes de su boda</div>'
       +'<p><strong>Estos datos son el hilo que nos mantiene conectados durante todo su día.</strong></p>'
@@ -343,7 +346,7 @@
     FORM.querySelectorAll('.addnote').forEach(function(b){ if(!b.closest('.nwrap').querySelector('textarea').value.trim()) b.hidden = true; });
     var w=FORM.querySelector('.wrap'), n=document.createElement('div'); n.className='lockbar'; n.setAttribute('role','status');
     var pas=(daysTo(CFG_ISO)||0)<0; n.innerHTML=pas ? '<b>Este cronograma ya está cerrado.</b> Todo lo que escribieron quedó guardado.' : '<b>Hoy es su boda y el cronograma quedó cerrado.</b> Todo lo que escribieron quedó guardado. Si hay un cambio de última hora, escríbanle a Mel directamente.';
-    w.insertBefore(n, w.querySelector('header').nextSibling);
+    w.insertBefore(n, w.firstChild);
   }
 
   function fail(msg){ root.innerHTML='<div class="state"><h1>no encontramos este cronograma</h1><p>'+esc(msg)+'</p></div>'; }

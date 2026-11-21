@@ -273,19 +273,19 @@ h2 .cnt.ok{animation:pop .32s var(--ease-out)}
 }
 
 /* ---------- v5: portada con vidrio esmerilado sobre una foto de Mel ---------- */
-header.hero{position:relative;width:100%;min-height:clamp(420px,62svh,600px);display:flex;align-items:center;justify-content:center;padding:44px 16px;gap:0;overflow:hidden;background:#e7d8d1;isolation:isolate}
+header.hero{position:relative;width:100%;min-height:clamp(560px,88svh,820px);display:flex;align-items:center;justify-content:center;padding:44px 16px;gap:0;overflow:hidden;background:#e7d8d1;isolation:isolate}
 .hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 62%;z-index:-2}
 header.hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(252,249,247,.0) 55%,var(--bg) 100%),linear-gradient(180deg,rgba(40,20,20,.10),rgba(40,20,20,.0) 40%)}
 .glass{position:relative;width:min(540px,100%);display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;padding:34px 26px 30px;border-radius:34px;
   background:rgba(255,255,255,.86);border:1px solid rgba(255,255,255,.7);
   box-shadow:0 34px 60px -34px rgba(40,20,20,.55),inset 0 1px 0 rgba(255,255,255,.9)}
 @supports ((-webkit-backdrop-filter:blur(1px)) or (backdrop-filter:blur(1px))){
-  .glass{background:rgba(255,255,255,.7);-webkit-backdrop-filter:blur(22px) saturate(1.5);backdrop-filter:blur(22px) saturate(1.5)}
+  .glass{background:rgba(255,255,255,.58);-webkit-backdrop-filter:blur(26px) saturate(1.6);backdrop-filter:blur(26px) saturate(1.6)}
 }
 .glass::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(180deg,rgba(255,255,255,.5),rgba(255,255,255,0) 38%)}
 .glass > *{position:relative}
 .glass h1{margin:2px 0 0;font-size:clamp(34px,8vw,50px)}
-.glass .date{font-size:20px;color:#850009}
+.glass .date{font-size:20px;color:#5e0005;font-weight:600}
 .glass .eyebrow{color:#44393d}
 .glass .count{background:rgba(255,255,255,.75);border-color:rgba(157,0,9,.18);color:#5d5155}
 .glass .lema{margin-top:4px}
@@ -302,10 +302,20 @@ header > *{animation:none}
 @media (max-width:620px){
   header.hero{min-height:clamp(400px,58svh,520px);padding:36px 14px}
   .hero-img{object-position:50% 30%}
-  header.hero{align-items:flex-end;min-height:clamp(480px,66svh,600px);padding-bottom:26px}
+  header.hero{align-items:flex-end;min-height:clamp(600px,84svh,760px);padding-bottom:30px}
   header.hero::after{background:linear-gradient(180deg,rgba(252,249,247,0) 78%,var(--bg) 100%),linear-gradient(180deg,rgba(40,20,20,.08),rgba(40,20,20,0) 40%)}
   .glass{padding:30px 20px 26px;border-radius:30px}
 }
+/* franjas de foto con vidrio entre secciones */
+.band{position:relative;height:clamp(190px,30vw,280px);margin:40px 0 -6px;border-radius:28px;overflow:hidden;isolation:isolate;display:flex;align-items:flex-end;justify-content:flex-start;padding:18px;box-shadow:0 24px 44px -30px rgba(40,20,20,.5)}
+.band img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-1;transition:transform .6s var(--ease-out)}
+@media (hover:hover){.band:hover img{transform:scale(1.03)}}
+.glass-s{width:auto;max-width:min(360px,100%);align-items:flex-start;text-align:left;gap:2px;padding:14px 20px 15px;border-radius:22px;animation:none}
+.glass-s .eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#3a2f33}
+.glass-s .bl{font-family:var(--display);font-size:clamp(22px,4.6vw,30px);line-height:1.1;color:#2a2124}
+.band + section{margin-top:26px}
+@media (max-width:620px){.band{margin:30px 0 -4px;border-radius:24px;padding:12px;height:200px}}
+@media print{.band{display:none}}
 @media print{
   header.hero{min-height:0;padding:0 0 12px;background:#fff}
   .hero-img{display:none}

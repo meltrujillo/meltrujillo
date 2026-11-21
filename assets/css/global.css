@@ -143,3 +143,84 @@ footer{
 .footer-contact a{ text-decoration:none; color:var(--ink-soft); }
 .footer-contact a:hover{ color:var(--ink); }
 
+
+
+/* =====================================================================
+   SISTEMA DE DISEÑO — noviembre 2026
+   Una sola fuente de verdad para tipografía, color, movimiento y foco.
+   TIPOS DE TEXTO (2 familias, 3 usos):
+     1. Títulos y etiquetas  → Forum, mayúscula con espaciado (H1, H2, botones, menú)
+     2. Voz poética          → Cormorant Garamond cursiva (H3, frases destacadas, "lo invisible, visible")
+     3. Cuerpo               → Forum en minúscula normal, 18px, interlineado 1.7
+   COLORES (3):
+     Tinta   #221F1B  texto y botón principal      (contraste 16.4:1 sobre blanco)
+     Vino    #9D0009  acento: enlaces, etiquetas, foco, hover del botón (8.6:1 sobre blanco)
+     Papel   #FFFFFF  fondo; #F7F7F5 solo para separar bloques
+   ESTILO: editorial, limpio, mucho aire, la foto manda; el vino aparece solo donde hay que mirar o actuar.
+   ===================================================================== */
+:root{
+  --font-display:'Forum', Georgia, serif;
+  --font-voice:'Cormorant Garamond', Georgia, serif;
+  --font-body:'Forum', Georgia, serif;
+
+  --h1:clamp(30px,5.2vw,44px);      /* título de página interna */
+  --h2:clamp(26px,4.2vw,38px);      /* título de sección */
+  --h2-lectura:clamp(22px,3.6vw,30px); /* subtítulo dentro de un artículo */
+  --h3:clamp(21px,2.6vw,25px);      /* título pequeño, voz poética */
+  --texto:18px;
+  --texto-chico:14px;
+  --etiqueta:13px;
+
+  --ease-out:cubic-bezier(.23,1,.32,1);
+  --ease-in-out:cubic-bezier(.77,0,.175,1);
+  --dur-press:140ms;
+  --dur-hover:200ms;
+}
+
+body{ font-size:var(--texto); line-height:1.7; font-family:var(--font-body); }
+
+h1{ line-height:1.12; }
+h2{ line-height:1.18; }
+h3{
+  font-family:var(--font-voice);
+  font-style:italic;
+  font-weight:700;
+  font-size:var(--h3);
+  line-height:1.2;
+  letter-spacing:0;
+  text-transform:none;
+}
+
+/* Etiquetas y textos chicos: nada por debajo de 13px */
+.eyebrow{ font-size:var(--etiqueta); }
+.microcopy{ font-size:var(--texto-chico); }
+nav.site-nav{ font-size:13px; }
+nav.site-nav a{ padding-block:11px; }
+.logo-lockup .word{ font-size:13px; }
+footer{ font-size:13px; }
+
+/* Botones: responden al puntero, se hunden al presionar, el vino marca la acción */
+.btn{
+  font-size:13px;
+  transition:transform var(--dur-press) var(--ease-out), background-color var(--dur-hover) ease, color var(--dur-hover) ease, border-color var(--dur-hover) ease;
+}
+.btn:hover{ opacity:1; }
+@media (hover:hover){
+  .btn-primary:hover{ background:var(--wine); border-color:var(--wine); }
+  .btn-ghost:hover{ border-color:var(--wine); color:var(--wine); }
+  nav.site-nav a{ transition:opacity var(--dur-hover) ease; }
+}
+.btn:active{ transform:scale(.97); }
+
+/* Foco visible para teclado en todo lo interactivo */
+a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visible{
+  outline:2px solid var(--wine);
+  outline-offset:3px;
+}
+
+/* Movimiento opcional: quien lo pide, no lo recibe */
+@media (prefers-reduced-motion:reduce){
+  html{ scroll-behavior:auto; }
+  *,*::before,*::after{ transition-duration:.01ms !important; }
+  .btn:active{ transform:none; }
+}

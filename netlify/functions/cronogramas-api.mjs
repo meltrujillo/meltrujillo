@@ -43,8 +43,8 @@ function rand(n = 5) {
 }
 
 // La clave nunca se guarda: solo su huella con sal y PBKDF2 (310.000 vueltas), para que adivinarla a partir del código sea muy lento.
-const ADMIN_SALT = "e99a36c57546c02d81c6b68138d1bc63";
-const ADMIN_HASH = "95af818d227cd0efc71dc758a591f5a16d19228e1abf6c14e74487ada137ce4d";
+const ADMIN_SALT = "d08fef32702a714ac24c3e389e81c5c4";
+const ADMIN_HASH = "6948e972f35df952dd8e53b597e997a8189335046f1ba99360e21667b5f6a8ad";
 const ADMIN_ITER = 310000;
 
 const fromHex = (h) => Uint8Array.from(h.match(/../g), (x) => parseInt(x, 16));

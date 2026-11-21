@@ -29,12 +29,12 @@
   ];
   var LIGHT_ROW = {sec:'fot', idx:1};
   var XMAX = 5, PMAX = 10, PSHOW = 4;
-  var ROLES = ['Novia','Novio','Persona de coordinación del día','Wedding planner','Lugar / venue','Maquillista','Videógrafo / segundo fotógrafo','DJ / banda'];
-  var ROLE_REQ = 3;
+  var ROLES = ['Wedding planner','Lugar / venue','Maquillista','DJ / banda'];
+  var ROLE_REQ = 4;
   var REQ = {
     imp:['imp_momentos','per_0_nombre','imp_poses'],
-    log:['log_novia','log_novio','log_ini_hora','log_fin_hora'],
-    con:['con_0_tel','con_1_tel','con_2_nombre','con_2_tel']
+    log:['log_novia','log_novio'],
+    con:['con_0_nombre','con_1_nombre','con_2_nombre','con_3_nombre']
   };
   var NOTE_PH = 'escribe aquí tus observaciones si aplica', PH = 'pendiente de rellenar';
 
@@ -123,7 +123,6 @@
 
     /* logística */
     h.push('<section id="s-log"><h2>Logística del día<span class="cnt" data-cnt="log">0 de '+REQ.log.length+'</span></h2><p class="lead">Estos datos me ahorran llamadas ese día y me permiten llegar con todo resuelto.</p><div class="card">');
-    h.push(qa('Cobertura','Hora a la que quieren que empiece y hora a la que termina mi trabajo ese día.','<div class="pair">'+timebox('log_ini_hora','Inicio de cobertura',true)+timebox('log_fin_hora','Fin de cobertura',true)+'</div>'));
     h.push(qa('¿Dónde se preparan?','Dirección, nombre del lugar, piso o habitación y cualquier indicación para llegar.','<div class="pair">'+lblf('Novia',area('log_novia','Dónde se prepara la novia','dirección y habitación',2))+lblf('Novio',area('log_novio','Dónde se prepara el novio','dirección y habitación',2))+'</div>'));
     h.push(qa('Restricciones del lugar','Flash, dron, zonas donde no se puede fotografiar, permisos o reglas de la iglesia o del venue.',area('log_restric','Restricciones del lugar','si no hay ninguna, escriban “ninguna”',2)));
     h.push(qa('Parqueo y acceso del equipo','Dónde dejo el carro, por dónde entro y a quién le aviso al llegar.',area('log_acceso','Parqueo y acceso del equipo',PH,2)));
@@ -132,7 +131,7 @@
     h.push('</div></section>');
 
     /* contactos */
-    h.push('<section id="s-con"><h2>Contactos clave<span class="cnt" data-cnt="con">0 de '+REQ.con.length+'</span></h2><p class="lead">Los teléfonos de ustedes y de la persona que coordinará el día son los más importantes. Ese día estarán ocupados y necesito a alguien que conteste.</p><div class="card"><div class="row head cols3c"><div>Rol</div><div>Nombre</div><div>Teléfono</div></div>');
+    h.push('<section id="s-con"><h2>Contactos clave<span class="cnt" data-cnt="con">0 de '+REQ.con.length+'</span></h2><p class="lead">Los proveedores con los que voy a coordinar durante el día.</p><div class="card"><div class="row head cols3c"><div>Rol</div><div>Nombre</div><div>Teléfono</div></div>');
     ROLES.forEach(function(r,i){
       var opt = i>=ROLE_REQ ? '<small class="opt">opcional</small>' : '';
       h.push('<div class="row cols3c"><div class="fixed">'+esc(r)+opt+'</div>'+textfield('con_'+i+'_nombre','Nombre','Nombre: '+r,false,false)+textfield('con_'+i+'_tel','Teléfono','Teléfono: '+r,false,false)+'</div>');

@@ -10,7 +10,6 @@ const KEY_RE = new RegExp(
     "per_\\d{1,2}_(?:nombre|rel)",
     "imp_(?:momentos|grupos|no|poses)",
     "log_(?:novia|novio|restric|acceso|lluvia|evento)",
-    "log_(?:ini|fin)_hora",
     "notas_finales",
   ].join("|") + ")$"
 );

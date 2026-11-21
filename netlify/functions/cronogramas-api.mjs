@@ -42,12 +42,18 @@ function rand(n = 5) {
   return Array.from(b, (x) => a[x % a.length]).join("");
 }
 
-const ADMIN_HASH = "a280be6703d96341f8ecf7d116a937c9d6f6a2e6050cbfc89c3ae4cbd9091c79";
+// La clave nunca se guarda: solo su huella con sal y PBKDF2 (310.000 vueltas), para que adivinarla a partir del código sea muy lento.
+const ADMIN_SALT = "e99a36c57546c02d81c6b68138d1bc63";
+const ADMIN_HASH = "95af818d227cd0efc71dc758a591f5a16d19228e1abf6c14e74487ada137ce4d";
+const ADMIN_ITER = 310000;
+
+const fromHex = (h) => Uint8Array.from(h.match(/../g), (x) => parseInt(x, 16));
 
 async function isAdmin(req) {
   const k = req.headers.get("x-admin-key") || "";
   if (!k || k.length > 100) return false;
-  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(k));
+  const km = await crypto.subtle.importKey("raw", new TextEncoder().encode(k), "PBKDF2", false, ["deriveBits"]);
+  const buf = await crypto.subtle.deriveBits({ name: "PBKDF2", hash: "SHA-256", salt: fromHex(ADMIN_SALT), iterations: ADMIN_ITER }, km, 256);
   const hex = Array.from(new Uint8Array(buf), (x) => x.toString(16).padStart(2, "0")).join("");
   let d = hex.length ^ ADMIN_HASH.length;
   for (let i = 0; i < hex.length; i++) d |= hex.charCodeAt(i) ^ (ADMIN_HASH.charCodeAt(i) || 0);

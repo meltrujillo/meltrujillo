@@ -352,3 +352,45 @@ header > *{animation:none}
 .mod-top .lead{margin:6px 0 0;padding:0;background:none;border:0;-webkit-backdrop-filter:none;backdrop-filter:none;color:#fff;font-size:15.5px;line-height:1.5;max-width:56ch}
 @media (max-width:620px){.mod-hero{min-height:360px;padding:20px 20px 72px}.mod-top .lead{font-size:14.5px}}
 @media print{.mod-hero picture::after{display:none}.mod-top,.mod-top *{color:#222!important;-webkit-text-stroke:0;text-shadow:none!important}.mod-top h2{-webkit-text-stroke:.6px #222}.mod-top h2::before{background:#9d0009}.mod-top .cnt{background:#f6e3e3!important;border-color:#ddd}}
+
+/* v9: velo crema con letra oscura, portada sin tarjeta */
+header.hero{align-items:flex-end;padding:44px 20px 58px}
+header.hero::after{background:linear-gradient(to top,var(--bg) 0,rgba(251,244,239,.92) 20%,rgba(251,244,239,.62) 42%,rgba(251,244,239,0) 72%)}
+.hero-txt{position:relative;width:min(680px,100%);display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;animation:rise .5s var(--ease-out) both}
+.hero-txt h1{margin:2px 0 0;font-size:clamp(36px,8.4vw,58px);color:#2a2124}
+.hero-txt .eyebrow{color:#3a2f33}
+.hero-txt .date{font-size:20px;color:#5e0005;font-weight:600}
+.hero-txt .count{background:rgba(255,255,255,.8);border-color:rgba(157,0,9,.2);color:#4a3d41}
+.hero-txt .lema{margin-top:4px}
+@media (max-width:620px){
+  header.hero{min-height:clamp(600px,84svh,760px);padding:36px 16px 46px}
+  .hero-img{object-position:50% 50%;transform:scale(1.5);transform-origin:26% 58%}
+  header.hero::after{background:linear-gradient(to top,var(--bg) 0,rgba(251,244,239,.93) 24%,rgba(251,244,239,.62) 46%,rgba(251,244,239,0) 74%)}
+}
+.mod-hero picture::after{background:linear-gradient(to top,rgba(251,244,239,.92) 0,rgba(251,244,239,.74) 38%,rgba(251,244,239,.2) 74%,rgba(251,244,239,0) 100%)}
+.mod-top,.mod-top.glass{text-shadow:none}
+.mod-top h2{color:#2a2124;-webkit-text-stroke:.8px #2a2124;text-shadow:none}
+.mod-top h2::before{background:var(--wine)}
+.mod-top .cnt{background:rgba(255,255,255,.8);border:1px solid rgba(157,0,9,.2);color:#4a3d41;-webkit-backdrop-filter:none;backdrop-filter:none}
+.mod-top .bl{color:#4a2a2f}
+.mod-top .lead{color:#2f2629}
+@media print{.hero-txt,.hero-txt *{color:#222!important}}
+
+/* v9b: halo crema detrás del texto de la portada y ajustes de encuadre */
+header.hero{min-height:clamp(540px,76svh,720px)}
+.hero-txt::before{content:"";position:absolute;inset:-70px -110px -40px;z-index:-1;pointer-events:none;background:radial-gradient(closest-side,rgba(251,244,239,.86) 0,rgba(251,244,239,.62) 58%,rgba(251,244,239,0) 100%)}
+.hero-txt{isolation:isolate}
+@media (max-width:620px){
+  header.hero{min-height:clamp(560px,76svh,700px)}
+  .hero-img{transform:scale(1.45);transform-origin:12% 66%}
+  .hero-txt::before{inset:-60px -40px -30px}
+}
+.mod-hero picture::after{background:linear-gradient(to top,rgba(251,244,239,.9) 0,rgba(251,244,239,.64) 38%,rgba(251,244,239,.14) 72%,rgba(251,244,239,0) 100%)}
+@media print{.hero-txt::before{display:none}}
+
+@media (max-width:620px){.hero-img{object-position:14% 52%;transform:none}}
+@media (max-width:620px){.hero-img{object-position:6% 50%;transform:scale(1.75);transform-origin:8% 82%}}
+.hero-txt .eyebrow{color:#1f1719;font-weight:700}
+.hero-txt::before{background:radial-gradient(closest-side,rgba(251,244,239,.92) 0,rgba(251,244,239,.7) 58%,rgba(251,244,239,0) 100%)}
+.mod-hero picture::after{background:linear-gradient(to top,rgba(251,244,239,.92) 0,rgba(251,244,239,.76) 42%,rgba(251,244,239,.16) 76%,rgba(251,244,239,0) 100%)}
+.mod-top .bl{color:#3a1f24}

@@ -453,3 +453,16 @@ html,body{font-weight:600;font-size:18px}
 .lead,.qh,.mod-top .lead{font-family:var(--display);font-style:normal;font-weight:400;font-size:18px;line-height:1.45;color:#3a2f33}
 .mod-top .lead{font-size:19px}
 @media print{.lead,.qh{font-family:var(--display)}}
+
+/* v14: foto del hero más visible, difuminado más corto y liviano */
+header.hero{min-height:clamp(640px,98svh,920px)}
+header.hero::after{background:linear-gradient(to top,var(--bg) 0,rgba(251,244,239,.86) 9%,rgba(251,244,239,.5) 20%,rgba(251,244,239,.16) 32%,rgba(251,244,239,0) 44%)}
+.hero-txt::before{inset:-26px -60px -22px;background:radial-gradient(closest-side,rgba(251,244,239,.72) 0,rgba(251,244,239,.45) 60%,rgba(251,244,239,0) 100%)}
+@media (max-width:620px){
+ header.hero{min-height:clamp(660px,96svh,820px)}
+ header.hero::after{background:linear-gradient(to top,var(--bg) 0,rgba(251,244,239,.86) 8%,rgba(251,244,239,.5) 18%,rgba(251,244,239,.16) 29%,rgba(251,244,239,0) 40%)}
+ .hero-txt::before{inset:-22px -26px -20px}
+}
+header.hero{min-height:max(600px,calc(100svh - 84px))}
+.hero-txt::before{background:radial-gradient(closest-side,rgba(251,244,239,.84) 0,rgba(251,244,239,.55) 60%,rgba(251,244,239,0) 100%)}
+@media (max-width:620px){header.hero{min-height:max(600px,calc(100svh - 84px))}}

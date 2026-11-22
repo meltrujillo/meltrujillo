@@ -489,3 +489,6 @@ h2 .cnt{margin-left:2px}
 /* v19: en información general el rótulo va en vino y más grande que la respuesta */
 .row.cols2 .k{font-family:var(--display);font-weight:400;font-size:22px;letter-spacing:.01em;color:var(--wine);text-transform:none;line-height:1.2}
 .row.cols2 .v{font-size:19px;line-height:1.35;color:var(--ink)}
+
+/* v20: rótulos de información general en oscuro y negrita suave */
+.row.cols2 .k{font-family:var(--body);font-weight:600;font-size:22px;color:#3a2f33;letter-spacing:.01em}

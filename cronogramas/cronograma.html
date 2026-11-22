@@ -84,14 +84,14 @@
   var BANDS = {
     prep:['v1789770573/Mel_Trujillo_-_Photography-5.jpg','mientras todo se prepara','antes del sí'],
     cer:['v1789770879/Mel_Trujillo_-_Photography-202.jpg','el momento del sí','la ceremonia'],
-    fot:['v1789771037/Mel_Trujillo_-_Photography-342.jpg','solo ustedes dos','la sesión de pareja'],
+    fot:['v1789771048/Mel_Trujillo_-_Photography-365.jpg','solo ustedes dos','la sesión de pareja'],
     rec:['v1789771103/Mel_Trujillo_-_Photography-432.jpg','a brindar y a bailar','la fiesta'],
     log:['v1789771084/Mel_Trujillo_-_Photography-418.jpg','que todo fluya','la logística'],
     imp:['v1789770580/Mel_Trujillo_-_Photography-12_2.jpg','lo que no puede faltar','lo que más importa'],
     con:['v1789770946/Mel_Trujillo_-_Photography-249.jpg','quienes hacen posible el día','el equipo'],
     fin:['v1789771228/Mel_Trujillo_-_Photography-121.jpg','lo invisible, visible','para cerrar']
   };
-  var CROP={imp:['c_crop,fl_relative,w_1.0,h_0.68,x_0,y_0.28/c_fill,',null],fot:['c_crop,fl_relative,w_0.65,h_0.59,x_0.35,y_0.41/c_fill,','c_crop,fl_relative,w_1.0,h_0.5,x_0,y_0.5/c_fill,']};
+  var CROP={imp:['c_crop,fl_relative,w_1.0,h_0.68,x_0,y_0.28/c_fill,',null],fot:['c_crop,fl_relative,w_1.0,h_0.62,x_0,y_0.32/c_fill,',null]};
   function band(k,t,ld){
     var b=BANDS[k]; if(!b) return '';
     var u=function(w,hh){var pre='c_fill,g_auto,';if(CROP[k]){var cc=(w<1000)?CROP[k][0]:CROP[k][1];if(cc)pre=cc;}return 'https://res.cloudinary.com/yqfqih5o/image/upload/'+pre+'w_'+w+',h_'+hh+',q_auto,f_auto/'+b[0];};

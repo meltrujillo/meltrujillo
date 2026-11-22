@@ -471,3 +471,10 @@ header.hero{min-height:max(600px,calc(100svh - 84px))}
 .hero-lema,.hero-txt .hero-lema{position:absolute;top:46px;left:16px;right:16px;margin:0;text-align:center;color:#fff;font-size:34px;text-shadow:0 1px 14px rgba(0,0,0,.65),0 0 3px rgba(0,0,0,.35);z-index:1}
 @media (max-width:620px){.hero-lema{top:42px;font-size:30px}}
 @media print{.hero-lema{position:static;color:var(--wine);text-shadow:none}}
+
+/* v16: heros de los módulos con la foto más visible, igual que el hero principal */
+.mod{--z:215px}
+.mod-hero{min-height:clamp(520px,58vw,680px)}
+.mod-hero picture::after{background:linear-gradient(to top,rgba(251,244,239,.88) 0,rgba(251,244,239,.5) calc(var(--z)*.5),rgba(251,244,239,.14) calc(var(--z)*.8),rgba(251,244,239,0) var(--z))}
+.mod::before{background:linear-gradient(to bottom,rgba(251,244,239,.9) 0,rgba(251,244,239,.88) 560px,rgba(255,255,255,.5) 960px,rgba(255,255,255,.5) 100%)}
+@media (max-width:620px){.mod{--z:260px}.mod-hero{min-height:560px}.mod::before{background:linear-gradient(to bottom,rgba(251,244,239,.9) 0,rgba(251,244,239,.88) 560px,rgba(255,255,255,.5) 960px,rgba(255,255,255,.5) 100%)}}

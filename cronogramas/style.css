@@ -481,3 +481,7 @@ header.hero{min-height:max(600px,calc(100svh - 84px))}
 
 /* v17: las respuestas de información general van en texto normal */
 .v,.row .v{font-weight:400;-webkit-text-stroke:0;font-size:23px}
+
+/* v18: el contador (0 de 3) va pegado al lado del título */
+.mod-top h2 .cnt{order:0;margin-left:2px;align-self:center;font-size:13px;padding:3px 12px;background:rgba(255,255,255,.88);border-color:rgba(157,0,9,.28);color:#6e0007}
+h2 .cnt{margin-left:2px}

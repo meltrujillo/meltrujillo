@@ -394,3 +394,12 @@ header.hero{min-height:clamp(540px,76svh,720px)}
 .hero-txt::before{background:radial-gradient(closest-side,rgba(251,244,239,.92) 0,rgba(251,244,239,.7) 58%,rgba(251,244,239,0) 100%)}
 .mod-hero picture::after{background:linear-gradient(to top,rgba(251,244,239,.92) 0,rgba(251,244,239,.76) 42%,rgba(251,244,239,.16) 76%,rgba(251,244,239,0) 100%)}
 .mod-top .bl{color:#3a1f24}
+
+/* v10: título y subtítulo en la franja inferior donde la foto se difumina a blanco */
+.mod{--z:250px}
+.mod-hero{min-height:clamp(420px,46vw,540px);padding:28px 36px 28px;align-items:flex-end}
+.mod-hero picture{-webkit-mask-image:linear-gradient(to bottom,#000 0,#000 calc(100% - var(--z)),transparent 100%);mask-image:linear-gradient(to bottom,#000 0,#000 calc(100% - var(--z)),transparent 100%)}
+.mod-hero picture::after{background:linear-gradient(to top,rgba(251,244,239,.9) 0,rgba(251,244,239,.6) calc(var(--z)*.55),rgba(251,244,239,0) var(--z))}
+.mod::before{background:rgba(255,255,255,.5)}
+@media (max-width:620px){.mod{--z:300px}.mod-hero{min-height:440px;padding:20px 20px 24px}}
+.mod::before{background:linear-gradient(to bottom,rgba(251,244,239,.9) 0,rgba(251,244,239,.88) 440px,rgba(255,255,255,.5) 840px,rgba(255,255,255,.5) 100%)}

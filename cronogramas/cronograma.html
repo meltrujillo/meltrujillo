@@ -87,12 +87,14 @@
     fot:['v1794439655/Mel_Trujillo_-_Photography-192.jpg','solo ustedes dos','la sesión de pareja'],
     rec:['v1789771126/Mel_Trujillo_-_Photography-475.jpg','a brindar y a bailar','la fiesta'],
     log:['v1789770946/Mel_Trujillo_-_Photography-249.jpg','que todo fluya','la logística'],
+    imp:['v1794439655/Mel_Trujillo_-_Photography-198.jpg','lo que no puede faltar','lo que más importa'],
+    con:['v1794439654/Mel_Trujillo_-_Photography-163.jpg','quienes hacen posible el día','el equipo'],
     fin:['v1789770773/Mel_Trujillo_-_Photography-169.jpg','lo invisible, visible','para cerrar']
   };
   function band(k){
     var b=BANDS[k]; if(!b) return '';
     var u=function(w,hh){return 'https://res.cloudinary.com/yqfqih5o/image/upload/c_fill,g_auto,w_'+w+',h_'+hh+',q_auto,f_auto/'+b[0];};
-    return '<div class="band" aria-hidden="true"><picture><source media="(max-width:620px)" srcset="'+u(800,520)+'"><img src="'+u(1400,520)+'" alt="" loading="lazy" decoding="async"></picture><div class="glass glass-s"><span class="eyebrow">'+esc(b[2])+'</span><span class="bl">'+esc(b[1])+'</span></div></div>';
+    return '<div class="mod mod-'+k+'"><div class="mod-bg" aria-hidden="true"><picture><source media="(max-width:620px)" srcset="'+u(800,1400)+'"><img src="'+u(1600,1000)+'" alt="" loading="lazy" decoding="async"></picture></div><div class="glass glass-s mod-lab"><span class="eyebrow">'+esc(b[2])+'</span><span class="bl">'+esc(b[1])+'</span></div>';
   }
   function render(cfg){
     document.title = 'Cronograma 1:1 — '+cfg.pareja+' ('+cfg.fecha_larga+')';
@@ -108,7 +110,7 @@
     h.push('<div class="row cols2"><div class="k">Qué incluye</div><div class="incs">'+g+'</div></div></div></section>');
 
     /* lo que más importa */
-    h.push('<section id="s-imp"><h2>Lo que más importa<span class="cnt" data-cnt="imp">0 de '+REQ.imp.length+'</span></h2><p class="lead">Lo primero que quiero saber es qué no puede faltar. Con esto me preparo antes de llegar.</p><div class="card">');
+    h.push(band('imp')+'<section id="s-imp"><h2>Lo que más importa<span class="cnt" data-cnt="imp">0 de '+REQ.imp.length+'</span></h2><p class="lead">Lo primero que quiero saber es qué no puede faltar. Con esto me preparo antes de llegar.</p><div class="card">');
     h.push(qa('Momentos que no queremos perder','Un momento, una persona o un detalle que no puede faltar: el abrazo con la abuela, la carta del papá, el baile sorpresa…',area('imp_momentos','Momentos que no queremos perder','escriban aquí lo que más les importa',3)));
     var pp=[]; for(var pi=0;pi<PMAX;pi++){
       pp.push('<div class="slot pslot" data-grp="per"'+(pi>=PSHOW?' hidden':'')+'>'+inp('per_'+pi+'_nombre','Persona '+(pi+1)+': nombre','nombre')+inp('per_'+pi+'_rel','Persona '+(pi+1)+': quién es','quién es (mamá, tío…)')+'</div>');
@@ -117,7 +119,7 @@
     h.push(qa('Fotos de grupo que quieren','Por ejemplo: novios con los abuelos, los hermanos de la novia, amigos de la universidad.',area('imp_grupos','Fotos de grupo que quieren','escriban una combinación por línea',3)));
     h.push(qa('Qué prefieren evitar en sus fotos','Ángulos, poses, personas, momentos o cualquier cosa que prefieran dejar por fuera.',area('imp_no','Qué prefieren evitar en sus fotos','si no hay nada, pueden escribir “nada en especial”',2)));
     h.push(qa('Cómo se sienten frente a la cámara','Así sé cuánto guiarlos y cuánto dejar que todo fluya.',seg('imp_poses','Estilo de las poses',['Más espontáneo','Un poco de ambos','Más dirigido'])));
-    h.push('</div></section>');
+    h.push('</div></section></div>');
 
     /* línea de tiempo */
     SECTIONS.forEach(function(s){
@@ -133,7 +135,7 @@
           +notefold('ext_'+s[0]+'_'+xi+'_notas','Notas: momento propio '+(xi+1))+'</div>');
       }
       h.push('<div class="row addrow"><button type="button" class="addslot" data-grp="x-'+s[0]+'">+ añadir un momento propio (sorpresa, discurso, tradición…)</button></div>');
-      h.push('</div></section>');
+      h.push('</div></section></div>');
     });
 
     /* logística */
@@ -143,16 +145,16 @@
     h.push(qa('Parqueo y acceso del equipo','Dónde dejo el carro, por dónde entro y a quién le aviso al llegar.',area('log_acceso','Parqueo y acceso del equipo',PH,2)));
     h.push(qa('Plan B si llueve','Qué pasa con la sesión de pareja y con la ceremonia si el clima cambia.',area('log_lluvia','Plan B si llueve',PH,2)));
     h.push(qa('Evento adicional','Solo si contrataron uno (preboda, ensayo, despedida, brunch): fecha, hora y lugar.',area('log_evento','Evento adicional','fecha, hora y lugar',2)));
-    h.push('</div></section>');
+    h.push('</div></section></div>');
 
     /* contactos */
-    h.push('<section id="s-con"><h2>Contactos clave<span class="cnt" data-cnt="con">0 de '+REQ.con.length+'</span></h2><p class="lead">Los proveedores con los que voy a coordinar durante el día.</p><div class="card"><div class="row head cols3c"><div>Rol</div><div>Nombre</div><div>Teléfono</div></div>');
+    h.push(band('con')+'<section id="s-con"><h2>Contactos clave<span class="cnt" data-cnt="con">0 de '+REQ.con.length+'</span></h2><p class="lead">Los proveedores con los que voy a coordinar durante el día.</p><div class="card"><div class="row head cols3c"><div>Rol</div><div>Nombre</div><div>Teléfono</div></div>');
     ROLES.forEach(function(r,i){
       var opt = i>=ROLE_REQ ? '<small class="opt">opcional</small>' : '';
       h.push('<div class="row cols3c"><div class="fixed">'+esc(r)+opt+'</div>'+textfield('con_'+i+'_nombre','Nombre','Nombre: '+r,false,false)+textfield('con_'+i+'_tel','Teléfono','Teléfono: '+r,false,false)+'</div>');
     });
-    h.push('</div></section>');
-    h.push(band('fin')+'<section id="s-fin"><h2>Notas finales</h2><p class="lead">Cualquier otro detalle del día: sorpresas, tradiciones, familiares delicados, traslados o algo que quieran que sepa.</p><div class="card final"><div class="row" style="grid-template-columns:1fr">'+textfield('notas_finales','Notas finales','Notas finales',true,true)+'</div></div></section>');
+    h.push('</div></section></div>');
+    h.push(band('fin')+'<section id="s-fin"><h2>Notas finales</h2><p class="lead">Cualquier otro detalle del día: sorpresas, tradiciones, familiares delicados, traslados o algo que quieran que sepa.</p><div class="card final"><div class="row" style="grid-template-columns:1fr">'+textfield('notas_finales','Notas finales','Notas finales',true,true)+'</div></div></section></div>');
 
     var chips=[['s-imp','Lo importante'],['s-prep','Preparativos'],['s-cer','Ceremonia'],['s-fot','Sesión'],['s-rec','Fiesta'],['s-log','Logística'],['s-con','Contactos'],['s-fin','Notas']].map(function(c){return '<a href="#'+c[0]+'">'+c[1]+'</a>';}).join('');
     var dd=daysTo(cfg.fecha_iso), cd='';

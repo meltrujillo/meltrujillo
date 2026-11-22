@@ -466,3 +466,8 @@ header.hero::after{background:linear-gradient(to top,var(--bg) 0,rgba(251,244,23
 header.hero{min-height:max(600px,calc(100svh - 84px))}
 .hero-txt::before{background:radial-gradient(closest-side,rgba(251,244,239,.84) 0,rgba(251,244,239,.55) 60%,rgba(251,244,239,0) 100%)}
 @media (max-width:620px){header.hero{min-height:max(600px,calc(100svh - 84px))}}
+
+/* v15: el lema sube bajo el eyebrow */
+.hero-lema,.hero-txt .hero-lema{position:absolute;top:46px;left:16px;right:16px;margin:0;text-align:center;color:#fff;font-size:34px;text-shadow:0 1px 14px rgba(0,0,0,.65),0 0 3px rgba(0,0,0,.35);z-index:1}
+@media (max-width:620px){.hero-lema{top:42px;font-size:30px}}
+@media print{.hero-lema{position:static;color:var(--wine);text-shadow:none}}

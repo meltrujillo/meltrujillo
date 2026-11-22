@@ -510,3 +510,13 @@ h2 .cnt{margin-left:2px}
 .mod .card>*{background:transparent!important}
 .mod .card>*:nth-child(even){background:rgba(157,0,9,.011)!important}
 .row:not(.head):nth-child(even){background:rgba(157,0,9,.011)}
+
+/* v23: la tarjeta "Antes de su boda" con la foto 163 y texto en blanco */
+footer.closing{position:relative;isolation:isolate;overflow:hidden;border:0;padding:46px 26px;color:#fff;box-shadow:0 22px 44px -26px rgba(120,40,40,.45)}
+footer.closing::before{content:"";position:absolute;inset:0;z-index:-2;background:url(https://res.cloudinary.com/yqfqih5o/image/upload/c_fill,g_auto,w_1400,h_900,q_auto,f_auto/v1794439654/Mel_Trujillo_-_Photography-163.jpg) center 30%/cover no-repeat}
+footer.closing::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(to bottom,rgba(58,28,32,.55) 0,rgba(58,28,32,.74) 45%,rgba(58,28,32,.8) 100%)}
+footer.closing .cl-t{color:#fff;-webkit-text-stroke:.6px #fff;text-shadow:0 1px 12px rgba(30,12,14,.45)}
+footer.closing p{color:#fff;text-shadow:0 1px 10px rgba(30,12,14,.45)}
+footer.closing strong{color:#fff}
+footer.closing .lema{color:#fff;text-shadow:0 1px 14px rgba(30,12,14,.5)}
+@media print{footer.closing::before,footer.closing::after{display:none}footer.closing,footer.closing p,footer.closing strong,footer.closing .cl-t,footer.closing .lema{color:#222;text-shadow:none}}

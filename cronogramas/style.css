@@ -442,3 +442,14 @@ header.hero::before{content:"";position:absolute;inset:0;z-index:-1;background:l
 
 /* el lema vuelve a su letra original */
 .lema,.hero-txt .lema{font-family:'Alex Brush','Snell Roundhand',cursive;font-style:normal;font-weight:400;font-size:28px;line-height:1.2}
+
+/* v13: letras invertidas. Subtítulos en Forum, texto normal en Cormorant */
+:root{--body:'Cormorant Garamond',Georgia,serif}
+html,body{font-weight:600;font-size:18px}
+.q,.v,.incs .g b{font-family:var(--body);font-weight:700}
+.q{font-size:24px}.v{font-size:23px}
+.f,.f.note,.f.note::placeholder,input,textarea,select{font-weight:600;font-size:max(17px,1em)}
+.mod-top .bl{font-family:var(--display);font-style:normal;font-weight:400;font-size:clamp(20px,4.2vw,26px);line-height:1.2;color:#5e0005}
+.lead,.qh,.mod-top .lead{font-family:var(--display);font-style:normal;font-weight:400;font-size:18px;line-height:1.45;color:#3a2f33}
+.mod-top .lead{font-size:19px}
+@media print{.lead,.qh{font-family:var(--display)}}

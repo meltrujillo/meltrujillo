@@ -1,3 +1,4 @@
+@font-face{font-family:'Forum';src:url('https://res.cloudinary.com/yqfqih5o/raw/upload/v1789770536/Forum-Regular.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap}
 :root{
   color-scheme: light;
   --bg:#fcf9f7;
@@ -403,3 +404,25 @@ header.hero{min-height:clamp(540px,76svh,720px)}
 .mod::before{background:rgba(255,255,255,.5)}
 @media (max-width:620px){.mod{--z:300px}.mod-hero{min-height:440px;padding:20px 20px 24px}}
 .mod::before{background:linear-gradient(to bottom,rgba(251,244,239,.9) 0,rgba(251,244,239,.88) 440px,rgba(255,255,255,.5) 840px,rgba(255,255,255,.5) 100%)}
+
+/* v11: mismas tipografías que la landing (Forum + Cormorant Garamond cursiva) */
+:root{--display:'Forum',Georgia,serif;--body:'Forum',Georgia,serif;--script:'Cormorant Garamond',Georgia,serif}
+html,body{font-size:17px;line-height:1.6}
+*{font-synthesis:none}
+input,textarea,select,button{font-family:var(--body)}
+.lema,.hero-txt .lema{font-family:var(--script);font-style:italic;font-weight:700;font-size:clamp(30px,6.4vw,36px);line-height:1.1}
+.mod-top .bl{font-family:var(--script);font-style:italic;font-weight:700;color:#6e0007;font-size:clamp(23px,4.8vw,30px);line-height:1.1}
+.lead,.qh,.mod-top .lead{font-family:var(--script);font-style:italic;font-weight:400;font-size:19px;line-height:1.4;color:#3f3438}
+.qh{margin-top:2px}
+.mod-top .lead{font-size:20px;color:#2f2629}
+.lightmsg{font-size:15.5px}
+.timebox input::placeholder{font-size:14px}
+.chips a{font-size:14.5px}
+h2 .cnt,.count{font-size:13.5px}
+.row.head{font-size:14px}
+.addnote,.addslot,.seg button,.printbtn{font-size:15.5px!important}
+.savebar button{font-size:16px}
+.ampm button{font-size:13.5px}
+.opt{font-size:12.5px}
+.lab{font-size:13px}
+@media print{.lead,.qh{font-family:var(--script)}}

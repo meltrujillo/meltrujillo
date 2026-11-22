@@ -91,10 +91,11 @@
     con:['v1794439654/Mel_Trujillo_-_Photography-163.jpg','quienes hacen posible el día','el equipo'],
     fin:['v1789770773/Mel_Trujillo_-_Photography-169.jpg','lo invisible, visible','para cerrar']
   };
-  function band(k){
+  function band(k,t){
     var b=BANDS[k]; if(!b) return '';
     var u=function(w,hh){return 'https://res.cloudinary.com/yqfqih5o/image/upload/c_fill,g_auto,w_'+w+',h_'+hh+',q_auto,f_auto/'+b[0];};
-    return '<div class="mod mod-'+k+'"><div class="mod-bg" aria-hidden="true"><picture><source media="(max-width:620px)" srcset="'+u(800,1400)+'"><img src="'+u(1600,1000)+'" alt="" loading="lazy" decoding="async"></picture></div><div class="glass glass-s mod-lab"><span class="eyebrow">'+esc(b[2])+'</span><span class="bl">'+esc(b[1])+'</span></div>';
+    var bg='https://res.cloudinary.com/yqfqih5o/image/upload/c_fill,g_auto,w_300,h_500/e_blur:900/q_auto,f_auto/'+b[0];
+    return '<div class="mod mod-'+k+'" id="s-'+k+'"><div class="mod-bg" aria-hidden="true"><img src="'+bg+'" alt="" loading="lazy" decoding="async"></div><div class="mod-hero"><picture aria-hidden="true"><source media="(max-width:620px)" srcset="'+u(800,760)+'"><img src="'+u(1600,760)+'" alt="" loading="lazy" decoding="async"></picture><div class="glass mod-top">'+t+'<span class="bl">'+esc(b[1])+'</span></div></div>';
   }
   function render(cfg){
     document.title = 'Cronograma 1:1 — '+cfg.pareja+' ('+cfg.fecha_larga+')';
@@ -110,7 +111,7 @@
     h.push('<div class="row cols2"><div class="k">Qué incluye</div><div class="incs">'+g+'</div></div></div></section>');
 
     /* lo que más importa */
-    h.push(band('imp')+'<section id="s-imp"><h2>Lo que más importa<span class="cnt" data-cnt="imp">0 de '+REQ.imp.length+'</span></h2><p class="lead">Lo primero que quiero saber es qué no puede faltar. Con esto me preparo antes de llegar.</p><div class="card">');
+    h.push(band('imp','<h2>Lo que más importa<span class="cnt" data-cnt="imp">0 de '+REQ.imp.length+'</span></h2>')+'<section><p class="lead">Lo primero que quiero saber es qué no puede faltar. Con esto me preparo antes de llegar.</p><div class="card">');
     h.push(qa('Momentos que no queremos perder','Un momento, una persona o un detalle que no puede faltar: el abrazo con la abuela, la carta del papá, el baile sorpresa…',area('imp_momentos','Momentos que no queremos perder','escriban aquí lo que más les importa',3)));
     var pp=[]; for(var pi=0;pi<PMAX;pi++){
       pp.push('<div class="slot pslot" data-grp="per"'+(pi>=PSHOW?' hidden':'')+'>'+inp('per_'+pi+'_nombre','Persona '+(pi+1)+': nombre','nombre')+inp('per_'+pi+'_rel','Persona '+(pi+1)+': quién es','quién es (mamá, tío…)')+'</div>');
@@ -124,7 +125,7 @@
     /* línea de tiempo */
     SECTIONS.forEach(function(s){
       var lead = s[0]==='fot' ? '<p class="lead">El sol se pone cerca de las 6:00 pm. La mejor luz para la sesión de pareja llega entre 3:30 y 4:45 pm.</p>' : '';
-      h.push(band(s[0])+'<section id="s-'+s[0]+'"><h2>'+esc(s[1])+'<span class="cnt" data-cnt="'+s[0]+'">0 de '+s[3].length+'</span></h2>'+lead+'<div class="card"><div class="row head cols3"><div>Hora</div><div>Actividad</div><div>Notas</div></div>');
+      h.push(band(s[0],'<h2>'+esc(s[1])+'<span class="cnt" data-cnt="'+s[0]+'">0 de '+s[3].length+'</span></h2>')+'<section>'+lead+'<div class="card"><div class="row head cols3"><div>Hora</div><div>Actividad</div><div>Notas</div></div>');
       s[3].forEach(function(a,i){
         var light = (s[0]===LIGHT_ROW.sec && i===LIGHT_ROW.idx) ? '<div class="lightmsg" id="lightmsg" hidden></div>' : '';
         h.push('<div class="row cols3">'+timebox(s[0]+'_'+i+'_hora','Hora')+'<div class="fixed">'+esc(a)+'</div>'+notefold(s[0]+'_'+i+'_notas','Notas: '+a)+light+'</div>');
@@ -139,7 +140,7 @@
     });
 
     /* logística */
-    h.push(band('log')+'<section id="s-log"><h2>Logística del día<span class="cnt" data-cnt="log">0 de '+REQ.log.length+'</span></h2><p class="lead">Estos datos me ahorran llamadas ese día y me permiten llegar con todo resuelto.</p><div class="card">');
+    h.push(band('log','<h2>Logística del día<span class="cnt" data-cnt="log">0 de '+REQ.log.length+'</span></h2>')+'<section><p class="lead">Estos datos me ahorran llamadas ese día y me permiten llegar con todo resuelto.</p><div class="card">');
     h.push(qa('¿Dónde se preparan?','Dirección, nombre del lugar, piso o habitación y cualquier indicación para llegar.','<div class="pair">'+lblf('Novia',area('log_novia','Dónde se prepara la novia','dirección y habitación',2))+lblf('Novio',area('log_novio','Dónde se prepara el novio','dirección y habitación',2))+'</div>'));
     h.push(qa('Restricciones del lugar','Flash, dron, zonas donde no se puede fotografiar, permisos o reglas de la iglesia o del venue.',area('log_restric','Restricciones del lugar','si no hay ninguna, escriban “ninguna”',2)));
     h.push(qa('Parqueo y acceso del equipo','Dónde dejo el carro, por dónde entro y a quién le aviso al llegar.',area('log_acceso','Parqueo y acceso del equipo',PH,2)));
@@ -148,13 +149,13 @@
     h.push('</div></section></div>');
 
     /* contactos */
-    h.push(band('con')+'<section id="s-con"><h2>Contactos clave<span class="cnt" data-cnt="con">0 de '+REQ.con.length+'</span></h2><p class="lead">Los proveedores con los que voy a coordinar durante el día.</p><div class="card"><div class="row head cols3c"><div>Rol</div><div>Nombre</div><div>Teléfono</div></div>');
+    h.push(band('con','<h2>Contactos clave<span class="cnt" data-cnt="con">0 de '+REQ.con.length+'</span></h2>')+'<section><p class="lead">Los proveedores con los que voy a coordinar durante el día.</p><div class="card"><div class="row head cols3c"><div>Rol</div><div>Nombre</div><div>Teléfono</div></div>');
     ROLES.forEach(function(r,i){
       var opt = i>=ROLE_REQ ? '<small class="opt">opcional</small>' : '';
       h.push('<div class="row cols3c"><div class="fixed">'+esc(r)+opt+'</div>'+textfield('con_'+i+'_nombre','Nombre','Nombre: '+r,false,false)+textfield('con_'+i+'_tel','Teléfono','Teléfono: '+r,false,false)+'</div>');
     });
     h.push('</div></section></div>');
-    h.push(band('fin')+'<section id="s-fin"><h2>Notas finales</h2><p class="lead">Cualquier otro detalle del día: sorpresas, tradiciones, familiares delicados, traslados o algo que quieran que sepa.</p><div class="card final"><div class="row" style="grid-template-columns:1fr">'+textfield('notas_finales','Notas finales','Notas finales',true,true)+'</div></div></section></div>');
+    h.push(band('fin','<h2>Notas finales</h2>')+'<section><p class="lead">Cualquier otro detalle del día: sorpresas, tradiciones, familiares delicados, traslados o algo que quieran que sepa.</p><div class="card final"><div class="row" style="grid-template-columns:1fr">'+textfield('notas_finales','Notas finales','Notas finales',true,true)+'</div></div></section></div>');
 
     var chips=[['s-imp','Lo importante'],['s-prep','Preparativos'],['s-cer','Ceremonia'],['s-fot','Sesión'],['s-rec','Fiesta'],['s-log','Logística'],['s-con','Contactos'],['s-fin','Notas']].map(function(c){return '<a href="#'+c[0]+'">'+c[1]+'</a>';}).join('');
     var dd=daysTo(cfg.fecha_iso), cd='';

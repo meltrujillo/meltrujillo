@@ -485,3 +485,7 @@ header.hero{min-height:max(600px,calc(100svh - 84px))}
 /* v18: el contador (0 de 3) va pegado al lado del título */
 .mod-top h2 .cnt{order:0;margin-left:2px;align-self:center;font-size:13px;padding:3px 12px;background:rgba(255,255,255,.88);border-color:rgba(157,0,9,.28);color:#6e0007}
 h2 .cnt{margin-left:2px}
+
+/* v19: en información general el rótulo va en vino y más grande que la respuesta */
+.row.cols2 .k{font-family:var(--display);font-weight:400;font-size:22px;letter-spacing:.01em;color:var(--wine);text-transform:none;line-height:1.2}
+.row.cols2 .v{font-size:19px;line-height:1.35;color:var(--ink)}

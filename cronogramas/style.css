@@ -478,3 +478,6 @@ header.hero{min-height:max(600px,calc(100svh - 84px))}
 .mod-hero picture::after{background:linear-gradient(to top,rgba(251,244,239,.88) 0,rgba(251,244,239,.5) calc(var(--z)*.5),rgba(251,244,239,.14) calc(var(--z)*.8),rgba(251,244,239,0) var(--z))}
 .mod::before{background:linear-gradient(to bottom,rgba(251,244,239,.9) 0,rgba(251,244,239,.88) 560px,rgba(255,255,255,.5) 960px,rgba(255,255,255,.5) 100%)}
 @media (max-width:620px){.mod{--z:260px}.mod-hero{min-height:560px}.mod::before{background:linear-gradient(to bottom,rgba(251,244,239,.9) 0,rgba(251,244,239,.88) 560px,rgba(255,255,255,.5) 960px,rgba(255,255,255,.5) 100%)}}
+
+/* v17: las respuestas de información general van en texto normal */
+.v,.row .v{font-weight:400;-webkit-text-stroke:0;font-size:23px}

@@ -93,7 +93,7 @@
   };
   function band(k,t,ld){
     var b=BANDS[k]; if(!b) return '';
-    var u=function(w,hh){var pre='c_fill,g_auto,';if(k==='cer'){pre=(w<1000)?'c_crop,w_3000,h_2850,x_0,y_1390/c_fill,':'c_crop,w_3000,h_1430,x_0,y_2256/c_fill,';}return 'https://res.cloudinary.com/yqfqih5o/image/upload/'+pre+'w_'+w+',h_'+hh+',q_auto,f_auto/'+b[0];};
+    var u=function(w,hh){var pre='c_fill,g_auto,';if(k==='cer'){pre=(w<1000)?'c_crop,w_3000,h_2850,x_0,y_1650/c_fill,':'c_crop,w_3000,h_1430,x_0,y_2256/c_fill,';}return 'https://res.cloudinary.com/yqfqih5o/image/upload/'+pre+'w_'+w+',h_'+hh+',q_auto,f_auto/'+b[0];};
     var bg='https://res.cloudinary.com/yqfqih5o/image/upload/c_fill,g_auto,w_300,h_500/e_blur:900/q_auto,f_auto/'+b[0];
     return '<div class="mod mod-'+k+'" id="s-'+k+'"><div class="mod-bg" aria-hidden="true"><img src="'+bg+'" alt="" loading="lazy" decoding="async"></div><div class="mod-hero"><picture aria-hidden="true"><source media="(max-width:620px)" srcset="'+u(800,760)+'"><img src="'+u(1600,760)+'" alt="" loading="lazy" decoding="async"></picture><div class="mod-top">'+t+'<span class="bl">'+esc(b[1])+'</span>'+(ld||'')+'</div></div>';
   }

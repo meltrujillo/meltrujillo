@@ -492,3 +492,4 @@ h2 .cnt{margin-left:2px}
 
 /* v20: rótulos de información general en oscuro y negrita suave */
 .row.cols2 .k{font-family:var(--body);font-weight:600;font-size:22px;color:#3a2f33;letter-spacing:.01em}
+.row.cols2 .k.k-red{color:var(--wine)}

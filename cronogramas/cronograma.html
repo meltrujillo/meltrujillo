@@ -108,7 +108,7 @@
       h.push('<div class="row cols2"><div class="k">'+esc(r[0])+'</div><div class="v">'+esc(r[1])+'</div></div>');
     });
     var g=(cfg.groups||[]).map(function(x){ return '<div class="g"><b>'+esc(x.t)+'</b><ul class="inc">'+x.i.map(function(i){return '<li>'+esc(i)+'</li>';}).join('')+'</ul></div>'; }).join('');
-    h.push('<div class="row cols2"><div class="k">Qué incluye</div><div class="incs">'+g+'</div></div></div></section>');
+    h.push('<div class="row cols2"><div class="k k-red">Qué incluye</div><div class="incs">'+g+'</div></div></div></section>');
 
     /* lo que más importa */
     h.push(band('imp','<h2>Lo que más importa<span class="cnt" data-cnt="imp">0 de '+REQ.imp.length+'</span></h2>','<p class="lead">Lo primero que quiero saber es qué no puede faltar. Con esto me preparo antes de llegar.</p>')+'<section><div class="card">');

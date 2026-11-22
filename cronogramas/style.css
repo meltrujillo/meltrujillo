@@ -504,3 +504,9 @@ h2 .cnt{margin-left:2px}
 .mod-top .cnt{background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.6);color:#fff;text-shadow:none;-webkit-text-stroke:0}
 @media (max-width:620px){.mod-hero{min-height:600px;padding-bottom:84px}.mod-hero picture::after{background-size:100% 420px}}
 @media print{.mod-top h2,.mod-top .bl,.mod-top .lead{color:#222!important;text-shadow:none}}
+
+/* v22: bloques con cambio de tono casi imperceptible */
+.mod .card,.mod .card.glass{background:rgba(255,253,252,.94)!important;-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
+.mod .card>*{background:transparent!important}
+.mod .card>*:nth-child(even){background:rgba(157,0,9,.011)!important}
+.row:not(.head):nth-child(even){background:rgba(157,0,9,.011)}

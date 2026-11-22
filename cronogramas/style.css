@@ -493,3 +493,14 @@ h2 .cnt{margin-left:2px}
 /* v20: rótulos de información general en oscuro y negrita suave */
 .row.cols2 .k{font-family:var(--body);font-weight:600;font-size:22px;color:#3a2f33;letter-spacing:.01em}
 .row.cols2 .k.k-red{color:var(--wine)}
+
+/* v21: títulos en blanco sobre un tinte cálido; fotos menos recortadas */
+.mod{--z:70px}
+.mod-hero{padding-bottom:88px}
+.mod-hero picture::after{background:linear-gradient(to top,rgba(58,28,32,.74) 0,rgba(58,28,32,.72) 45%,rgba(58,28,32,.4) 72%,rgba(58,28,32,0) 100%) bottom/100% 380px no-repeat}
+.mod-top h2,.mod-top .bl,.mod-top .lead{color:#fff;text-shadow:0 1px 10px rgba(30,12,14,.45)}
+.mod-top h2{-webkit-text-stroke:.8px #fff}
+.mod-top h2::before{background:#fff}
+.mod-top .cnt{background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.6);color:#fff;text-shadow:none;-webkit-text-stroke:0}
+@media (max-width:620px){.mod-hero{min-height:600px;padding-bottom:84px}.mod-hero picture::after{background-size:100% 420px}}
+@media print{.mod-top h2,.mod-top .bl,.mod-top .lead{color:#222!important;text-shadow:none}}

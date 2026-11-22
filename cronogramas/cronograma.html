@@ -91,12 +91,12 @@
     con:['v1789770946/Mel_Trujillo_-_Photography-249.jpg','quienes hacen posible el día','el equipo'],
     fin:['v1789771228/Mel_Trujillo_-_Photography-121.jpg','lo invisible, visible','para cerrar']
   };
-  var CROP={fot:['c_crop,fl_relative,w_0.5,h_0.38,x_0.47,y_0.62/c_fill,','c_crop,fl_relative,w_1.0,h_0.317,x_0,y_0.645/c_fill,']};
+  var CROP={imp:['c_crop,fl_relative,w_1.0,h_0.68,x_0,y_0.28/c_fill,',null],fot:['c_crop,fl_relative,w_0.65,h_0.59,x_0.35,y_0.41/c_fill,','c_crop,fl_relative,w_1.0,h_0.5,x_0,y_0.5/c_fill,']};
   function band(k,t,ld){
     var b=BANDS[k]; if(!b) return '';
-    var u=function(w,hh){var pre='c_fill,g_auto,';if(CROP[k]){pre=(w<1000)?CROP[k][0]:CROP[k][1];}return 'https://res.cloudinary.com/yqfqih5o/image/upload/'+pre+'w_'+w+',h_'+hh+',q_auto,f_auto/'+b[0];};
+    var u=function(w,hh){var pre='c_fill,g_auto,';if(CROP[k]){var cc=(w<1000)?CROP[k][0]:CROP[k][1];if(cc)pre=cc;}return 'https://res.cloudinary.com/yqfqih5o/image/upload/'+pre+'w_'+w+',h_'+hh+',q_auto,f_auto/'+b[0];};
     var bg='https://res.cloudinary.com/yqfqih5o/image/upload/c_fill,g_auto,w_300,h_500/e_blur:900/q_auto,f_auto/'+b[0];
-    return '<div class="mod mod-'+k+'" id="s-'+k+'"><div class="mod-bg" aria-hidden="true"><img src="'+bg+'" alt="" loading="lazy" decoding="async"></div><div class="mod-hero"><picture aria-hidden="true"><source media="(max-width:620px)" srcset="'+u(800,760)+'"><img src="'+u(1600,760)+'" alt="" loading="lazy" decoding="async"></picture><div class="mod-top">'+t+'<span class="bl">'+esc(b[1])+'</span>'+(ld||'')+'</div></div>';
+    return '<div class="mod mod-'+k+'" id="s-'+k+'"><div class="mod-bg" aria-hidden="true"><img src="'+bg+'" alt="" loading="lazy" decoding="async"></div><div class="mod-hero"><picture aria-hidden="true"><source media="(max-width:620px)" srcset="'+u(800,1100)+'"><img src="'+u(1600,1200)+'" alt="" loading="lazy" decoding="async"></picture><div class="mod-top">'+t+'<span class="bl">'+esc(b[1])+'</span>'+(ld||'')+'</div></div>';
   }
   function render(cfg){
     document.title = 'Cronograma 1:1 — '+cfg.pareja+' ('+cfg.fecha_larga+')';

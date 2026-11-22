@@ -520,3 +520,14 @@ footer.closing p{color:#fff;text-shadow:0 1px 10px rgba(30,12,14,.45)}
 footer.closing strong{color:#fff}
 footer.closing .lema{color:#fff;text-shadow:0 1px 14px rgba(30,12,14,.5)}
 @media print{footer.closing::before,footer.closing::after{display:none}footer.closing,footer.closing p,footer.closing strong,footer.closing .cl-t,footer.closing .lema{color:#222;text-shadow:none}}
+
+/* v24: la foto completa, sin zoom */
+footer.closing::before{display:none}
+footer.closing .cl-bg{position:absolute;inset:0;z-index:-2;overflow:hidden}
+footer.closing .cl-bg img{position:absolute;inset:0;width:100%;height:100%;display:block}
+footer.closing .cl-bg .blur{object-fit:cover;filter:blur(26px) saturate(1.1);transform:scale(1.25)}
+footer.closing .cl-bg .sharp{object-fit:contain}
+footer.closing{min-height:560px;justify-content:center}
+@media print{footer.closing .cl-bg{display:none}}
+footer.closing .cl-bg .sharp{-webkit-mask-image:linear-gradient(to right,transparent 0,#000 14%,#000 86%,transparent 100%);mask-image:linear-gradient(to right,transparent 0,#000 14%,#000 86%,transparent 100%)}
+footer.closing .cl-bg .sharp{inset:auto;top:0;left:50%;transform:translateX(-50%);width:auto;height:100%;max-width:100%;object-fit:cover}

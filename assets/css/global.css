@@ -143,3 +143,6 @@ footer{
 .footer-contact a{ text-decoration:none; color:var(--ink-soft); }
 .footer-contact a:hover{ color:var(--ink); }
 
+
+/* Secciones ocultas por ahora (atributo hidden) */
+[hidden]{display:none!important}

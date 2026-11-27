@@ -23,8 +23,9 @@ datos = json.loads((RAIZ / "portafolio" / "bodas.json").read_text(encoding="utf-
 
 # ---------- Mosaico de la landing ----------
 def tarjeta(i, b):
-    clase = "boda boda--grande" if i == 0 else "boda"
-    ancho = 1400 if i == 0 else 900
+    grande = b.get("formato") == "grande"
+    clase = "boda boda--grande" if grande else "boda"
+    ancho = 1400 if grande else 900
     nombres, lugar = e(b["nombres"]), e(b["lugar"])
     return (
         f'        <a class="{clase}" href="/portafolio/{b["slug"]}/" aria-label="Ver la galería de {nombres}, {lugar}">\n'

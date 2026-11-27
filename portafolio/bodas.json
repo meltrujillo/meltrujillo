@@ -1,5 +1,5 @@
 {
-  "_ayuda": "Edita este archivo y corre: python3 tools/build_portafolio.py. publicada=false deja la galería con noindex (no aparece en Google). Las fotos son la parte de la URL de Cloudinary que sigue a /upload/ (versión/archivo).",
+  "_ayuda": "Edita este archivo y corre: python3 tools/build_portafolio.py. publicada=false deja la galería con noindex (no aparece en Google). Las fotos son la parte de la URL de Cloudinary que sigue a /upload/ (versión/archivo). formato: \"grande\" ocupa todo el ancho del mosaico; \"normal\" comparte fila con otra.",
   "bodas": [
     {
       "slug": "boda-uno",
@@ -16,7 +16,8 @@
         "v1789770651/Mel_Trujillo_-_Photography-126.jpg",
         "v1789770686/Mel_Trujillo_-_Photography-134.jpg",
         "v1789770718/Mel_Trujillo_-_Photography-143.jpg"
-      ]
+      ],
+      "formato": "grande"
     },
     {
       "slug": "boda-dos",
@@ -33,7 +34,8 @@
         "v1789771037/Mel_Trujillo_-_Photography-342.jpg",
         "v1789770946/Mel_Trujillo_-_Photography-249.jpg",
         "v1789771126/Mel_Trujillo_-_Photography-475.jpg"
-      ]
+      ],
+      "formato": "normal"
     },
     {
       "slug": "boda-tres",
@@ -50,7 +52,8 @@
         "v1789770597/Mel_Trujillo_-_Photography-18.jpg",
         "v1789770621/Mel_Trujillo_-_Photography-101.jpg",
         "v1789770651/Mel_Trujillo_-_Photography-126.jpg"
-      ]
+      ],
+      "formato": "normal"
     },
     {
       "slug": "boda-cuatro",
@@ -67,7 +70,8 @@
         "v1789770921/Mel_Trujillo_-_Photography-231.jpg",
         "v1789770989/Mel_Trujillo_-_Photography-262.jpg",
         "v1789771037/Mel_Trujillo_-_Photography-342.jpg"
-      ]
+      ],
+      "formato": "normal"
     },
     {
       "slug": "boda-cinco",
@@ -84,6 +88,25 @@
         "v1789770573/Mel_Trujillo_-_Photography-5.jpg",
         "v1789770575/Mel_Trujillo_-_Photography-7.jpg",
         "v1789770597/Mel_Trujillo_-_Photography-18.jpg"
+      ],
+      "formato": "normal"
+    },
+    {
+      "slug": "boda-seis",
+      "nombres": "Nombre | Nombre",
+      "lugar": "Ciudad",
+      "publicada": false,
+      "formato": "grande",
+      "portada": "v1789771105/Mel_Trujillo_-_Photography-439.jpg",
+      "portada_posicion": "center",
+      "intro": "",
+      "fotos": [
+        "v1789771071/Mel_Trujillo_-_Photography-389.jpg",
+        "v1789771048/Mel_Trujillo_-_Photography-365.jpg",
+        "v1789771025/Mel_Trujillo_-_Photography-340.jpg",
+        "v1789770945/Mel_Trujillo_-_Photography-246.jpg",
+        "v1789770910/Mel_Trujillo_-_Photography-228.jpg",
+        "v1789771228/Mel_Trujillo_-_Photography-121.jpg"
       ]
     }
   ]

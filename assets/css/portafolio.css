@@ -1,7 +1,7 @@
 /* portafolio.css — mosaico de bodas en la landing y galería por pareja. */
 
 /* ---------- Mosaico en la landing: 1 grande + 4 en pares ---------- */
-.bodas{ display:grid; grid-template-columns:1fr 1fr; gap:4px; margin-top:28px; }
+.bodas{ display:grid; grid-template-columns:1fr 1fr; gap:0; margin-top:28px; }
 .boda{
   position:relative; display:block; overflow:hidden; aspect-ratio:2 / 3;
   background:var(--bg-soft); color:#fff; text-decoration:none;
@@ -27,7 +27,6 @@
 .boda:focus-visible{ outline:2px solid #fff; outline-offset:-8px; }
 @media (hover:hover){ .boda:hover img{ transform:scale(1.03); } }
 @media (min-width:900px){
-  .bodas{ gap:6px; }
   .boda{ aspect-ratio:4 / 5; }
   .boda--grande{ aspect-ratio:16 / 9; }
   .boda-pie{ padding:28px 34px 32px; }

@@ -1,0 +1,90 @@
+{
+  "_ayuda": "Edita este archivo y corre: python3 tools/build_portafolio.py. publicada=false deja la galería con noindex (no aparece en Google). Las fotos son la parte de la URL de Cloudinary que sigue a /upload/ (versión/archivo).",
+  "bodas": [
+    {
+      "slug": "boda-uno",
+      "nombres": "Nombre | Nombre",
+      "lugar": "Ciudad",
+      "publicada": false,
+      "portada": "v1789771084/Mel_Trujillo_-_Photography-418.jpg",
+      "portada_posicion": "center",
+      "intro": "",
+      "fotos": [
+        "v1789770575/Mel_Trujillo_-_Photography-7.jpg",
+        "v1789770597/Mel_Trujillo_-_Photography-18.jpg",
+        "v1789770621/Mel_Trujillo_-_Photography-101.jpg",
+        "v1789770651/Mel_Trujillo_-_Photography-126.jpg",
+        "v1789770686/Mel_Trujillo_-_Photography-134.jpg",
+        "v1789770718/Mel_Trujillo_-_Photography-143.jpg"
+      ]
+    },
+    {
+      "slug": "boda-dos",
+      "nombres": "Nombre | Nombre",
+      "lugar": "Ciudad",
+      "publicada": false,
+      "portada": "v1789770879/Mel_Trujillo_-_Photography-202.jpg",
+      "portada_posicion": "center",
+      "intro": "",
+      "fotos": [
+        "v1789770773/Mel_Trujillo_-_Photography-169.jpg",
+        "v1789770921/Mel_Trujillo_-_Photography-231.jpg",
+        "v1789770989/Mel_Trujillo_-_Photography-262.jpg",
+        "v1789771037/Mel_Trujillo_-_Photography-342.jpg",
+        "v1789770946/Mel_Trujillo_-_Photography-249.jpg",
+        "v1789771126/Mel_Trujillo_-_Photography-475.jpg"
+      ]
+    },
+    {
+      "slug": "boda-tres",
+      "nombres": "Nombre | Nombre",
+      "lugar": "Ciudad",
+      "publicada": false,
+      "portada": "v1789771048/Mel_Trujillo_-_Photography-365.jpg",
+      "portada_posicion": "center",
+      "intro": "",
+      "fotos": [
+        "v1789770404/Mel_Trujillo_-_Photography-431.jpg",
+        "v1789770573/Mel_Trujillo_-_Photography-5.jpg",
+        "v1789770575/Mel_Trujillo_-_Photography-7.jpg",
+        "v1789770597/Mel_Trujillo_-_Photography-18.jpg",
+        "v1789770621/Mel_Trujillo_-_Photography-101.jpg",
+        "v1789770651/Mel_Trujillo_-_Photography-126.jpg"
+      ]
+    },
+    {
+      "slug": "boda-cuatro",
+      "nombres": "Nombre | Nombre",
+      "lugar": "Ciudad",
+      "publicada": false,
+      "portada": "v1789771126/Mel_Trujillo_-_Photography-475.jpg",
+      "portada_posicion": "center",
+      "intro": "",
+      "fotos": [
+        "v1789770686/Mel_Trujillo_-_Photography-134.jpg",
+        "v1789770718/Mel_Trujillo_-_Photography-143.jpg",
+        "v1789770773/Mel_Trujillo_-_Photography-169.jpg",
+        "v1789770921/Mel_Trujillo_-_Photography-231.jpg",
+        "v1789770989/Mel_Trujillo_-_Photography-262.jpg",
+        "v1789771037/Mel_Trujillo_-_Photography-342.jpg"
+      ]
+    },
+    {
+      "slug": "boda-cinco",
+      "nombres": "Nombre | Nombre",
+      "lugar": "Ciudad",
+      "publicada": false,
+      "portada": "v1789770910/Mel_Trujillo_-_Photography-228.jpg",
+      "portada_posicion": "center",
+      "intro": "",
+      "fotos": [
+        "v1789770946/Mel_Trujillo_-_Photography-249.jpg",
+        "v1789771126/Mel_Trujillo_-_Photography-475.jpg",
+        "v1789770404/Mel_Trujillo_-_Photography-431.jpg",
+        "v1789770573/Mel_Trujillo_-_Photography-5.jpg",
+        "v1789770575/Mel_Trujillo_-_Photography-7.jpg",
+        "v1789770597/Mel_Trujillo_-_Photography-18.jpg"
+      ]
+    }
+  ]
+}

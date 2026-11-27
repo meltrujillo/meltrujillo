@@ -1,0 +1,81 @@
+/* portafolio.css — mosaico de bodas en la landing y galería por pareja. */
+
+/* ---------- Mosaico en la landing: 1 grande + 4 en pares ---------- */
+.bodas{ display:grid; grid-template-columns:1fr 1fr; gap:4px; margin-top:28px; }
+.boda{
+  position:relative; display:block; overflow:hidden; aspect-ratio:2 / 3;
+  background:var(--bg-soft); color:#fff; text-decoration:none;
+}
+.boda--grande{ grid-column:1 / -1; aspect-ratio:4 / 5; }
+.boda img{
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  transition:transform 360ms var(--ease-out, cubic-bezier(.23,1,.32,1));
+}
+.boda::after{
+  content:""; position:absolute; inset:0; pointer-events:none;
+  background:linear-gradient(to top, rgba(20,16,12,.64) 0%, rgba(20,16,12,0) 46%);
+}
+.boda-pie{
+  position:absolute; left:0; right:0; bottom:0; z-index:1;
+  display:flex; flex-direction:column; gap:2px; padding:18px 20px 22px;
+}
+.boda-nombres{ font-size:clamp(18px,4.8vw,24px); line-height:1.2; color:#fff; letter-spacing:.01em; }
+.boda-lugar{
+  font-family:'Cormorant Garamond', Georgia, serif; font-style:italic;
+  font-size:clamp(17px,4.2vw,21px); line-height:1.2; color:#F3E5CE;
+}
+.boda:focus-visible{ outline:2px solid #fff; outline-offset:-8px; }
+@media (hover:hover){ .boda:hover img{ transform:scale(1.03); } }
+@media (min-width:900px){
+  .bodas{ gap:6px; }
+  .boda{ aspect-ratio:4 / 5; }
+  .boda--grande{ aspect-ratio:16 / 9; }
+  .boda-pie{ padding:28px 34px 32px; }
+}
+
+/* ---------- Galería de una pareja ---------- */
+.galeria-wrap{ max-width:1180px; }
+.gl-cabeza{ padding-block:34px 28px; }
+.gl-lugar{
+  font-family:'Cormorant Garamond', Georgia, serif; font-style:italic;
+  font-size:clamp(19px,4.4vw,24px); color:var(--wine); margin:0 0 6px;
+}
+.gl-cabeza h1{ font-size:clamp(30px,6.5vw,54px); margin:0; line-height:1.1; }
+.gl-intro{ color:var(--ink-soft); font-size:18px; margin:16px 0 0; max-width:52ch; }
+.gl-grid{ columns:2; column-gap:6px; }
+.gl-foto{ display:block; margin-bottom:6px; overflow:hidden; break-inside:avoid; cursor:zoom-in; background:var(--bg-soft); }
+.gl-foto img{ display:block; width:100%; height:auto; transition:transform 360ms var(--ease-out, cubic-bezier(.23,1,.32,1)); }
+.gl-foto:focus-visible{ outline:2px solid var(--wine); outline-offset:2px; }
+@media (hover:hover){ .gl-foto:hover img{ transform:scale(1.02); } }
+@media (min-width:900px){ .gl-grid{ columns:3; column-gap:8px; } .gl-foto{ margin-bottom:8px; } }
+
+.gl-otras{
+  display:flex; justify-content:space-between; gap:16px; margin-block:48px 8px;
+  padding-top:24px; border-top:1px solid var(--line-soft);
+}
+.gl-otras a{ display:flex; flex-direction:column; gap:4px; min-height:44px; color:var(--ink); text-decoration:none; transition:color 200ms var(--ease-out, ease); }
+.gl-otras a[rel="next"]{ text-align:right; margin-left:auto; }
+.gl-otras a:hover{ color:var(--wine); }
+.gl-otras span{ font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-soft); }
+
+/* ---------- Visor ampliado ---------- */
+.gl-lb{
+  position:fixed; inset:0; z-index:1000; display:flex; align-items:center; justify-content:center;
+  background:rgba(20,16,12,.95);
+}
+.gl-lb img{ max-width:92vw; max-height:86vh; object-fit:contain; display:block; }
+.gl-lb button{
+  position:absolute; width:48px; height:48px; border:0; border-radius:50%; cursor:pointer;
+  background:rgba(255,255,255,.12); color:#fff; font-size:26px; line-height:1;
+  transition:background 200ms var(--ease-out, ease), transform 140ms var(--ease-out, ease);
+}
+.gl-lb button:hover{ background:rgba(255,255,255,.24); }
+.gl-lb button:active{ transform:scale(.95); }
+.gl-lb button:focus-visible{ outline:2px solid #fff; outline-offset:2px; }
+.gl-lb .gl-x{ top:max(14px, env(safe-area-inset-top, 0px)); right:14px; }
+.gl-lb .gl-prev{ left:12px; top:50%; margin-top:-24px; }
+.gl-lb .gl-next{ right:12px; top:50%; margin-top:-24px; }
+@media (prefers-reduced-motion:reduce){
+  .boda img, .gl-foto img, .gl-lb button{ transition:none; }
+  .boda:hover img, .gl-foto:hover img{ transform:none; }
+}
